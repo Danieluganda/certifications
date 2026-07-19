@@ -2,7 +2,7 @@
 
 Audit date: 2026-07-20
 
-This audit compares the current Laravel app against every file in `../rules`.
+This audit compares the current Laravel app against every file in `../rules`, including the Private Tutor and first-class Study Planner amendments added on 2026-07-20.
 
 ## Overall Status
 
@@ -17,7 +17,7 @@ Implemented strongly:
 - Paid, free, and skill-specialisation tracks.
 - Certification catalogue seeded from rule-backed JSON files.
 - GIS, knowledge systems, search, analytics, and all-certs catalogue coverage.
-- Lesson pages, notes, completions, progress updates, resources, projects, evidence upload, flashcards, quizzes, readiness snapshots, savings, and credentials.
+- Lesson pages, notes, completions, progress updates, resources, projects, evidence upload, flashcards, basic quizzes, readiness snapshots, savings, and credentials.
 - Official-link-first study-material policy with original summaries, labs, quizzes, and projects.
 - Test suite covering ownership, activation rules, catalogue, curriculum, study sessions, lessons, flashcards, practice, readiness, resources, projects, budgets, credentials, exports, GIS amendment, and study-material imports.
 
@@ -34,7 +34,7 @@ Current seeded database snapshot after `php artisan migrate:fresh --seed`:
 | Rule file | Status | Notes |
 | --- | --- | --- |
 | `README.md` | Mostly complete | Laravel app exists and rule files have been followed as build inputs. |
-| `PRD.md` | Partial, strong MVP | Core workflows exist. Remaining gaps: objective versioning UI, full planner generation, rest-day availability, full mock-exam blueprinting, labs as first-class records, vouchers, notifications, AI-assisted content workflow, reports, full-text notes search, and Markdown note export. |
+| `PRD.md` | Partial, strong MVP | Core workflows exist. Remaining gaps: objective versioning UI, first-class planner generation, rest-day availability, full mock-exam blueprinting, labs as first-class records, vouchers, notifications, AI-assisted content workflow, reports, full-text notes search, and Markdown note export. |
 | `ARCHITECTURE.md` | Mostly complete | Domain folders, controllers, actions, models, migrations, seeders, and tests exist. Remaining gaps: dedicated Revision domain, notification service, AI boundary service, search service, documented ADR files, and production backup/restore mechanics. |
 | `SCHEMA.md` | Partial | Many MVP tables exist, but several named tables are not implemented yet. See schema gap section. |
 | `RULES.md` | Partial, good engineering hygiene | Tests and domain organization are solid. Remaining gaps include audit logs, rate limiting, signed private file URLs, stricter database constraints, full accessibility verification, and question validation for all question types. |
@@ -46,6 +46,8 @@ Current seeded database snapshot after `php artisan migrate:fresh --seed`:
 | `AMENDMENT_GIS_KNOWLEDGE_SYSTEMS.md` | Partial | Catalogue and core projects are represented. Dedicated amendment tables are missing: `specialisations`, `certification_specialisation`, `datasets`, `ontology_resources`, `search_indexes`, `analytics_properties`. Some specialist tracks still need lessons/resources/projects. |
 | `MATERIALS_AND_PROJECTS.md` | Mostly complete | Official sources, priority content seed, and main projects are imported. Some long-tail project depth can still be expanded. |
 | `study_materials.md` | Mostly complete | Extra projects/resources from this file are now imported, including PMP 2026 outline, AI agent research project, explainable classifier, and LFD121 CI/CD pipeline. |
+| `Private_Tutor_module.md` | Not implemented | This new rule defines a first-class certification-aware Private Tutor module. Current app has no Tutor domain, no tutor workspace, no Ask Tutor buttons, no tutor tables, no provider-independent AI boundary, no approved-source retrieval service, and no tutor recommendation workflow. |
+| `first-class_Study_Planner_module.md` | Partial, low | Current app has basic study sessions and dashboard planning fragments, but not the first-class planner module. Missing Today flow, Continue logic, timetable/week/month views, daily/weekly/monthly goals, session tasks, revision queue, dynamic rescheduling, streaks, quests, planner recommendations, and tutor integration. |
 
 ## Schema Gaps
 
@@ -67,6 +69,18 @@ Tables required by `SCHEMA.md` but not currently created:
 - `topic_prerequisites`
 - `vouchers`
 - `weekly_availabilities`
+- `study_goals`
+- `session_tasks`
+- `study_streaks`
+- `planner_recommendations`
+
+Tables required by `Private_Tutor_module.md` but not currently created:
+
+- `tutor_sessions`
+- `tutor_messages`
+- `tutor_recommendations`
+- `learner_misconceptions`
+- `tutor_feedback`
 
 Tables required by `AMENDMENT_GIS_KNOWLEDGE_SYSTEMS.md` but not currently created:
 
@@ -119,6 +133,8 @@ Partial content coverage:
 8. Add notifications for due reviews, study sessions, exam dates, voucher expiry, and free credential deadlines.
 9. Add audit logging for activation, primary change, budget changes, attempt submission, evidence upload, and credential recording.
 10. Add visual/browser QA evidence for `DESIGN.md`, `design_ref.md`, and `refrence_apps.md`.
+11. Build the first-class Study Planner module: Today, timetable, daily targets, weekly goals, monthly milestones, availability, missed sessions, dynamic rescheduling, streaks, quests, and planner recommendations.
+12. Build the Private Tutor module: tutor sessions, source-grounded explanations, knowledge checks, incorrect-answer review, recommendations, tutor history, feedback, guardrails, and planner integration.
 
 ## Current Verdict
 
@@ -128,11 +144,13 @@ Estimated compliance:
 
 - Catalogue/content identity: 90%
 - Study-material source policy: 85%
-- Core PRD workflows: 70%
+- Core PRD workflows: 65%
 - Architecture organization: 75%
-- Schema completeness: 55%
+- Schema completeness: 45%
 - GIS/search/knowledge amendment depth: 60%
 - Design/reference-app standard: 70% pending browser QA
-- Overall: about 70%
+- Study Planner module: 25%
+- Private Tutor module: 0%
+- Overall: about 60%
 
 To honestly call it 100%, the schema and UI gaps above need to be implemented, tested, and verified.
