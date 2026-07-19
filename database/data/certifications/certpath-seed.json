@@ -1,0 +1,859 @@
+{
+  "profile": {
+    "name": "Personal learner",
+    "weeklyTargetMinutes": 540,
+    "streakDays": 4,
+    "timezone": "Africa/Kampala"
+  },
+  "certifications": [
+    {
+      "id": "PL-300",
+      "provider": "Microsoft",
+      "name": "Power BI Data Analyst",
+      "trackType": "paid_professional",
+      "status": "Active",
+      "isPrimary": true,
+      "priority": 5,
+      "targetDate": "2026-10-30",
+      "weeklyMinutes": 420,
+      "readiness": 36,
+      "progress": 18,
+      "examFund": { "targetAmount": 165, "savedAmount": 45, "currency": "USD" },
+      "domains": [
+        { "name": "Prepare the data", "weight": 25, "mastery": 28 },
+        { "name": "Model the data", "weight": 30, "mastery": 36 },
+        { "name": "Visualize and analyze the data", "weight": 30, "mastery": 22 },
+        { "name": "Deploy and maintain assets", "weight": 15, "mastery": 10 }
+      ],
+      "lessons": [
+        {
+          "id": "pl300-star-schema",
+          "domain": "Model the data",
+          "topic": "Data modelling",
+          "title": "Star schema fundamentals",
+          "minutes": 35,
+          "summary": "Learn why Power BI models usually work best when facts and dimensions are separated clearly.",
+          "learn": [
+            "A star schema is a data model where a central fact table connects to several dimension tables. The fact table stores measurable events, while dimensions describe those events.",
+            "For example, a programme performance model might have a fact table for enrolments and dimension tables for learners, districts, cohorts, courses, and dates.",
+            "This structure helps Power BI filter data correctly, improves report performance, and makes DAX easier to reason about."
+          ],
+          "memoryHook": "Facts are numbers you measure. Dimensions are labels you filter by.",
+          "example": {
+            "intro": "A simple programme dashboard model can be shaped like this:",
+            "code": "FactEnrolment\n- LearnerKey\n- CourseKey\n- DistrictKey\n- DateKey\n- EnrolmentCount\n- CompletionCount\n\nDimLearner\n- LearnerKey\n- Gender\n- AgeBand\n\nDimCourse\n- CourseKey\n- CourseName\n- Track\n\nDimDistrict\n- DistrictKey\n- DistrictName\n- Region",
+            "explanation": "The fact table stores the counts. The dimensions let you slice those counts by learner, course, district, and time."
+          },
+          "exercise": {
+            "prompt": "Design a star schema for a procurement dashboard that tracks spend, supplier performance, and contract delays.",
+            "starter": "Fact table:\n\nDimension tables:\n\nMeasures:\n",
+            "answerGuide": "You should have one fact table for procurement transactions or contracts, plus dimensions such as supplier, date, department, contract category, and location."
+          },
+          "quiz": {
+            "prompt": "Which table usually stores measurable business events?",
+            "options": ["Dimension table", "Fact table", "Lookup table", "Theme table"],
+            "answer": 1,
+            "explanation": "Fact tables store measurable events such as sales, enrolments, completions, payments, or transactions."
+          },
+          "reference": [
+            "Keep facts and dimensions separate where practical.",
+            "Use one-to-many relationships from dimensions to facts.",
+            "Avoid putting descriptive labels directly into large fact tables unless there is a clear reason."
+          ],
+          "proofTask": "Create a small diagram of a star schema for one real dashboard idea and save it in your portfolio notes."
+        },
+        {
+          "id": "pl300-power-query",
+          "domain": "Prepare the data",
+          "topic": "Power Query",
+          "title": "Power Query cleaning steps",
+          "minutes": 30,
+          "summary": "Understand how Power Query turns messy source data into a reliable model-ready table.",
+          "learn": [
+            "Power Query is used before the data reaches the model. It helps you remove bad rows, rename columns, split values, merge tables, change data types, and shape data for analysis.",
+            "Good cleaning steps should be repeatable. If the source file is refreshed next week, Power Query should apply the same transformations automatically.",
+            "In PL-300 scenarios, look for clues about data types, missing values, duplicate records, inconsistent column names, and tables that need to be merged or appended."
+          ],
+          "memoryHook": "Power Query prepares the data; DAX analyses the data.",
+          "example": {
+            "intro": "A common cleaning flow looks like this:",
+            "code": "1. Remove empty rows\n2. Promote first row as headers\n3. Rename columns clearly\n4. Change data types\n5. Remove duplicate learner IDs\n6. Merge district lookup table\n7. Load cleaned table to the model",
+            "explanation": "The goal is not only to clean once, but to create a repeatable transformation pipeline."
+          },
+          "exercise": {
+            "prompt": "Write five Power Query steps you would use to clean a learner registration spreadsheet.",
+            "starter": "1.\n2.\n3.\n4.\n5.",
+            "answerGuide": "Strong answers mention data types, duplicates, missing values, column names, and lookup or merge steps."
+          },
+          "quiz": {
+            "prompt": "What is the best reason to define data types in Power Query?",
+            "options": ["To make visuals colorful", "To help Power BI interpret fields correctly", "To remove relationships", "To create report pages automatically"],
+            "answer": 1,
+            "explanation": "Correct data types help Power BI aggregate, sort, filter, and model fields correctly."
+          },
+          "reference": [
+            "Clean data before modelling where possible.",
+            "Applied steps should be clear and repeatable.",
+            "Column names should be business-readable."
+          ],
+          "proofTask": "Take one messy spreadsheet and document the before-and-after cleaning steps."
+        },
+        {
+          "id": "pl300-dax-measures",
+          "domain": "Model the data",
+          "topic": "DAX",
+          "title": "DAX measures",
+          "minutes": 40,
+          "summary": "Learn how measures calculate results dynamically based on the current report filter context.",
+          "learn": [
+            "A DAX measure is a formula that calculates a value at query time. Measures respond to filters from visuals, slicers, relationships, and report pages.",
+            "Measures are better than calculated columns when the result should change depending on the current view. For example, total completions by district should change when a district slicer is selected.",
+            "Many exam questions test whether you understand the difference between row-level calculations and filter-aware aggregations."
+          ],
+          "memoryHook": "Measures answer questions; columns store row-level facts.",
+          "example": {
+            "intro": "A few beginner-friendly measures:",
+            "code": "Total Enrolments = SUM(FactEnrolment[EnrolmentCount])\n\nTotal Completions = SUM(FactEnrolment[CompletionCount])\n\nCompletion Rate = DIVIDE([Total Completions], [Total Enrolments])",
+            "explanation": "DIVIDE is safer than normal division because it handles divide-by-zero cases more gracefully."
+          },
+          "exercise": {
+            "prompt": "Create three measures for a sales dashboard: total sales, total orders, and average order value.",
+            "starter": "Total Sales =\nTotal Orders =\nAverage Order Value =",
+            "answerGuide": "Average order value should divide total sales by total orders, ideally using DIVIDE."
+          },
+          "quiz": {
+            "prompt": "When should you usually use a measure?",
+            "options": ["When a result must respond to report filters", "When you need to rename a column", "When you want to delete source rows", "When you want to disable relationships"],
+            "answer": 0,
+            "explanation": "Measures are dynamic calculations that respond to filter context."
+          },
+          "reference": [
+            "Use measures for aggregations and KPIs.",
+            "Use calculated columns for row-by-row stored values.",
+            "Prefer DIVIDE for ratio calculations."
+          ],
+          "proofTask": "Build a tiny Power BI model with three measures and screenshot the results by category."
+        }
+      ]
+    },
+    {
+      "id": "DP-600",
+      "provider": "Microsoft",
+      "name": "Fabric Analytics Engineer",
+      "trackType": "paid_professional",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2027-02-28",
+      "weeklyMinutes": 0,
+      "readiness": 8,
+      "progress": 5,
+      "examFund": { "targetAmount": 165, "savedAmount": 0, "currency": "USD" },
+      "domains": [
+        { "name": "Plan and implement analytics", "weight": 35, "mastery": 8 },
+        { "name": "Implement data engineering", "weight": 35, "mastery": 5 },
+        { "name": "Manage analytics solutions", "weight": 30, "mastery": 3 }
+      ],
+      "lessons": [
+        {
+          "id": "dp600-lakehouse",
+          "domain": "Implement analytics solutions",
+          "topic": "Lakehouse",
+          "title": "Lakehouse basics",
+          "minutes": 30,
+          "summary": "Understand how a lakehouse combines data lake flexibility with warehouse-style analytics.",
+          "learn": [
+            "A lakehouse stores data in open file formats while still supporting structured analytics workloads.",
+            "In Microsoft Fabric, lakehouses are useful when teams need to ingest, transform, and analyse data in one platform.",
+            "Think of a lakehouse as a practical middle ground between raw storage and curated reporting models."
+          ],
+          "memoryHook": "A lakehouse is flexible like a lake and query-friendly like a warehouse.",
+          "example": {
+            "intro": "A typical lakehouse flow:",
+            "code": "Source systems -> Raw files -> Cleaned tables -> Semantic model -> Power BI report",
+            "explanation": "Each layer makes the data more usable and trusted."
+          },
+          "exercise": {
+            "prompt": "Map a lakehouse flow for programme reporting data.",
+            "starter": "Sources:\nRaw layer:\nClean layer:\nReports:",
+            "answerGuide": "Include source systems, raw ingestion, cleaned tables, and reporting outputs."
+          },
+          "quiz": {
+            "prompt": "What is a lakehouse designed to combine?",
+            "options": ["Email and chat", "Data lake storage and warehouse analytics", "Only dashboards", "Only virtual machines"],
+            "answer": 1,
+            "explanation": "Lakehouses blend scalable file storage with structured analytics."
+          },
+          "reference": [
+            "Lakehouses support analytics over stored data.",
+            "Data is commonly organized into layers.",
+            "Power BI can consume curated lakehouse data."
+          ],
+          "proofTask": "Draw a one-page Fabric lakehouse architecture for a dashboard project."
+        }
+      ]
+    },
+    {
+      "id": "AZ-104",
+      "provider": "Microsoft",
+      "name": "Azure Administrator",
+      "trackType": "paid_professional",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2027-05-30",
+      "weeklyMinutes": 0,
+      "readiness": 6,
+      "progress": 4,
+      "examFund": { "targetAmount": 165, "savedAmount": 0, "currency": "USD" },
+      "domains": [
+        { "name": "Identity and governance", "weight": 25, "mastery": 8 },
+        { "name": "Storage", "weight": 15, "mastery": 4 },
+        { "name": "Compute", "weight": 25, "mastery": 5 },
+        { "name": "Networking", "weight": 25, "mastery": 3 },
+        { "name": "Monitoring", "weight": 10, "mastery": 2 }
+      ],
+      "lessons": [
+        {
+          "id": "az104-rbac",
+          "domain": "Manage identities and governance",
+          "topic": "RBAC",
+          "title": "Azure RBAC basics",
+          "minutes": 30,
+          "summary": "Learn how role-based access control grants permissions to users, groups, and service principals.",
+          "learn": [
+            "Azure RBAC controls who can do what on Azure resources.",
+            "A role assignment has three parts: security principal, role definition, and scope.",
+            "For exams and real work, always think least privilege: give only the access needed for the task."
+          ],
+          "memoryHook": "RBAC equals who, can do what, and where.",
+          "example": {
+            "intro": "A role assignment can be described like this:",
+            "code": "Principal: analyst@example.com\nRole: Reader\nScope: Resource group rg-reporting",
+            "explanation": "The analyst can view resources in that resource group but cannot modify them."
+          },
+          "exercise": {
+            "prompt": "Choose a least-privilege role for someone who only needs to view Azure costs.",
+            "starter": "Principal:\nRole:\nScope:\nReason:",
+            "answerGuide": "The answer should avoid Owner or Contributor when read-only access is enough."
+          },
+          "quiz": {
+            "prompt": "What are the three main parts of an Azure role assignment?",
+            "options": ["User, password, VM", "Principal, role, scope", "Region, SKU, tag", "Policy, alert, dashboard"],
+            "answer": 1,
+            "explanation": "A role assignment connects a principal to a role at a specific scope."
+          },
+          "reference": [
+            "Use least privilege.",
+            "Scopes can be management group, subscription, resource group, or resource.",
+            "Built-in roles cover common access patterns."
+          ],
+          "proofTask": "Write three RBAC examples: Reader, Contributor, and Owner, with when each is appropriate."
+        }
+      ]
+    },
+    {
+      "id": "DP-700",
+      "provider": "Microsoft",
+      "name": "Fabric Data Engineer",
+      "trackType": "paid_professional",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2027-08-30",
+      "weeklyMinutes": 0,
+      "readiness": 4,
+      "progress": 2,
+      "examFund": { "targetAmount": 165, "savedAmount": 0, "currency": "USD" },
+      "domains": [
+        { "name": "Ingest and transform data", "weight": 35, "mastery": 4 },
+        { "name": "Implement and manage analytics solutions", "weight": 35, "mastery": 2 },
+        { "name": "Monitor and optimize data solutions", "weight": 30, "mastery": 1 }
+      ],
+      "lessons": [
+        {
+          "id": "dp700-medallion",
+          "domain": "Ingest and transform data",
+          "topic": "Medallion architecture",
+          "title": "Bronze, silver, and gold layers",
+          "minutes": 30,
+          "summary": "Learn how data engineering pipelines move raw data into clean and reporting-ready tables.",
+          "learn": [
+            "The bronze layer stores raw or lightly processed source data so you can trace back to what arrived.",
+            "The silver layer standardises, validates, deduplicates, and cleans the data.",
+            "The gold layer stores business-ready tables optimised for reporting, semantic models, and analytics."
+          ],
+          "memoryHook": "Bronze is raw, silver is clean, gold is business-ready.",
+          "example": {
+            "intro": "A Kobo-to-Fabric pipeline could follow this pattern:",
+            "code": "Kobo API -> Bronze submissions -> Silver cleaned participants -> Gold programme performance tables -> Power BI",
+            "explanation": "Each layer has a clear purpose and makes troubleshooting easier."
+          },
+          "exercise": {
+            "prompt": "Design bronze, silver, and gold tables for learner registration data.",
+            "starter": "Bronze:\nSilver:\nGold:",
+            "answerGuide": "Mention raw submissions, cleaned learner/course/district data, and aggregated reporting tables."
+          },
+          "quiz": {
+            "prompt": "Which layer should usually be closest to reporting?",
+            "options": ["Bronze", "Silver", "Gold", "Archive"],
+            "answer": 2,
+            "explanation": "Gold data is curated for business consumption and reporting."
+          },
+          "reference": [
+            "Keep raw data traceable.",
+            "Apply validation and standardisation before reporting.",
+            "Separate engineering layers by purpose."
+          ],
+          "proofTask": "Sketch a Kobo-to-Fabric medallion pipeline and identify one data-quality rule per layer."
+        }
+      ]
+    },
+    {
+      "id": "AZ-305",
+      "provider": "Microsoft",
+      "name": "Azure Solutions Architect Expert",
+      "trackType": "paid_professional",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 5,
+      "targetDate": "2027-11-30",
+      "weeklyMinutes": 0,
+      "readiness": 5,
+      "progress": 2,
+      "examFund": { "targetAmount": 165, "savedAmount": 0, "currency": "USD" },
+      "domains": [
+        { "name": "Design identity, governance, and monitoring", "weight": 25, "mastery": 5 },
+        { "name": "Design data storage", "weight": 25, "mastery": 4 },
+        { "name": "Design business continuity", "weight": 25, "mastery": 2 },
+        { "name": "Design infrastructure", "weight": 25, "mastery": 3 }
+      ],
+      "lessons": [
+        {
+          "id": "az305-quality-attributes",
+          "domain": "Design infrastructure solutions",
+          "topic": "Architecture trade-offs",
+          "title": "Quality attributes and trade-offs",
+          "minutes": 35,
+          "summary": "Learn how architects balance availability, security, cost, performance, and maintainability.",
+          "learn": [
+            "Architecture decisions usually optimise for some qualities while increasing pressure on others.",
+            "A highly available design may cost more. A low-cost design may sacrifice recovery time or scalability.",
+            "AZ-305 scenarios often ask for the best design given constraints, not the most powerful design."
+          ],
+          "memoryHook": "Architecture is choosing the best trade-off for the business constraint.",
+          "example": {
+            "intro": "A fraud-prevention platform may prioritise:",
+            "code": "Security: high\nAvailability: high\nLatency: low\nCost: controlled\nOperational complexity: moderate",
+            "explanation": "The design should reflect what matters most to the workload."
+          },
+          "exercise": {
+            "prompt": "List five quality attributes for TrustGrid and rank them from most to least important.",
+            "starter": "1.\n2.\n3.\n4.\n5.",
+            "answerGuide": "Security, availability, latency, observability, and compliance should likely rank high."
+          },
+          "quiz": {
+            "prompt": "Why do architects document trade-offs?",
+            "options": ["To avoid making decisions", "To show why a design fits the constraints", "To remove monitoring", "To replace security reviews"],
+            "answer": 1,
+            "explanation": "Trade-off documentation explains the reasoning behind architectural decisions."
+          },
+          "reference": [
+            "Design decisions should connect to business requirements.",
+            "Cost, reliability, and security must be balanced.",
+            "Architecture decision records make reasoning auditable."
+          ],
+          "proofTask": "Write one architecture decision record for a TrustGrid design choice."
+        }
+      ]
+    },
+    {
+      "id": "PMP",
+      "provider": "PMI",
+      "name": "Project Management Professional",
+      "trackType": "paid_professional",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2028-03-30",
+      "weeklyMinutes": 0,
+      "readiness": 3,
+      "progress": 1,
+      "examFund": { "targetAmount": 575, "savedAmount": 0, "currency": "USD" },
+      "domains": [
+        { "name": "People", "weight": 42, "mastery": 3 },
+        { "name": "Process", "weight": 50, "mastery": 2 },
+        { "name": "Business environment", "weight": 8, "mastery": 1 }
+      ],
+      "lessons": [
+        {
+          "id": "pmp-charter",
+          "domain": "Process",
+          "topic": "Initiating",
+          "title": "Project charter basics",
+          "minutes": 30,
+          "summary": "Understand how a project charter authorises work and aligns stakeholders.",
+          "learn": [
+            "A project charter formally authorises a project and gives the project manager authority to apply resources.",
+            "It summarises the business need, objectives, high-level scope, assumptions, constraints, risks, milestones, and stakeholders.",
+            "For PMP, know why the charter matters and how it connects business value to delivery."
+          ],
+          "memoryHook": "The charter gives the project permission to exist.",
+          "example": {
+            "intro": "A CertPath charter could include:",
+            "code": "Purpose: Build a private certification study system\nObjective: Support two learning tracks\nSuccess: Four sessions per week and readiness tracking\nSponsor: Personal learner\nRisks: Scope creep, limited study time",
+            "explanation": "The charter stays high level but creates alignment."
+          },
+          "exercise": {
+            "prompt": "Draft a one-page project charter for CertPath 123.",
+            "starter": "Purpose:\nObjectives:\nScope:\nRisks:\nStakeholders:",
+            "answerGuide": "Include why the project exists, what success means, and what is out of scope."
+          },
+          "quiz": {
+            "prompt": "What is one purpose of a project charter?",
+            "options": ["To authorise the project", "To store every task detail", "To replace the budget", "To close procurement"],
+            "answer": 0,
+            "explanation": "A charter authorises the project and identifies high-level direction."
+          },
+          "reference": [
+            "Charters are created early.",
+            "They connect business need and project objectives.",
+            "They are not detailed schedules."
+          ],
+          "proofTask": "Create the CertPath MVP project charter and add it to the project evidence folder."
+        }
+      ]
+    },
+    {
+      "id": "CISA",
+      "provider": "ISACA",
+      "name": "Certified Information Systems Auditor",
+      "trackType": "paid_professional",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2028-08-30",
+      "weeklyMinutes": 0,
+      "readiness": 2,
+      "progress": 1,
+      "examFund": { "targetAmount": 760, "savedAmount": 0, "currency": "USD" },
+      "domains": [
+        { "name": "Information systems auditing process", "weight": 21, "mastery": 2 },
+        { "name": "Governance and management of IT", "weight": 17, "mastery": 1 },
+        { "name": "Information systems acquisition, development, and implementation", "weight": 12, "mastery": 1 },
+        { "name": "Information systems operations and business resilience", "weight": 23, "mastery": 1 },
+        { "name": "Protection of information assets", "weight": 27, "mastery": 1 }
+      ],
+      "lessons": [
+        {
+          "id": "cisa-audit-objective",
+          "domain": "Information systems auditing process",
+          "topic": "Audit planning",
+          "title": "Audit objectives and scope",
+          "minutes": 30,
+          "summary": "Learn how an audit objective and scope keep assurance work focused.",
+          "learn": [
+            "An audit objective states what the audit is trying to determine.",
+            "Scope defines the systems, processes, locations, time period, and controls included or excluded.",
+            "Without clear scope, evidence collection becomes unfocused and findings become harder to defend."
+          ],
+          "memoryHook": "Objective asks why. Scope defines where the audit looks.",
+          "example": {
+            "intro": "For a programme data audit:",
+            "code": "Objective: Determine whether programme reporting data is complete, accurate, and access-controlled.\nScope: Kobo submissions, cloud storage, Power BI datasets, user access, and reporting process for Q3.",
+            "explanation": "This tells the auditor what to test and what not to test."
+          },
+          "exercise": {
+            "prompt": "Write an audit objective and scope for CertPath or ProcureFlow.",
+            "starter": "Objective:\nScope:\nOut of scope:",
+            "answerGuide": "A strong answer names the process, systems, period, and boundaries."
+          },
+          "quiz": {
+            "prompt": "What does audit scope define?",
+            "options": ["The auditor's salary", "The boundaries of audit work", "The final password", "The marketing plan"],
+            "answer": 1,
+            "explanation": "Scope defines what is included and excluded from the audit."
+          },
+          "reference": [
+            "Audit objectives guide evidence collection.",
+            "Scope prevents uncontrolled expansion.",
+            "Findings must connect back to objectives and evidence."
+          ],
+          "proofTask": "Create a draft audit charter for a CertPath or ProcureFlow audit."
+        }
+      ]
+    },
+    {
+      "id": "CRISC",
+      "provider": "ISACA",
+      "name": "Certified in Risk and Information Systems Control",
+      "trackType": "paid_professional",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2028-11-30",
+      "weeklyMinutes": 0,
+      "readiness": 2,
+      "progress": 1,
+      "examFund": { "targetAmount": 760, "savedAmount": 0, "currency": "USD" },
+      "domains": [
+        { "name": "Governance", "weight": 26, "mastery": 1 },
+        { "name": "IT risk assessment", "weight": 20, "mastery": 2 },
+        { "name": "Risk response and reporting", "weight": 32, "mastery": 1 },
+        { "name": "Information technology and security", "weight": 22, "mastery": 1 }
+      ],
+      "lessons": [
+        {
+          "id": "crisc-risk-scenario",
+          "domain": "IT risk assessment",
+          "topic": "Risk scenarios",
+          "title": "Writing useful risk scenarios",
+          "minutes": 30,
+          "summary": "Learn to describe risk as a business-relevant scenario, not just a vague technical fear.",
+          "learn": [
+            "A risk scenario describes an uncertain event, its cause, affected asset or process, and business impact.",
+            "Good scenarios help leaders decide whether to accept, mitigate, transfer, or avoid the risk.",
+            "CRISC thinking connects technology risk to business objectives and control decisions."
+          ],
+          "memoryHook": "Risk equals uncertain event plus business impact.",
+          "example": {
+            "intro": "A third-party risk scenario:",
+            "code": "If a learning platform vendor suffers a data breach, learner personal data may be exposed, causing privacy harm, regulatory issues, and reputational damage.",
+            "explanation": "The scenario names cause, event, asset, and impact."
+          },
+          "exercise": {
+            "prompt": "Write three risk scenarios for CertPath 123.",
+            "starter": "Scenario 1:\nScenario 2:\nScenario 3:",
+            "answerGuide": "Include trigger, affected asset, business impact, and possible control response."
+          },
+          "quiz": {
+            "prompt": "What makes a risk scenario useful?",
+            "options": ["It links an event to business impact", "It avoids controls", "It hides ownership", "It guarantees failure"],
+            "answer": 0,
+            "explanation": "Risk scenarios are useful when they connect uncertainty to business consequences."
+          },
+          "reference": [
+            "Risk scenarios should be specific.",
+            "Risk treatment depends on appetite and impact.",
+            "KRIs help monitor changing risk."
+          ],
+          "proofTask": "Create a five-row technology risk register for CertPath."
+        }
+      ]
+    },
+    {
+      "id": "TOGAF",
+      "provider": "The Open Group",
+      "name": "TOGAF Enterprise Architecture",
+      "trackType": "paid_professional",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 3,
+      "targetDate": "2029-03-30",
+      "weeklyMinutes": 0,
+      "readiness": 2,
+      "progress": 1,
+      "examFund": { "targetAmount": 550, "savedAmount": 0, "currency": "USD" },
+      "domains": [
+        { "name": "Architecture development method", "weight": 40, "mastery": 2 },
+        { "name": "Architecture governance", "weight": 30, "mastery": 1 },
+        { "name": "Architecture content", "weight": 30, "mastery": 1 }
+      ],
+      "lessons": [
+        {
+          "id": "togaf-capability-map",
+          "domain": "Business architecture",
+          "topic": "Capability mapping",
+          "title": "Business capability maps",
+          "minutes": 30,
+          "summary": "Learn how capability maps describe what an organisation must be able to do.",
+          "learn": [
+            "A business capability describes what an organisation does, independent of who does it or which system supports it.",
+            "Capability maps help architects connect strategy, processes, applications, data, and investment decisions.",
+            "They are useful for finding duplication, gaps, and transformation priorities."
+          ],
+          "memoryHook": "Capabilities describe what the business must be able to do.",
+          "example": {
+            "intro": "A procurement platform capability map might include:",
+            "code": "Plan procurement\nApprove requisitions\nEvaluate suppliers\nManage contracts\nProcess invoices\nAudit procurement\nReport spend",
+            "explanation": "These are stable business abilities, not screen names."
+          },
+          "exercise": {
+            "prompt": "Create a capability map for the 10X ecosystem.",
+            "starter": "Core capabilities:\nSupporting capabilities:\nManagement capabilities:",
+            "answerGuide": "Group capabilities by business purpose and avoid naming specific tools too early."
+          },
+          "quiz": {
+            "prompt": "What does a business capability describe?",
+            "options": ["A software button", "What the business must be able to do", "A single database column", "A password policy only"],
+            "answer": 1,
+            "explanation": "Capabilities describe business abilities independent of implementation."
+          },
+          "reference": [
+            "Capabilities are stable compared with processes.",
+            "They support gap analysis.",
+            "They help link strategy to architecture work."
+          ],
+          "proofTask": "Draft a capability map for a digital procurement platform."
+        }
+      ]
+    },
+    {
+      "id": "CISSP",
+      "provider": "ISC2",
+      "name": "Certified Information Systems Security Professional",
+      "trackType": "paid_professional",
+      "status": "Long-term",
+      "isPrimary": false,
+      "priority": 3,
+      "targetDate": "2029-08-30",
+      "weeklyMinutes": 0,
+      "readiness": 1,
+      "progress": 1,
+      "examFund": { "targetAmount": 749, "savedAmount": 0, "currency": "USD" },
+      "domains": [
+        { "name": "Security and risk management", "weight": 15, "mastery": 1 },
+        { "name": "Asset security", "weight": 10, "mastery": 1 },
+        { "name": "Security architecture and engineering", "weight": 13, "mastery": 1 },
+        { "name": "Communication and network security", "weight": 13, "mastery": 1 },
+        { "name": "Identity and access management", "weight": 13, "mastery": 1 },
+        { "name": "Security assessment and testing", "weight": 12, "mastery": 1 },
+        { "name": "Security operations", "weight": 13, "mastery": 1 },
+        { "name": "Software development security", "weight": 11, "mastery": 1 }
+      ],
+      "lessons": [
+        {
+          "id": "cissp-threat-model",
+          "domain": "Security architecture and engineering",
+          "topic": "Threat modelling",
+          "title": "Threat modelling basics",
+          "minutes": 35,
+          "summary": "Learn how to reason about assets, threats, trust boundaries, and controls.",
+          "learn": [
+            "Threat modelling is a structured way to identify what can go wrong and how to reduce risk.",
+            "Start with assets, data flows, actors, trust boundaries, and assumptions.",
+            "Then identify threats, rate their impact, and choose controls that reduce likelihood or impact."
+          ],
+          "memoryHook": "Protect assets by understanding threats and trust boundaries.",
+          "example": {
+            "intro": "For CertPath:",
+            "code": "Assets: certificates, notes, quiz history\nThreats: account takeover, data leakage, malicious upload\nControls: authentication, authorization, private storage, logging",
+            "explanation": "The model connects assets to threats and controls."
+          },
+          "exercise": {
+            "prompt": "Threat-model CertPath's credential vault.",
+            "starter": "Assets:\nActors:\nTrust boundaries:\nThreats:\nControls:",
+            "answerGuide": "Mention private files, signed access, audit logs, authentication, and ownership checks."
+          },
+          "quiz": {
+            "prompt": "What is a trust boundary?",
+            "options": ["A place where control or trust level changes", "A type of badge", "A project schedule", "A budget line"],
+            "answer": 0,
+            "explanation": "Trust boundaries show where data or control moves between different trust levels."
+          },
+          "reference": [
+            "Threat models should be updated as architecture changes.",
+            "Assets and data flows guide the analysis.",
+            "Controls should match realistic threats."
+          ],
+          "proofTask": "Create a threat model for a secure multi-tenant SaaS architecture."
+        }
+      ]
+    },
+    {
+      "id": "AI-FUNDAMENTALS",
+      "provider": "IBM SkillsBuild",
+      "name": "AI Fundamentals",
+      "trackType": "free_credential",
+      "status": "Active",
+      "isPrimary": false,
+      "priority": 3,
+      "targetDate": "2026-08-30",
+      "weeklyMinutes": 90,
+      "readiness": 0,
+      "progress": 25,
+      "domains": [
+        { "name": "AI concepts", "weight": 50, "mastery": 25 },
+        { "name": "Responsible AI", "weight": 50, "mastery": 20 }
+      ],
+      "lessons": [
+        {
+          "id": "ibm-ai-basics",
+          "domain": "AI concepts",
+          "topic": "Foundations",
+          "title": "AI, ML, and generative AI",
+          "minutes": 25,
+          "summary": "Separate common AI terms so you can explain them clearly in interviews and projects.",
+          "learn": [
+            "Artificial intelligence is the broad field of building systems that perform tasks associated with human intelligence.",
+            "Machine learning is a subset of AI where systems learn patterns from data.",
+            "Generative AI creates new text, images, code, or other outputs based on patterns learned from training data."
+          ],
+          "memoryHook": "AI is the field, ML is one method, generative AI creates new outputs.",
+          "example": {
+            "intro": "A simple classification:",
+            "code": "AI: A chatbot that answers support questions\nML: A model that predicts customer churn\nGenerative AI: A model that drafts a project summary",
+            "explanation": "The categories overlap, but the purpose and output help you classify the example."
+          },
+          "exercise": {
+            "prompt": "Write one workplace example each for AI, ML, and generative AI.",
+            "starter": "AI:\nML:\nGenerative AI:",
+            "answerGuide": "Your examples should show clear differences between decision support, pattern learning, and content generation."
+          },
+          "quiz": {
+            "prompt": "Which statement is most accurate?",
+            "options": ["Machine learning is broader than AI", "Generative AI only stores files", "Machine learning is a subset of AI", "AI cannot be used in business"],
+            "answer": 2,
+            "explanation": "Machine learning is one area within the broader AI field."
+          },
+          "reference": [
+            "AI is a broad umbrella term.",
+            "Machine learning learns from data.",
+            "Generative AI produces new content."
+          ],
+          "proofTask": "Add a short LinkedIn-style note explaining how AI could improve one reporting workflow."
+        }
+      ]
+    }
+  ],
+  "todaySessions": [
+    { "id": "s1", "trackType": "paid_professional", "certificationId": "PL-300", "activityType": "Lesson", "title": "Study star schema fundamentals", "minutes": 35, "status": "Pending" },
+    { "id": "s2", "trackType": "paid_professional", "certificationId": "PL-300", "activityType": "Practice", "title": "Answer 10 modelling questions", "minutes": 25, "status": "Pending" },
+    { "id": "s3", "trackType": "free_credential", "certificationId": "AI-FUNDAMENTALS", "activityType": "Lesson", "title": "Review AI, ML, and generative AI", "minutes": 25, "status": "Pending" },
+    { "id": "s4", "trackType": "paid_professional", "certificationId": "PL-300", "activityType": "Project", "title": "Add one portfolio note for the dashboard project", "minutes": 20, "status": "Pending" }
+  ],
+  "projects": [
+    {
+      "title": "10X Executive Performance Dashboard",
+      "certificationId": "PL-300",
+      "status": "Active",
+      "skills": ["Power Query", "Star schema", "DAX", "Row-level security", "Executive reporting"],
+      "businessProblem": "Programme teams need an executive view of enrolment, completion, partner performance, location performance, and outcomes.",
+      "deliverables": ["Power Query cleaning pipeline", "Star schema", "Date and geography dimensions", "DAX measures", "Executive dashboard", "Drill-through pages", "Row-level security", "Documentation and screenshots"],
+      "nextMilestone": "Build the star schema and define the first five measures."
+    },
+    {
+      "title": "Procurement and Spend Analytics",
+      "certificationId": "PL-300",
+      "status": "Planned",
+      "skills": ["Power BI", "Spend analysis", "Supplier analysis", "Risk flags", "Mobile dashboard"],
+      "businessProblem": "Managers need to track procurement plans, budgets, suppliers, contracts, payments, and variances.",
+      "deliverables": ["Budget-versus-actual analysis", "Supplier concentration", "Procurement lead time", "Contract-status tracking", "Payment ageing", "Risk flags", "Incremental refresh design", "Mobile dashboard layout"],
+      "nextMilestone": "Create a synthetic procurement dataset."
+    },
+    {
+      "title": "End-to-End 10X Analytics Platform",
+      "certificationId": "DP-600",
+      "status": "Planned",
+      "skills": ["Microsoft Fabric", "OneLake", "Lakehouse", "Semantic model", "Governance"],
+      "businessProblem": "Programme analytics need a governed platform that connects ingestion, transformation, modelling, and reporting.",
+      "deliverables": ["OneLake workspace", "Lakehouse or warehouse", "Bronze, silver, and gold layers", "Pipelines or dataflows", "Semantic model", "Power BI report", "Workspace roles", "Monitoring notes"],
+      "nextMilestone": "Draw the source-to-report Fabric architecture."
+    },
+    {
+      "title": "Procurement Analytics Governance Solution",
+      "certificationId": "DP-600",
+      "status": "Planned",
+      "skills": ["Data governance", "Lineage", "Certified measures", "Deployment pipelines"],
+      "businessProblem": "Procurement reporting needs reusable definitions, trusted measures, and controlled access.",
+      "deliverables": ["Source-to-report lineage", "Data-quality rules", "Reusable semantic model", "Certified measures", "Deployment pipeline", "Access-control matrix", "Performance optimisation log", "Governance runbook"],
+      "nextMilestone": "Define five certified procurement measures."
+    },
+    {
+      "title": "Kobo-to-Fabric Data Pipeline",
+      "certificationId": "DP-700",
+      "status": "Planned",
+      "skills": ["Data ingestion", "Medallion architecture", "Validation", "Monitoring"],
+      "businessProblem": "Programme teams need a reliable way to move Kobo or survey data into reporting-ready tables.",
+      "deliverables": ["Mock Kobo ingestion", "Bronze raw layer", "Silver cleaned layer", "Gold reporting tables", "Data validation", "Duplicate detection", "Error quarantine", "Pipeline scheduling"],
+      "nextMilestone": "Create the bronze, silver, and gold table list."
+    },
+    {
+      "title": "Secure Laravel Deployment on Azure",
+      "certificationId": "AZ-104",
+      "status": "Planned",
+      "skills": ["Azure administration", "Networking", "RBAC", "Key Vault", "Monitoring"],
+      "businessProblem": "A personal Laravel application needs secure Azure hosting, database, storage, monitoring, and backup.",
+      "deliverables": ["Resource group and naming standard", "Virtual network and subnets", "Application hosting", "PostgreSQL database", "Managed identity", "Blob storage", "Key Vault", "Backup and restore test"],
+      "nextMilestone": "Draft the Azure resource naming standard."
+    },
+    {
+      "title": "TrustGrid Fraud-Prevention Architecture",
+      "certificationId": "AZ-305",
+      "status": "Planned",
+      "skills": ["Cloud architecture", "Security architecture", "Event-driven design", "Threat modelling"],
+      "businessProblem": "A SIM-swap and transaction-risk platform needs a scalable, secure, observable cloud architecture.",
+      "deliverables": ["Requirements and quality attributes", "Context and container diagrams", "Identity design", "API management design", "Event-driven risk processing", "Data stores", "Threat model", "Architecture decision records"],
+      "nextMilestone": "Write the first architecture decision record."
+    },
+    {
+      "title": "Manage CertPath 123 as a Formal Project",
+      "certificationId": "PMP",
+      "status": "Planned",
+      "skills": ["Project charter", "Risk management", "Stakeholder management", "Hybrid delivery"],
+      "businessProblem": "CertPath needs disciplined planning so scope, schedule, risks, and benefits remain visible.",
+      "deliverables": ["Business case", "Project charter", "Stakeholder register", "Requirements", "Work breakdown structure", "Schedule", "Risk register", "Lessons learned"],
+      "nextMilestone": "Draft the project charter."
+    },
+    {
+      "title": "Information Systems Audit of CertPath",
+      "certificationId": "CISA",
+      "status": "Planned",
+      "skills": ["Audit planning", "Control testing", "Evidence register", "Audit reporting"],
+      "businessProblem": "CertPath must protect private learning records, certificates, project evidence, and progress history.",
+      "deliverables": ["Audit charter", "Scope and objectives", "Risk assessment", "Control objectives", "Risk and control matrix", "Test procedures", "Evidence register", "Final audit report"],
+      "nextMilestone": "Create the audit objective and scope."
+    },
+    {
+      "title": "Enterprise Technology Risk Register",
+      "certificationId": "CRISC",
+      "status": "Planned",
+      "skills": ["Risk scenarios", "Controls", "KRIs", "Risk reporting"],
+      "businessProblem": "A technology product needs a clear risk register to guide control decisions and executive reporting.",
+      "deliverables": ["Business objectives", "Asset inventory", "Risk scenarios", "Inherent risk", "Existing controls", "Residual risk", "Treatment plans", "KRI dashboard"],
+      "nextMilestone": "Write five risk scenarios."
+    },
+    {
+      "title": "Enterprise Architecture for the 10X Ecosystem",
+      "certificationId": "TOGAF",
+      "status": "Planned",
+      "skills": ["Capability mapping", "Gap analysis", "Target architecture", "Migration roadmap"],
+      "businessProblem": "The 10X ecosystem needs a coherent target architecture across business, data, applications, and technology.",
+      "deliverables": ["Architecture vision", "Stakeholder map", "Business capabilities", "Baseline architecture", "Target architecture", "Gap analysis", "Work packages", "Migration roadmap"],
+      "nextMilestone": "Draft the first capability map."
+    },
+    {
+      "title": "Secure Multi-Tenant SaaS Architecture",
+      "certificationId": "CISSP",
+      "status": "Planned",
+      "skills": ["Security requirements", "Threat model", "IAM", "Tenant isolation", "Incident response"],
+      "businessProblem": "A SaaS platform needs security controls across identity, data isolation, monitoring, SDLC, and recovery.",
+      "deliverables": ["Security requirements", "Asset classification", "Threat model", "Trust boundaries", "IAM design", "Tenant isolation controls", "Logging and monitoring", "Incident-response plan"],
+      "nextMilestone": "Threat-model the credential vault."
+    },
+    {
+      "title": "AI Use-Case Assessment",
+      "certificationId": "AI-FUNDAMENTALS",
+      "status": "Active",
+      "skills": ["AI literacy", "Use-case analysis", "Responsible AI", "Privacy review"],
+      "businessProblem": "Teams need a practical way to decide where AI is useful, risky, or not worth applying.",
+      "deliverables": ["Business problem", "Users", "Data required", "Expected value", "Risks", "Bias concerns", "Privacy concerns", "Recommendation"],
+      "nextMilestone": "List five AI use cases for CertPath, TrustGrid, or procurement."
+    }
+  ],
+  "resources": [
+    { "title": "Official PL-300 study guide", "certificationId": "PL-300", "resourceType": "Official exam authority", "provider": "Microsoft Learn", "trustLevel": "official_exam_authority", "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300", "copyrightStatus": "link_only", "status": "In progress" },
+    { "title": "Power BI Data Analyst certification page", "certificationId": "PL-300", "resourceType": "Official certification page", "provider": "Microsoft Learn", "trustLevel": "official_exam_authority", "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/data-analyst-associate/", "copyrightStatus": "link_only", "status": "In progress" },
+    { "title": "Official PL-300 course", "certificationId": "PL-300", "resourceType": "Official course", "provider": "Microsoft Learn", "trustLevel": "official_training", "officialUrl": "https://learn.microsoft.com/en-us/training/courses/pl-300t00", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "DP-600 study guide", "certificationId": "DP-600", "resourceType": "Official exam authority", "provider": "Microsoft Learn", "trustLevel": "official_exam_authority", "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-600", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "DP-700 study guide", "certificationId": "DP-700", "resourceType": "Official exam authority", "provider": "Microsoft Learn", "trustLevel": "official_exam_authority", "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-700", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "AZ-104 study guide", "certificationId": "AZ-104", "resourceType": "Official exam authority", "provider": "Microsoft Learn", "trustLevel": "official_exam_authority", "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-104", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "AZ-305 study guide", "certificationId": "AZ-305", "resourceType": "Official exam authority", "provider": "Microsoft Learn", "trustLevel": "official_exam_authority", "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-305", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "PMP certification page", "certificationId": "PMP", "resourceType": "Official certification page", "provider": "PMI", "trustLevel": "official_exam_authority", "officialUrl": "https://www.pmi.org/certifications/project-management-pmp", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "CISA exam content outline", "certificationId": "CISA", "resourceType": "Official exam authority", "provider": "ISACA", "trustLevel": "official_exam_authority", "officialUrl": "https://www.isaca.org/credentialing/cisa/cisa-exam-content-outline", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "CRISC exam content outline", "certificationId": "CRISC", "resourceType": "Official exam authority", "provider": "ISACA", "trustLevel": "official_exam_authority", "officialUrl": "https://www.isaca.org/credentialing/crisc/crisc-exam-content-outline", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "TOGAF certification portfolio", "certificationId": "TOGAF", "resourceType": "Official certification page", "provider": "The Open Group", "trustLevel": "official_exam_authority", "officialUrl": "https://www.opengroup.org/certifications/togaf-certification-portfolio", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "CISSP exam outline", "certificationId": "CISSP", "resourceType": "Official exam authority", "provider": "ISC2", "trustLevel": "official_exam_authority", "officialUrl": "https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "IBM SkillsBuild AI Fundamentals", "certificationId": "AI-FUNDAMENTALS", "resourceType": "Official course", "provider": "IBM SkillsBuild", "trustLevel": "official_training", "officialUrl": "https://skillsbuild.org/college-students/course-catalog/artificial-intelligence-fundamentals", "copyrightStatus": "link_only", "status": "In progress" }
+  ]
+}
