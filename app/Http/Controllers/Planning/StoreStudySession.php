@@ -43,8 +43,7 @@ class StoreStudySession extends Controller
         ]);
 
         return redirect()
-            ->route('dashboard')
-            ->withFragment('planner')
+            ->route('dashboard.page', ['dashboardPage' => 'planner'])
             ->with('status', 'Study session scheduled.');
     }
 }

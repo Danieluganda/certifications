@@ -7,16 +7,16 @@
       </div>
       <nav class="main-nav" aria-label="Workspace navigation">
         <a href="{{ route('dashboard') }}">Today</a>
-        <a href="#overview">Overview</a>
-        <a href="#curriculum">Curriculum</a>
-        <a href="#lesson">Lesson</a>
-        <a href="#practice">Practice</a>
-        <a href="#readiness">Readiness</a>
-        <a href="#flashcards">Flashcards</a>
-        <a href="#budget">Budget</a>
-        <a href="#projects">Projects</a>
-        <a href="#credentials">Credentials</a>
-        <a href="#resources">Resources</a>
+        <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'overview']) }}">Overview</a>
+        <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'curriculum']) }}">Curriculum</a>
+        <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'lesson']) }}">Lesson</a>
+        <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'practice']) }}">Practice</a>
+        <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'readiness']) }}">Readiness</a>
+        <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'flashcards']) }}">Flashcards</a>
+        <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'budget']) }}">Budget</a>
+        <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'projects']) }}">Projects</a>
+        <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'credentials']) }}">Credentials</a>
+        <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'resources']) }}">Resources</a>
       </nav>
     </aside>
 
@@ -45,6 +45,7 @@
         <div class="content form-error" role="alert">{{ $errors->first() }}</div>
       @endif
 
+      @if (in_array($workspacePage, ['overview', 'curriculum'], true))
       <section id="overview" class="content grid dashboard-grid">
         <article class="panel hero-panel">
           <span class="badge {{ $certification->track_type->value === 'paid_professional' ? 'paid' : 'free' }}">{{ $certification->track_type->label() }}</span>
@@ -91,7 +92,9 @@
           @endforeach
         </aside>
       </section>
+      @endif
 
+      @if ($workspacePage === 'curriculum')
       <section class="content curriculum-tools">
         <form method="POST" action="{{ route('domains.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
           @csrf
@@ -129,19 +132,21 @@
           <button type="submit" class="primary-action">Add topic</button>
         </form>
       </section>
+      @endif
 
+      @if ($workspacePage === 'lesson')
       <section id="lesson" class="content workspace-grid">
         <aside class="panel doc-nav">
           <h3>{{ $certification->exam_code }}</h3>
           <ul class="doc-tree">
-            <li><a href="#overview">Overview</a></li>
+            <li><a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'overview']) }}">Overview</a></li>
             @foreach ($certification->domains as $domain)
               <li>
                 <strong>{{ $domain->name }}</strong>
                 <ul>
                   @foreach ($certification->lessons->where('domain_id', $domain->id) as $lesson)
                     <li>
-                      <a class="{{ $selectedLesson?->id === $lesson->id ? 'active' : '' }}" href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'lesson' => $lesson->external_id]) }}#lesson">
+                      <a class="{{ $selectedLesson?->id === $lesson->id ? 'active' : '' }}" href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'lesson', 'lesson' => $lesson->external_id]) }}">
                         {{ $lesson->title }}
                       </a>
                     </li>
@@ -149,9 +154,9 @@
                 </ul>
               </li>
             @endforeach
-            <li><a href="#practice">Practice</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#resources">Resources</a></li>
+            <li><a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'practice']) }}">Practice</a></li>
+            <li><a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'projects']) }}">Projects</a></li>
+            <li><a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'resources']) }}">Resources</a></li>
           </ul>
         </aside>
 
@@ -301,7 +306,9 @@
           </ol>
         </aside>
       </section>
+      @endif
 
+      @if ($workspacePage === 'practice')
       <section id="practice" class="content practice-grid">
         <div>
           <div class="section-heading">
@@ -361,7 +368,9 @@
           </div>
         </aside>
       </section>
+      @endif
 
+      @if ($workspacePage === 'readiness')
       <section id="readiness" class="content readiness-grid">
         <article class="panel hero-panel">
           <span class="badge paid">{{ $latestReadiness?->status_label ?? 'Not calculated' }}</span>
@@ -404,7 +413,9 @@
           @endforelse
         </aside>
       </section>
+      @endif
 
+      @if ($workspacePage === 'flashcards')
       <section id="flashcards" class="content flashcard-grid">
         <div>
           <div class="section-heading">
@@ -479,7 +490,9 @@
           </div>
         </aside>
       </section>
+      @endif
 
+      @if ($workspacePage === 'budget')
       <section id="budget" class="content dashboard-grid">
         <article class="panel">
           <h2>Exam savings</h2>
@@ -515,7 +528,9 @@
           @endforelse
         </aside>
       </section>
+      @endif
 
+      @if ($workspacePage === 'projects')
       <section id="projects" class="content">
         <div class="section-heading">
           <h2>Projects</h2>
@@ -561,7 +576,9 @@
           @endforeach
         </div>
       </section>
+      @endif
 
+      @if ($workspacePage === 'credentials')
       <section id="credentials" class="content dashboard-grid">
         <article class="panel">
           <h2>Credential vault</h2>
@@ -594,7 +611,9 @@
           @endforelse
         </aside>
       </section>
+      @endif
 
+      @if ($workspacePage === 'resources')
       <section id="resources" class="content">
         <div class="section-heading">
           <h2>Resources</h2>
@@ -710,6 +729,7 @@
           @endforeach
         </div>
       </section>
+      @endif
     </main>
   </div>
 </x-layouts.app>

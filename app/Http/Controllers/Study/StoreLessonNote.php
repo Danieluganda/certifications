@@ -38,8 +38,9 @@ class StoreLessonNote extends Controller
         return redirect()
             ->to(route('certifications.show', [
                 'certificationSlug' => $certification->slug,
+                'workspacePage' => 'lesson',
                 'lesson' => $lessonModel->external_id,
-            ]).'#notes')
+            ]))
             ->with('status', 'Note saved.');
     }
 }

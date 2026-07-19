@@ -36,8 +36,7 @@ class StoreTopic extends Controller
         ]);
 
         return redirect()
-            ->route('certifications.show', ['certificationSlug' => $certification->slug])
-            ->withFragment('curriculum')
+            ->route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'curriculum'])
             ->with('status', 'Topic added.');
     }
 }

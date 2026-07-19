@@ -26,8 +26,7 @@ class CompleteStudySession extends Controller
         ])->save();
 
         return redirect()
-            ->route('dashboard')
-            ->withFragment('planner')
+            ->route('dashboard.page', ['dashboardPage' => 'planner'])
             ->with('status', 'Study session completed.');
     }
 }

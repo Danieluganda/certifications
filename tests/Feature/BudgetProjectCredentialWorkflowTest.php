@@ -25,7 +25,7 @@ class BudgetProjectCredentialWorkflowTest extends TestCase
             'transaction_type' => 'saving',
             'transaction_date' => '2026-07-19',
             'notes' => 'Weekly exam fund deposit.',
-        ])->assertRedirect(route('certifications.show', ['certificationSlug' => $certification->slug]).'#budget');
+        ])->assertRedirect(route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'budget']));
 
         $this->assertDatabaseHas('savings_transactions', [
             'user_id' => $user->id,
@@ -49,7 +49,7 @@ class BudgetProjectCredentialWorkflowTest extends TestCase
             'business_problem' => 'Leadership needs a trusted performance dashboard.',
             'scope_markdown' => 'Build model, report, and publish evidence.',
             'repository_url' => 'https://github.com/Danieluganda/certifications',
-        ])->assertRedirect(route('certifications.show', ['certificationSlug' => $certification->slug]).'#projects');
+        ])->assertRedirect(route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'projects']));
 
         $project = $certification->projects()->where('title', 'Executive dashboard evidence')->firstOrFail();
 
@@ -87,7 +87,7 @@ class BudgetProjectCredentialWorkflowTest extends TestCase
             'verification_url' => 'https://example.com/verify',
             'linkedin_added' => '1',
             'cv_added' => '1',
-        ])->assertRedirect(route('certifications.show', ['certificationSlug' => $certification->slug]).'#credentials');
+        ])->assertRedirect(route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'credentials']));
 
         $this->assertDatabaseHas('credentials', [
             'user_id' => $user->id,

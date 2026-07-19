@@ -28,7 +28,7 @@ class FlashcardWorkflowTest extends TestCase
                 'source_type' => 'Manual',
                 'source_reference' => 'PL-300 modelling notes',
             ])
-            ->assertRedirect(route('certifications.show', ['certificationSlug' => $certification->slug]).'#flashcards');
+            ->assertRedirect(route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'flashcards']));
 
         $this->assertDatabaseHas('flashcards', [
             'user_id' => $user->id,

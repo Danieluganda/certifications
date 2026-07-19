@@ -34,6 +34,6 @@ class StoreProject extends Controller
             'status' => 'Planned',
         ]);
 
-        return redirect()->route('certifications.show', ['certificationSlug' => $certification->slug])->withFragment('projects')->with('status', 'Project created.');
+        return redirect()->route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'projects'])->with('status', 'Project created.');
     }
 }

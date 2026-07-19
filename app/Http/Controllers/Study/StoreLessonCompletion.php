@@ -53,8 +53,9 @@ class StoreLessonCompletion extends Controller
         return redirect()
             ->to(route('certifications.show', [
                 'certificationSlug' => $certification->slug,
+                'workspacePage' => 'lesson',
                 'lesson' => $lessonModel->external_id,
-            ]).'#lesson')
+            ]))
             ->with('status', 'Lesson completion saved.');
     }
 }

@@ -15,12 +15,15 @@ class ExampleTest extends TestCase
         $this->seed();
         $this->actingAs(User::query()->where('email', 'learner@certpath.test')->firstOrFail());
 
-        $response = $this->get('/');
+        $response = $this->get(route('dashboard.page', ['dashboardPage' => 'today']));
 
         $response->assertStatus(200);
         $response->assertSee('CertPath 123');
         $response->assertSee('PL-300');
-        $response->assertSee('10X Executive Performance Dashboard');
+
+        $projects = $this->get(route('dashboard.page', ['dashboardPage' => 'projects']));
+        $projects->assertStatus(200);
+        $projects->assertSee('10X Executive Performance Dashboard');
     }
 
     public function test_a_certification_workspace_renders_lessons_and_projects(): void
@@ -28,12 +31,15 @@ class ExampleTest extends TestCase
         $this->seed();
         $this->actingAs(User::query()->where('email', 'learner@certpath.test')->firstOrFail());
 
-        $response = $this->get('/certifications/pl-300');
+        $response = $this->get(route('certifications.show', ['certificationSlug' => 'pl-300', 'workspacePage' => 'lesson']));
 
         $response->assertStatus(200);
         $response->assertSee('Star schema fundamentals');
-        $response->assertSee('Data modelling');
+        $response->assertSee('DAX measures');
         $response->assertSee('Quick quiz');
-        $response->assertSee('Procurement and Spend Analytics');
+
+        $projects = $this->get(route('certifications.show', ['certificationSlug' => 'pl-300', 'workspacePage' => 'projects']));
+        $projects->assertStatus(200);
+        $projects->assertSee('Procurement and Spend Analytics');
     }
 }

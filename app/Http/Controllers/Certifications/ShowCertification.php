@@ -9,8 +9,10 @@ use Illuminate\View\View;
 
 class ShowCertification extends Controller
 {
-    public function __invoke(Request $request, string $certificationSlug): View
+    public function __invoke(Request $request, string $certificationSlug, string $workspacePage = 'overview'): View
     {
+        abort_unless(in_array($workspacePage, ['overview', 'curriculum', 'lesson', 'practice', 'readiness', 'flashcards', 'budget', 'projects', 'credentials', 'resources'], true), 404);
+
         $certification = $request->user()
             ->certifications()
             ->where('slug', $certificationSlug)
@@ -52,6 +54,7 @@ class ShowCertification extends Controller
 
         return view('certifications.show', [
             'certification' => $certification,
+            'workspacePage' => $workspacePage,
             'selectedLesson' => $selectedLesson,
             'completion' => $completion,
             'latestReadiness' => $latestReadiness,

@@ -18,8 +18,7 @@ class CalculateReadinessController extends Controller
         $calculateReadiness->execute($request->user(), $certification);
 
         return redirect()
-            ->route('certifications.show', ['certificationSlug' => $certification->slug])
-            ->withFragment('readiness')
+            ->route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'readiness'])
             ->with('status', 'Readiness recalculated.');
     }
 }

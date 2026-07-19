@@ -9,8 +9,10 @@ use Illuminate\View\View;
 
 class ShowDashboard extends Controller
 {
-    public function __invoke(Request $request): View
+    public function __invoke(Request $request, string $dashboardPage = 'learn'): View
     {
+        abort_unless(in_array($dashboardPage, ['learn', 'today', 'catalogue', 'planner', 'roadmap', 'workspace', 'projects', 'resources'], true), 404);
+
         $user = $request->user()->load('profile');
 
         $certifications = Certification::query()
@@ -33,6 +35,7 @@ class ShowDashboard extends Controller
             'activeFreeCredentials' => $activeFreeCredentials,
             'projects' => $certifications->flatMap->projects,
             'resources' => $certifications->flatMap->resources,
+            'dashboardPage' => $dashboardPage,
             'studySessions' => $user->studySessions()
                 ->with(['certification', 'lesson'])
                 ->whereIn('status', ['Pending', 'in_progress'])

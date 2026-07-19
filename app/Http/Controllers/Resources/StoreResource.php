@@ -88,8 +88,7 @@ class StoreResource extends Controller
         ]);
 
         return redirect()
-            ->route('certifications.show', ['certificationSlug' => $certification->slug])
-            ->withFragment('resources')
+            ->route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'resources'])
             ->with('status', 'Resource added.');
     }
 }

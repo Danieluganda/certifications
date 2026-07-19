@@ -21,7 +21,7 @@ class ReadinessWorkflowTest extends TestCase
 
         $this->actingAs($user)
             ->post(route('readiness.calculate', ['certificationSlug' => $certification->slug]))
-            ->assertRedirect(route('certifications.show', ['certificationSlug' => $certification->slug]).'#readiness');
+            ->assertRedirect(route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'readiness']));
 
         $this->assertDatabaseHas('readiness_snapshots', [
             'user_id' => $user->id,

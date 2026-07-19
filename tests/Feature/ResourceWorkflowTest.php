@@ -36,7 +36,7 @@ class ResourceWorkflowTest extends TestCase
                 'status' => 'in progress',
                 'rating' => 5,
             ])
-            ->assertRedirect(route('certifications.show', ['certificationSlug' => $certification->slug]).'#resources');
+            ->assertRedirect(route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'resources']));
 
         $this->assertDatabaseHas('resources', [
             'user_id' => $user->id,

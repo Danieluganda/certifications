@@ -39,6 +39,6 @@ class StoreCredential extends Controller
             'renewal_reminder_date' => $data['renewal_reminder_date'] ?? null,
         ]);
 
-        return redirect()->route('certifications.show', ['certificationSlug' => $certification->slug])->withFragment('credentials')->with('status', 'Credential recorded.');
+        return redirect()->route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'credentials'])->with('status', 'Credential recorded.');
     }
 }

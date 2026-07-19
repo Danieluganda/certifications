@@ -27,7 +27,7 @@ class StudySessionWorkflowTest extends TestCase
                 'planned_minutes' => 45,
                 'notes' => 'Study model relationships.',
             ])
-            ->assertRedirect(route('dashboard').'#planner');
+            ->assertRedirect(route('dashboard.page', ['dashboardPage' => 'planner']));
 
         $this->assertDatabaseHas('study_sessions', [
             'user_id' => $user->id,
@@ -56,7 +56,7 @@ class StudySessionWorkflowTest extends TestCase
             ->post(route('study-sessions.complete', ['studySession' => $session->id]), [
                 'notes' => 'Reviewed DAX notes.',
             ])
-            ->assertRedirect(route('dashboard').'#planner');
+            ->assertRedirect(route('dashboard.page', ['dashboardPage' => 'planner']));
 
         $session->refresh();
 

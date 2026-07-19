@@ -42,6 +42,6 @@ class StoreSavingsTransaction extends Controller
             ])->save();
         });
 
-        return redirect()->route('certifications.show', ['certificationSlug' => $certification->slug])->withFragment('budget')->with('status', 'Savings updated.');
+        return redirect()->route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'budget'])->with('status', 'Savings updated.');
     }
 }

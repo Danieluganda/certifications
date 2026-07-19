@@ -41,8 +41,7 @@ class StoreFlashcard extends Controller
         ]);
 
         return redirect()
-            ->route('certifications.show', ['certificationSlug' => $certification->slug])
-            ->withFragment('flashcards')
+            ->route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'flashcards'])
             ->with('status', 'Flashcard created.');
     }
 }

@@ -37,9 +37,14 @@ Route::post('/logout', LogoutUser::class)->middleware('auth')->name('logout');
 
 Route::middleware('auth')->group(function (): void {
     Route::get('/', ShowDashboard::class)->name('dashboard');
+    Route::get('/dashboard/{dashboardPage}', ShowDashboard::class)
+        ->whereIn('dashboardPage', ['learn', 'today', 'catalogue', 'planner', 'roadmap', 'workspace', 'projects', 'resources'])
+        ->name('dashboard.page');
     Route::get('/exports/learning-backup', DownloadLearningBackup::class)->name('exports.learning-backup');
     Route::post('/certifications', StoreCertification::class)->name('certifications.store');
-    Route::get('/certifications/{certificationSlug}', ShowCertification::class)->name('certifications.show');
+    Route::get('/certifications/{certificationSlug}/{workspacePage?}', ShowCertification::class)
+        ->whereIn('workspacePage', ['overview', 'curriculum', 'lesson', 'practice', 'readiness', 'flashcards', 'budget', 'projects', 'credentials', 'resources'])
+        ->name('certifications.show');
     Route::post('/certifications/{certificationSlug}/primary', SetPrimaryCertificationController::class)->name('certifications.primary.store');
     Route::post('/certifications/{certificationSlug}/free-activation', ActivateFreeCredentialController::class)->name('certifications.free-activation.store');
     Route::post('/certifications/{certificationSlug}/domains', StoreDomain::class)->name('domains.store');

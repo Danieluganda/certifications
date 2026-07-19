@@ -6,13 +6,13 @@
         <p>Excelling at certifications made easy as 1-2-3.</p>
       </div>
       <nav class="main-nav" aria-label="Main navigation">
-        <a href="#learn">Learn</a>
-        <a href="#catalogue">Certifications</a>
-        <a href="#planner">Practice</a>
-        <a href="#projects">Projects</a>
-        <a href="#roadmap">Roadmap</a>
-        <a href="#today">Today</a>
-        <a href="#workspace">Workspace</a>
+        <a href="{{ route('dashboard.page', ['dashboardPage' => 'learn']) }}">Learn</a>
+        <a href="{{ route('dashboard.page', ['dashboardPage' => 'catalogue']) }}">Certifications</a>
+        <a href="{{ route('dashboard.page', ['dashboardPage' => 'planner']) }}">Practice</a>
+        <a href="{{ route('dashboard.page', ['dashboardPage' => 'projects']) }}">Projects</a>
+        <a href="{{ route('dashboard.page', ['dashboardPage' => 'roadmap']) }}">Roadmap</a>
+        <a href="{{ route('dashboard.page', ['dashboardPage' => 'today']) }}">Today</a>
+        <a href="{{ route('dashboard.page', ['dashboardPage' => 'workspace']) }}">Workspace</a>
         <a href="{{ route('exports.learning-backup') }}">Backup</a>
       </nav>
     </aside>
@@ -43,12 +43,13 @@
         <div class="content form-error" role="alert">{{ $errors->first() }}</div>
       @endif
 
+      @if ($dashboardPage === 'learn')
       <section id="learn" class="content">
         <article class="panel hero-panel portal-hero">
           <p class="eyebrow">Welcome back, {{ $user?->name ?? 'Daniel' }}</p>
           <h2>What do you want to master today?</h2>
           <p>Search your certifications, lessons, topics, practice attempts, projects, and trusted resources from one learning portal.</p>
-          <form class="portal-search" role="search" method="GET" action="{{ route('dashboard') }}">
+          <form class="portal-search" role="search" method="GET" action="{{ route('dashboard.page', ['dashboardPage' => 'learn']) }}">
             <label class="wide-field" for="portal-search">
               <span class="sr-only">Search CertPath</span>
               <input id="portal-search" name="search" type="search" placeholder="Search certifications, lessons, questions, projects..." value="{{ request('search') }}">
@@ -57,7 +58,9 @@
           </form>
         </article>
       </section>
+      @endif
 
+      @if ($dashboardPage === 'today')
       <section id="today" class="content grid dashboard-grid">
         <article class="panel hero-panel continue-card">
           <span class="badge paid">Paid professional</span>
@@ -78,7 +81,7 @@
             </div>
           </div>
           @if ($primary)
-            <p><a class="primary-action" href="{{ route('certifications.show', ['certificationSlug' => $primary->slug]) }}">Continue learning</a></p>
+            <p><a class="primary-action" href="{{ route('certifications.show', ['certificationSlug' => $primary->slug, 'workspacePage' => 'lesson']) }}">Continue learning</a></p>
           @endif
         </article>
 
@@ -95,7 +98,9 @@
           @endforelse
         </aside>
       </section>
+      @endif
 
+      @if ($dashboardPage === 'learn')
       <section class="content">
         <div class="section-heading">
           <h2>Explore CertPath</h2>
@@ -106,23 +111,25 @@
             <span class="badge paid">Paid certifications</span>
             <h3>Prepare for major exams</h3>
             <p class="muted">Keep one professional certification primary and drive it with lessons, mocks, projects, and readiness checks.</p>
-            <a href="#roadmap">Open paid lane</a>
+            <a href="{{ route('dashboard.page', ['dashboardPage' => 'roadmap']) }}">Open paid lane</a>
           </article>
           <article class="card explore-card free">
             <span class="badge free">Free credentials</span>
             <h3>Earn continuous badges</h3>
             <p class="muted">Run up to two active free credentials beside the paid track for steady supporting momentum.</p>
-            <a href="#roadmap">Open free lane</a>
+            <a href="{{ route('dashboard.page', ['dashboardPage' => 'roadmap']) }}">Open free lane</a>
           </article>
           <article class="card explore-card">
             <span class="badge free">Specialisations</span>
             <h3>Build supporting skills</h3>
             <p class="muted">Use projects, resources, flashcards, and notes to connect GIS, data, knowledge systems, and analytics practice.</p>
-            <a href="#projects">Open projects</a>
+            <a href="{{ route('dashboard.page', ['dashboardPage' => 'projects']) }}">Open projects</a>
           </article>
         </div>
       </section>
+      @endif
 
+      @if ($dashboardPage === 'catalogue')
       <section id="catalogue" class="content">
         <div class="section-heading">
           <h2>Add certification</h2>
@@ -160,7 +167,9 @@
           <button type="submit" class="primary-action">Add</button>
         </form>
       </section>
+      @endif
 
+      @if ($dashboardPage === 'planner')
       <section id="planner" class="content planner-grid">
         <div>
           <div class="section-heading">
@@ -224,7 +233,9 @@
           </div>
         </aside>
       </section>
+      @endif
 
+      @if ($dashboardPage === 'roadmap')
       <section id="roadmap" class="content">
         <div class="section-heading">
           <h2>Roadmap</h2>
@@ -236,7 +247,7 @@
             @foreach ($certifications->where('track_type.value', 'paid_professional') as $certification)
               <article class="card lane-item paid">
                 <span class="badge paid">Paid professional</span>
-                <h3><a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug]) }}">{{ $certification->exam_code }}: {{ $certification->name }}</a></h3>
+                <h3><a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'overview']) }}">{{ $certification->exam_code }}: {{ $certification->name }}</a></h3>
                 <p class="muted">{{ $certification->status }} - target {{ optional($certification->target_completion_date)->format('M j, Y') ?? 'not set' }}</p>
                 @if (! $certification->is_primary)
                   <form method="POST" action="{{ route('certifications.primary.store', ['certificationSlug' => $certification->slug]) }}">
@@ -254,7 +265,7 @@
             @foreach ($certifications->where('track_type.value', 'free_credential') as $certification)
               <article class="card lane-item free">
                 <span class="badge free">Free credential</span>
-                <h3><a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug]) }}">{{ $certification->exam_code }}: {{ $certification->name }}</a></h3>
+                <h3><a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'overview']) }}">{{ $certification->exam_code }}: {{ $certification->name }}</a></h3>
                 <p class="muted">{{ $certification->status }} - target {{ optional($certification->target_completion_date)->format('M j, Y') ?? 'not set' }}</p>
                 @if ($certification->status !== 'Active')
                   <form method="POST" action="{{ route('certifications.free-activation.store', ['certificationSlug' => $certification->slug]) }}">
@@ -269,7 +280,9 @@
           </div>
         </div>
       </section>
+      @endif
 
+      @if ($dashboardPage === 'workspace')
       <section id="workspace" class="content">
         <div class="section-heading">
           <h2>Certification workspace</h2>
@@ -309,7 +322,9 @@
           </article>
         </div>
       </section>
+      @endif
 
+      @if ($dashboardPage === 'projects')
       <section id="projects" class="content">
         <div class="section-heading">
           <h2>Projects</h2>
@@ -326,7 +341,9 @@
           @endforeach
         </div>
       </section>
+      @endif
 
+      @if ($dashboardPage === 'resources')
       <section id="resources" class="content">
         <div class="section-heading">
           <h2>Resources</h2>
@@ -350,6 +367,7 @@
           @endforeach
         </div>
       </section>
+      @endif
     </main>
   </div>
 </x-layouts.app>
