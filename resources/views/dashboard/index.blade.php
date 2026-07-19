@@ -154,6 +154,7 @@
             <select id="track-type" name="track_type" required>
               <option value="paid_professional" @selected(old('track_type') === 'paid_professional')>Paid professional</option>
               <option value="free_credential" @selected(old('track_type') === 'free_credential')>Free credential</option>
+              <option value="skill_specialisation" @selected(old('track_type') === 'skill_specialisation')>Skill specialisation</option>
             </select>
           </label>
           <label for="target-completion-date">
@@ -275,6 +276,16 @@
                 @else
                   <p class="muted"><strong>Active credential</strong></p>
                 @endif
+              </article>
+            @endforeach
+          </div>
+          <div class="lane">
+            <h3>Skill specialisations</h3>
+            @foreach ($certifications->where('track_type.value', 'skill_specialisation') as $certification)
+              <article class="card lane-item">
+                <span class="badge free">Skill specialisation</span>
+                <h3><a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'overview']) }}">{{ $certification->exam_code }}: {{ $certification->name }}</a></h3>
+                <p class="muted">{{ $certification->status }} - target {{ optional($certification->target_completion_date)->format('M j, Y') ?? 'not set' }}</p>
               </article>
             @endforeach
           </div>

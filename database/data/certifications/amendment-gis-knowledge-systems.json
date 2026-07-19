@@ -1,0 +1,618 @@
+{
+  "certifications": [
+    {
+      "id": "ESRI-GIS-MOOC",
+      "provider": "Esri Academy",
+      "name": "Esri GIS MOOC Pathway",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2026-09-30",
+      "weeklyMinutes": 90,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Spatial analysis", "weight": 25, "mastery": 0 },
+        { "name": "Cartography", "weight": 20, "mastery": 0 },
+        { "name": "Spatial data science", "weight": 25, "mastery": 0 },
+        { "name": "Imagery and climate action", "weight": 30, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "esri-spatial-analysis-foundations",
+          "domain": "Spatial analysis",
+          "topic": "Location intelligence",
+          "title": "Spatial analysis foundations",
+          "minutes": 35,
+          "summary": "Use location to find service gaps, patterns, clusters, and access constraints.",
+          "learn": [
+            "Spatial analysis answers questions that ordinary tables cannot answer alone: what is near, what overlaps, what clusters, and what areas are underserved.",
+            "For CertPath projects, this matters when mapping MSME access to training venues, financial services, internet, roads, markets, and device-financing agents.",
+            "Strong GIS evidence should connect map outputs to decisions, not only display points on a map."
+          ],
+          "example": {
+            "intro": "A simple accessibility workflow:",
+            "code": "MSME points -> buffer training venues -> intersect with roads -> compare covered and uncovered parishes -> map service gaps",
+            "explanation": "The output shows which areas may need outreach, new partners, or mobile-service delivery."
+          },
+          "exercise": {
+            "prompt": "Sketch a GIS workflow for identifying underserved MSME locations.",
+            "starter": "Input layers:\nAnalysis steps:\nMap outputs:\nDecision supported:",
+            "answerGuide": "Mention point locations, administrative boundaries, service locations, travel/access assumptions, and a service-gap map."
+          },
+          "quiz": {
+            "prompt": "What makes GIS analysis different from a normal spreadsheet summary?",
+            "options": ["It ignores location", "It uses spatial relationships such as distance, overlap, and containment", "It only stores certificates", "It prevents mapping"],
+            "answer": 1,
+            "explanation": "GIS analysis uses spatial relationships to answer location-aware questions."
+          },
+          "reference": ["Spatial joins connect attributes based on location.", "Buffers estimate proximity.", "Good maps should support decisions."],
+          "proofTask": "Create a one-page concept map for an MSME service coverage analysis."
+        }
+      ]
+    },
+    {
+      "id": "NASA-ARSET",
+      "provider": "NASA ARSET",
+      "name": "Remote Sensing for Agriculture and Resilience",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2026-11-30",
+      "weeklyMinutes": 90,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Remote sensing fundamentals", "weight": 25, "mastery": 0 },
+        { "name": "Agriculture applications", "weight": 25, "mastery": 0 },
+        { "name": "Drought and flood monitoring", "weight": 25, "mastery": 0 },
+        { "name": "Climate and disaster risk", "weight": 25, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "arset-remote-sensing-basics",
+          "domain": "Remote sensing fundamentals",
+          "topic": "Earth observation",
+          "title": "Remote sensing basics",
+          "minutes": 35,
+          "summary": "Understand how satellite observations support agriculture, climate, and resilience analysis.",
+          "learn": [
+            "Remote sensing collects information about the earth from sensors, often on satellites or aircraft.",
+            "Agriculture projects can use satellite data to study land cover, vegetation health, drought, flood exposure, and production risk.",
+            "The key skill is translating imagery outputs into practical programme or policy decisions."
+          ],
+          "example": {
+            "intro": "Agricultural resilience flow:",
+            "code": "Satellite imagery -> vegetation index -> drought-risk zones -> overlay markets and roads -> prioritise extension support",
+            "explanation": "The map connects environmental risk with service and market access."
+          },
+          "exercise": {
+            "prompt": "List three remote-sensing indicators useful for agricultural service planning.",
+            "starter": "1.\n2.\n3.",
+            "answerGuide": "Strong answers mention vegetation health, land cover, rainfall or drought indicators, water availability, and flood exposure."
+          },
+          "quiz": {
+            "prompt": "What is a practical use of remote sensing in agriculture?",
+            "options": ["Mapping drought risk", "Changing passwords", "Writing meeting minutes", "Approving invoices"],
+            "answer": 0,
+            "explanation": "Satellite data can help monitor drought risk, vegetation, water, land cover, and flood exposure."
+          },
+          "reference": ["Remote sensing supports agriculture and climate analysis.", "Imagery should be validated where possible.", "Maps should be tied to programme decisions."],
+          "proofTask": "Document one NASA ARSET course and the decision problem it can help solve."
+        }
+      ]
+    },
+    {
+      "id": "EO-COLLEGE",
+      "provider": "EO College",
+      "name": "EO College Remote Sensing",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 3,
+      "targetDate": "2027-01-30",
+      "weeklyMinutes": 60,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Radar remote sensing", "weight": 35, "mastery": 0 },
+        { "name": "Hyperspectral imagery", "weight": 25, "mastery": 0 },
+        { "name": "Earth observation applications", "weight": 40, "mastery": 0 }
+      ],
+      "lessons": []
+    },
+    {
+      "id": "QGIS-TRAINING",
+      "provider": "QGIS",
+      "name": "QGIS Training Pathway",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2026-12-30",
+      "weeklyMinutes": 90,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Introduction to QGIS", "weight": 25, "mastery": 0 },
+        { "name": "Advanced QGIS", "weight": 25, "mastery": 0 },
+        { "name": "QGIS for remote sensing", "weight": 25, "mastery": 0 },
+        { "name": "QGIS for agriculture and development", "weight": 25, "mastery": 0 }
+      ],
+      "lessons": []
+    },
+    {
+      "id": "ARCGIS-PRO-FOUNDATION",
+      "provider": "Esri",
+      "name": "ArcGIS Pro Foundation",
+      "trackType": "paid_professional",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2027-03-30",
+      "weeklyMinutes": 120,
+      "readiness": 0,
+      "progress": 0,
+      "examFund": { "targetAmount": 250, "savedAmount": 0, "currency": "USD" },
+      "domains": [
+        { "name": "Mapping and visualisation", "weight": 20, "mastery": 0 },
+        { "name": "Data management", "weight": 20, "mastery": 0 },
+        { "name": "Editing", "weight": 15, "mastery": 0 },
+        { "name": "Spatial analysis", "weight": 25, "mastery": 0 },
+        { "name": "Sharing geospatial results", "weight": 20, "mastery": 0 }
+      ],
+      "lessons": []
+    },
+    {
+      "id": "ARCGIS-DEVELOPER-FOUNDATION",
+      "provider": "Esri",
+      "name": "ArcGIS Developer Foundation",
+      "trackType": "paid_professional",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 3,
+      "targetDate": "2027-09-30",
+      "weeklyMinutes": 90,
+      "readiness": 0,
+      "progress": 0,
+      "examFund": { "targetAmount": 250, "savedAmount": 0, "currency": "USD" },
+      "domains": [
+        { "name": "GIS application development", "weight": 30, "mastery": 0 },
+        { "name": "ArcGIS APIs and SDKs", "weight": 30, "mastery": 0 },
+        { "name": "Spatial search", "weight": 20, "mastery": 0 },
+        { "name": "Location-aware workflows", "weight": 20, "mastery": 0 }
+      ],
+      "lessons": []
+    },
+    {
+      "id": "ARCGIS-PYTHON",
+      "provider": "Esri",
+      "name": "ArcGIS API for Python Associate",
+      "trackType": "paid_professional",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 3,
+      "targetDate": "2028-03-30",
+      "weeklyMinutes": 90,
+      "readiness": 0,
+      "progress": 0,
+      "examFund": { "targetAmount": 250, "savedAmount": 0, "currency": "USD" },
+      "domains": [
+        { "name": "Geospatial automation", "weight": 30, "mastery": 0 },
+        { "name": "Content management", "weight": 20, "mastery": 0 },
+        { "name": "Publishing layers", "weight": 20, "mastery": 0 },
+        { "name": "Python-based GIS administration", "weight": 30, "mastery": 0 }
+      ],
+      "lessons": []
+    },
+    {
+      "id": "PCAD",
+      "provider": "Python Institute",
+      "name": "Certified Associate Data Analyst with Python",
+      "trackType": "paid_professional",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2027-06-30",
+      "weeklyMinutes": 120,
+      "readiness": 0,
+      "progress": 0,
+      "examFund": { "targetAmount": 195, "savedAmount": 0, "currency": "USD" },
+      "domains": [
+        { "name": "Python analytics", "weight": 25, "mastery": 0 },
+        { "name": "Pandas and NumPy", "weight": 25, "mastery": 0 },
+        { "name": "Data validation", "weight": 20, "mastery": 0 },
+        { "name": "Statistics and reporting", "weight": 15, "mastery": 0 },
+        { "name": "Geospatial processing", "weight": 15, "mastery": 0 }
+      ],
+      "lessons": []
+    },
+    {
+      "id": "ELASTIC-ENGINEER",
+      "provider": "Elastic",
+      "name": "Elastic Certified Engineer",
+      "trackType": "paid_professional",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 2,
+      "targetDate": "2027-12-30",
+      "weeklyMinutes": 90,
+      "readiness": 0,
+      "progress": 0,
+      "examFund": { "targetAmount": 500, "savedAmount": 0, "currency": "USD" },
+      "domains": [
+        { "name": "Index design", "weight": 25, "mastery": 0 },
+        { "name": "Text analysis and relevance", "weight": 30, "mastery": 0 },
+        { "name": "Aggregations and analytics", "weight": 20, "mastery": 0 },
+        { "name": "Monitoring and security", "weight": 25, "mastery": 0 }
+      ],
+      "lessons": []
+    },
+    {
+      "id": "FME-PROFESSIONAL",
+      "provider": "Safe Software",
+      "name": "FME Certified Professional",
+      "trackType": "paid_professional",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 2,
+      "targetDate": "2028-06-30",
+      "weeklyMinutes": 60,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Spatial ETL", "weight": 30, "mastery": 0 },
+        { "name": "Data transformation", "weight": 30, "mastery": 0 },
+        { "name": "Multi-format integration", "weight": 20, "mastery": 0 },
+        { "name": "Enterprise geospatial workflows", "weight": 20, "mastery": 0 }
+      ],
+      "lessons": []
+    },
+    {
+      "id": "GISP",
+      "provider": "GISCI",
+      "name": "GIS Professional Certification",
+      "trackType": "paid_professional",
+      "status": "Long term",
+      "isPrimary": false,
+      "priority": 1,
+      "weeklyMinutes": 0,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Education", "weight": 20, "mastery": 0 },
+        { "name": "GIS projects", "weight": 25, "mastery": 0 },
+        { "name": "Professional experience", "weight": 35, "mastery": 0 },
+        { "name": "Professional contributions", "weight": 20, "mastery": 0 }
+      ],
+      "lessons": []
+    },
+    {
+      "id": "AGROVOC",
+      "provider": "FAO",
+      "name": "AGROVOC Agricultural Knowledge Systems",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2027-04-30",
+      "weeklyMinutes": 75,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Agricultural terminology", "weight": 25, "mastery": 0 },
+        { "name": "Multilingual knowledge organisation", "weight": 25, "mastery": 0 },
+        { "name": "Metadata and classification", "weight": 25, "mastery": 0 },
+        { "name": "Knowledge graphs and search", "weight": 25, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "agrovoc-skos-concepts",
+          "domain": "Agricultural terminology",
+          "topic": "Controlled vocabularies",
+          "title": "AGROVOC and controlled vocabularies",
+          "minutes": 30,
+          "summary": "Use AGROVOC concepts to organise agricultural documents, datasets, and search experiences.",
+          "learn": [
+            "AGROVOC is a multilingual agricultural vocabulary that helps describe topics consistently across documents and datasets.",
+            "Controlled vocabularies improve search, filtering, translation, metadata quality, and knowledge graph design.",
+            "In CertPath projects, AGROVOC can connect agricultural publications, service datasets, and local programme records."
+          ],
+          "example": {
+            "intro": "A metadata record can be enriched like this:",
+            "code": "Title: Drought resilience for smallholder farmers\nAGROVOC concepts: drought, smallholders, climate change, water management\nLanguage: English\nCountry: Uganda",
+            "explanation": "Concept tagging improves discovery even when documents use different wording."
+          },
+          "exercise": {
+            "prompt": "Choose five concepts that could tag an agricultural service coverage report.",
+            "starter": "Concepts:\nBroader theme:\nLanguage needs:",
+            "answerGuide": "Mention crop, extension services, markets, drought, water, land cover, farmers, or climate terms."
+          },
+          "quiz": {
+            "prompt": "Why use a controlled vocabulary such as AGROVOC?",
+            "options": ["To make metadata inconsistent", "To organise concepts consistently across languages and datasets", "To remove search", "To replace all databases"],
+            "answer": 1,
+            "explanation": "Controlled vocabularies create consistent subject tagging and discovery."
+          },
+          "reference": ["AGROVOC supports multilingual agricultural terminology.", "SKOS vocabularies support broader and narrower concept relationships.", "Concepts improve metadata and search."],
+          "proofTask": "Tag ten agricultural document titles with AGROVOC-style concepts."
+        }
+      ]
+    },
+    {
+      "id": "SEMANTIC-WEB",
+      "provider": "W3C and Open Web Standards",
+      "name": "Semantic Web and Knowledge Systems",
+      "trackType": "skill_specialisation",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2027-08-30",
+      "weeklyMinutes": 90,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "RDF and RDFS", "weight": 15, "mastery": 0 },
+        { "name": "SKOS", "weight": 15, "mastery": 0 },
+        { "name": "SPARQL", "weight": 20, "mastery": 0 },
+        { "name": "OWL and SHACL", "weight": 20, "mastery": 0 },
+        { "name": "JSON-LD and knowledge graphs", "weight": 30, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "semantic-web-rdf-sparql",
+          "domain": "RDF and RDFS",
+          "topic": "Linked data",
+          "title": "RDF, SKOS, and SPARQL foundations",
+          "minutes": 40,
+          "summary": "Model concepts as triples, organise vocabularies with SKOS, and query graph data with SPARQL.",
+          "learn": [
+            "RDF represents data as subject-predicate-object triples.",
+            "SKOS is useful for controlled vocabularies, taxonomies, broader/narrower concept trees, and multilingual labels.",
+            "SPARQL queries graph data and can answer relationship questions that are hard to express in flat tables."
+          ],
+          "example": {
+            "intro": "CertPath can be modelled as triples:",
+            "code": "PL-300 issuedBy Microsoft\nPL-300 containsDomain ModelTheData\nModelTheData containsTopic DAX\nDAX requiresSkill Measures",
+            "explanation": "The graph connects certifications, domains, topics, skills, roles, and projects."
+          },
+          "exercise": {
+            "prompt": "Write five triples for the CertPath certification knowledge graph.",
+            "starter": "Subject | Predicate | Object\n",
+            "answerGuide": "Use relationships such as issuedBy, containsDomain, containsTopic, requiresSkill, supportsRole, or supportsProject."
+          },
+          "quiz": {
+            "prompt": "What does RDF primarily use to represent data?",
+            "options": ["Rows only", "Subject-predicate-object triples", "Screenshots", "Passwords"],
+            "answer": 1,
+            "explanation": "RDF data is represented as triples."
+          },
+          "reference": ["RDF uses triples.", "SKOS models controlled vocabularies.", "SPARQL queries graph relationships."],
+          "proofTask": "Create a small RDF-style model for three certifications, domains, and skills."
+        }
+      ]
+    },
+    {
+      "id": "APACHE-SOLR",
+      "provider": "Apache",
+      "name": "Apache Solr Search Specialisation",
+      "trackType": "skill_specialisation",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 2,
+      "targetDate": "2028-01-30",
+      "weeklyMinutes": 60,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Index design", "weight": 25, "mastery": 0 },
+        { "name": "Faceted search", "weight": 25, "mastery": 0 },
+        { "name": "Synonyms and multilingual search", "weight": 25, "mastery": 0 },
+        { "name": "Search analytics", "weight": 25, "mastery": 0 }
+      ],
+      "lessons": []
+    },
+    {
+      "id": "AGRI-DATASETS",
+      "provider": "Applied Portfolio",
+      "name": "Agricultural Datasets Specialisation",
+      "trackType": "skill_specialisation",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 3,
+      "targetDate": "2027-05-30",
+      "weeklyMinutes": 60,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Data profiling and cleaning", "weight": 25, "mastery": 0 },
+        { "name": "Spatial joins", "weight": 20, "mastery": 0 },
+        { "name": "Time-series and crop analysis", "weight": 25, "mastery": 0 },
+        { "name": "Metadata, privacy, and quality", "weight": 30, "mastery": 0 }
+      ],
+      "lessons": []
+    },
+    {
+      "id": "BIBLIO-DATASETS",
+      "provider": "Applied Portfolio",
+      "name": "Bibliographic Datasets Specialisation",
+      "trackType": "skill_specialisation",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 3,
+      "targetDate": "2027-07-30",
+      "weeklyMinutes": 60,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "DOI and citation handling", "weight": 20, "mastery": 0 },
+        { "name": "Author and organisation matching", "weight": 25, "mastery": 0 },
+        { "name": "Taxonomy mapping", "weight": 25, "mastery": 0 },
+        { "name": "Metadata quality and search indexing", "weight": 30, "mastery": 0 }
+      ],
+      "lessons": []
+    },
+    {
+      "id": "R-ANALYTICS",
+      "provider": "Applied Portfolio",
+      "name": "R Analytics Specialisation",
+      "trackType": "skill_specialisation",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 2,
+      "targetDate": "2028-02-28",
+      "weeklyMinutes": 45,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Data wrangling", "weight": 20, "mastery": 0 },
+        { "name": "Visualisation", "weight": 20, "mastery": 0 },
+        { "name": "Statistical testing", "weight": 20, "mastery": 0 },
+        { "name": "Time series and spatial analysis", "weight": 20, "mastery": 0 },
+        { "name": "Quarto and reproducible reporting", "weight": 20, "mastery": 0 }
+      ],
+      "lessons": []
+    },
+    {
+      "id": "GA4",
+      "provider": "Google Analytics",
+      "name": "Google Analytics 4",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2026-10-30",
+      "weeklyMinutes": 60,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Event-based measurement", "weight": 25, "mastery": 0 },
+        { "name": "Conversions and funnels", "weight": 25, "mastery": 0 },
+        { "name": "Acquisition and engagement", "weight": 20, "mastery": 0 },
+        { "name": "Consent, privacy, and reporting", "weight": 30, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "ga4-event-taxonomy",
+          "domain": "Event-based measurement",
+          "topic": "Product analytics",
+          "title": "GA4 event taxonomy for CertPath",
+          "minutes": 30,
+          "summary": "Define events and user properties that explain how learners move through CertPath.",
+          "learn": [
+            "GA4 uses events as the core measurement unit.",
+            "A useful product analytics plan defines event names, parameters, user properties, conversions, funnels, and privacy controls.",
+            "For CertPath, events should track learning actions such as certification added, quiz started, quiz submitted, project evidence uploaded, and credential earned."
+          ],
+          "example": {
+            "intro": "A simple event taxonomy:",
+            "code": "certification_added\nstudy_session_completed\nquiz_started\nquiz_submitted\nproject_evidence_uploaded\ncredential_earned",
+            "explanation": "These events connect product behaviour to learning progress."
+          },
+          "exercise": {
+            "prompt": "Design ten GA4 events for CertPath and mark which should be conversions.",
+            "starter": "Event | Parameters | Conversion?\n",
+            "answerGuide": "Include onboarding, certification, study, quiz, project, credential, and retention events."
+          },
+          "quiz": {
+            "prompt": "What is the main measurement unit in GA4?",
+            "options": ["Events", "Only page titles", "Only invoices", "Only certificates"],
+            "answer": 0,
+            "explanation": "GA4 is event-based."
+          },
+          "reference": ["GA4 uses events and parameters.", "Funnels show drop-off.", "Consent and privacy must be planned."],
+          "proofTask": "Create a CertPath GA4 event taxonomy with conversions and user properties."
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "title": "Uganda MSME Accessibility and Service Coverage Map",
+      "certificationId": "ESRI-GIS-MOOC",
+      "status": "Planned",
+      "skills": ["Spatial analysis", "QGIS", "ArcGIS Pro", "Accessibility analysis", "Service-gap mapping"],
+      "businessProblem": "MSME support teams need to identify areas with weak access to training, finance, internet, transport, markets, and device-financing services.",
+      "deliverables": ["Clean geodatabase", "QGIS or ArcGIS Pro project", "Interactive web map", "Accessibility analysis", "Service-gap map", "Dashboard", "Recommendations", "Technical report"],
+      "nextMilestone": "List the initial layers and data sources for MSME locations, services, roads, markets, and boundaries."
+    },
+    {
+      "title": "Agricultural Service Coverage and Resilience Platform",
+      "certificationId": "NASA-ARSET",
+      "status": "Planned",
+      "skills": ["Remote sensing", "Agricultural risk mapping", "Market access", "Service coverage", "Policy briefs"],
+      "businessProblem": "Agricultural programmes need to map services, production areas, climate risks, extension support, water access, storage, markets, and transport.",
+      "deliverables": ["Spatial database", "Remote-sensing analysis", "Agricultural-risk maps", "Market-access analysis", "Service-gap analysis", "Web map", "Dashboard", "Policy brief"],
+      "nextMilestone": "Draft the resilience platform layer catalogue."
+    },
+    {
+      "title": "Automated Kobo-to-GIS Pipeline",
+      "certificationId": "PCAD",
+      "status": "Planned",
+      "skills": ["Python", "Coordinate validation", "Duplicate detection", "PostGIS", "Data quality"],
+      "businessProblem": "Survey data from Kobo or CSV needs reliable validation, geocoding, district assignment, and map-ready storage.",
+      "deliverables": ["Python pipeline", "Coordinate-validation rules", "Error quarantine", "Reverse geocoding", "Administrative-area matching", "PostGIS storage", "ArcGIS or QGIS output", "Scheduled updates", "Data-quality report"],
+      "nextMilestone": "Define coordinate validation and duplicate-detection rules."
+    },
+    {
+      "title": "CertPath Certification Knowledge Graph",
+      "certificationId": "SEMANTIC-WEB",
+      "status": "Planned",
+      "skills": ["RDF", "SKOS", "SPARQL", "JSON-LD", "Ontology design"],
+      "businessProblem": "CertPath needs a knowledge graph that connects certifications, providers, domains, topics, skills, roles, credentials, and projects.",
+      "deliverables": ["RDF dataset", "Ontology", "SKOS skills vocabulary", "SPARQL queries", "JSON-LD export", "Graph visualisation", "Documentation"],
+      "nextMilestone": "Write the first ten triples for certifications, domains, and skills."
+    },
+    {
+      "title": "AGROVOC-Powered Agricultural Knowledge Repository",
+      "certificationId": "AGROVOC",
+      "status": "Planned",
+      "skills": ["AGROVOC", "SKOS", "Metadata", "Search", "JSON-LD"],
+      "businessProblem": "Agricultural documents need consistent subject tagging, multilingual discovery, concept navigation, and linked-data export.",
+      "deliverables": ["Metadata database", "AGROVOC subset", "RDF representation", "SKOS mappings", "SPARQL query service", "Search interface", "Documentation"],
+      "nextMilestone": "Create the metadata fields and first AGROVOC concept list."
+    },
+    {
+      "title": "Agricultural and Bibliographic Discovery Engine",
+      "certificationId": "ELASTIC-ENGINEER",
+      "status": "Planned",
+      "skills": ["Elasticsearch", "Solr comparison", "Faceted search", "Synonyms", "Search analytics"],
+      "businessProblem": "Agricultural and bibliographic records need full-text search, faceted filters, multilingual relevance, autocomplete, and zero-result reporting.",
+      "deliverables": ["Elasticsearch index", "Search API", "User interface", "Relevance test cases", "Search dashboard", "Elasticsearch-versus-Solr comparison"],
+      "nextMilestone": "Define the search index fields and facet list."
+    },
+    {
+      "title": "Programme Data Quality and Analytics Pipeline",
+      "certificationId": "PCAD",
+      "status": "Planned",
+      "skills": ["Python", "Pandas", "Data validation", "Statistics", "Automated reporting"],
+      "businessProblem": "Programme teams need clean, validated, documented data pipelines for CSV, Excel, API, and survey sources.",
+      "deliverables": ["CSV, Excel, and API import", "Name and location standardisation", "Duplicate detection", "Consent and coordinate validation", "Missing-value handling", "Descriptive statistics", "Charts", "Automated quality report"],
+      "nextMilestone": "Draft the data-quality rules for names, ages, consent, and coordinates."
+    },
+    {
+      "title": "CertPath Product Analytics",
+      "certificationId": "GA4",
+      "status": "Planned",
+      "skills": ["GA4", "Google Tag Manager", "Funnels", "Retention analysis", "Privacy planning"],
+      "businessProblem": "CertPath needs product analytics that show onboarding, study, practice, project, and credential progress while respecting privacy.",
+      "deliverables": ["Event taxonomy", "Naming conventions", "User properties", "Conversion definitions", "Funnel analysis", "Retention analysis", "Drop-off analysis", "Dashboard", "Privacy and consent plan"],
+      "nextMilestone": "Define the first ten GA4 events and conversion candidates."
+    }
+  ],
+  "resources": [
+    { "title": "Esri MOOCs", "certificationId": "ESRI-GIS-MOOC", "resourceType": "Official course catalogue", "provider": "Esri Academy", "trustLevel": "official_training", "officialUrl": "https://www.esri.com/training/mooc/", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "NASA ARSET trainings", "certificationId": "NASA-ARSET", "resourceType": "Official course catalogue", "provider": "NASA ARSET", "trustLevel": "official_training", "officialUrl": "https://appliedsciences.nasa.gov/what-we-do/capacity-building/arset", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "EO College courses", "certificationId": "EO-COLLEGE", "resourceType": "Official course catalogue", "provider": "EO College", "trustLevel": "official_training", "officialUrl": "https://eo-college.org/courses/", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "QGIS Training Manual", "certificationId": "QGIS-TRAINING", "resourceType": "Official documentation", "provider": "QGIS", "trustLevel": "official_training", "officialUrl": "https://docs.qgis.org/latest/en/docs/training_manual/", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "AGROVOC", "certificationId": "AGROVOC", "resourceType": "Official vocabulary", "provider": "FAO", "trustLevel": "official_reference", "officialUrl": "https://agrovoc.fao.org/", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "RDF 1.1 Primer", "certificationId": "SEMANTIC-WEB", "resourceType": "Official specification guide", "provider": "W3C", "trustLevel": "official_reference", "officialUrl": "https://www.w3.org/TR/rdf11-primer/", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "SKOS Simple Knowledge Organization System", "certificationId": "SEMANTIC-WEB", "resourceType": "Official specification", "provider": "W3C", "trustLevel": "official_reference", "officialUrl": "https://www.w3.org/TR/skos-reference/", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "SPARQL Query Language", "certificationId": "SEMANTIC-WEB", "resourceType": "Official specification", "provider": "W3C", "trustLevel": "official_reference", "officialUrl": "https://www.w3.org/TR/sparql11-query/", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "Elastic certification", "certificationId": "ELASTIC-ENGINEER", "resourceType": "Official certification page", "provider": "Elastic", "trustLevel": "official_exam_authority", "officialUrl": "https://www.elastic.co/training/certification", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "Apache Solr Reference Guide", "certificationId": "APACHE-SOLR", "resourceType": "Official documentation", "provider": "Apache Solr", "trustLevel": "official_reference", "officialUrl": "https://solr.apache.org/guide/", "copyrightStatus": "link_only", "status": "Not started" },
+    { "title": "Google Analytics Skillshop", "certificationId": "GA4", "resourceType": "Official course", "provider": "Google Skillshop", "trustLevel": "official_training", "officialUrl": "https://skillshop.withgoogle.com/", "copyrightStatus": "link_only", "status": "Not started" }
+  ]
+}

@@ -20,8 +20,10 @@ class CertPathCatalogueSeeder extends Seeder
 {
     public function run(): void
     {
-        $path = database_path('data/certifications/certpath-seed.json');
-        $payload = json_decode(File::get($path), true, flags: JSON_THROW_ON_ERROR);
+        $payload = $this->mergePayloads([
+            database_path('data/certifications/certpath-seed.json'),
+            database_path('data/certifications/amendment-gis-knowledge-systems.json'),
+        ]);
 
         $user = User::query()->firstOrCreate(
             ['email' => 'learner@certpath.test'],
@@ -208,5 +210,29 @@ class CertPathCatalogueSeeder extends Seeder
     private function formatExercise(array $exercise): string
     {
         return trim(($exercise['prompt'] ?? '')."\n\n```text\n".($exercise['starter'] ?? '')."\n```\n\nCheck yourself: ".($exercise['answerGuide'] ?? ''));
+    }
+
+    /**
+     * @param  array<int, string>  $paths
+     * @return array<string, mixed>
+     */
+    private function mergePayloads(array $paths): array
+    {
+        $merged = ['profile' => [], 'certifications' => [], 'projects' => [], 'resources' => []];
+
+        foreach ($paths as $path) {
+            if (! File::exists($path)) {
+                continue;
+            }
+
+            $payload = json_decode(File::get($path), true, flags: JSON_THROW_ON_ERROR);
+
+            $merged['profile'] = array_replace($merged['profile'], $payload['profile'] ?? []);
+            $merged['certifications'] = array_merge($merged['certifications'], $payload['certifications'] ?? []);
+            $merged['projects'] = array_merge($merged['projects'], $payload['projects'] ?? []);
+            $merged['resources'] = array_merge($merged['resources'], $payload['resources'] ?? []);
+        }
+
+        return $merged;
     }
 }
