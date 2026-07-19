@@ -14,6 +14,7 @@ class StudySession extends Model
 {
     protected $fillable = [
         'user_id',
+        'study_plan_id',
         'certification_id',
         'lesson_id',
         'topic_id',
@@ -25,10 +26,12 @@ class StudySession extends Model
         'actual_minutes',
         'target_description',
         'priority',
+        'priority_score',
         'status',
         'notes',
         'started_at',
         'completed_at',
+        'confidence',
     ];
 
     protected function casts(): array
@@ -65,5 +68,15 @@ class StudySession extends Model
     public function tasks(): HasMany
     {
         return $this->hasMany(SessionTask::class)->orderBy('position');
+    }
+
+    public function studyPlan(): BelongsTo
+    {
+        return $this->belongsTo(StudyPlan::class);
+    }
+
+    public function events(): HasMany
+    {
+        return $this->hasMany(StudySessionEvent::class)->orderBy('occurred_at');
     }
 }

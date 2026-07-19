@@ -2,15 +2,23 @@
 
 namespace App\Models;
 
+use App\Domains\Audit\Models\AuditLog;
+use App\Domains\Budgeting\Models\ExamBudget;
+use App\Domains\Budgeting\Models\Voucher;
 use App\Domains\Certifications\Models\Certification;
+use App\Domains\Curriculum\Models\Lab;
 use App\Domains\Flashcards\Models\Flashcard;
 use App\Domains\Notes\Models\Note;
+use App\Domains\Notifications\Models\AppNotification;
 use App\Domains\Planning\Models\PlannerRecommendation;
+use App\Domains\Planning\Models\StudyPlan;
 use App\Domains\Planning\Models\StudyGoal;
 use App\Domains\Planning\Models\StudySession;
 use App\Domains\Planning\Models\StudyStreak;
+use App\Domains\Planning\Models\WeeklyAvailability;
 use App\Domains\Practice\Models\QuizAttempt;
 use App\Domains\Projects\Models\ProjectMilestone;
+use App\Domains\Progress\Models\ProgressSnapshot;
 use App\Domains\Tutor\Models\LearnerMisconception;
 use App\Domains\Tutor\Models\TutorFeedback;
 use App\Domains\Tutor\Models\TutorRecommendation;
@@ -60,6 +68,16 @@ class User extends Authenticatable
         return $this->hasMany(StudySession::class);
     }
 
+    public function weeklyAvailabilities(): HasMany
+    {
+        return $this->hasMany(WeeklyAvailability::class);
+    }
+
+    public function studyPlans(): HasMany
+    {
+        return $this->hasMany(StudyPlan::class);
+    }
+
     public function studyGoals(): HasMany
     {
         return $this->hasMany(StudyGoal::class);
@@ -78,6 +96,36 @@ class User extends Authenticatable
     public function quizAttempts(): HasMany
     {
         return $this->hasMany(QuizAttempt::class);
+    }
+
+    public function labs(): HasMany
+    {
+        return $this->hasMany(Lab::class);
+    }
+
+    public function examBudgets(): HasMany
+    {
+        return $this->hasMany(ExamBudget::class);
+    }
+
+    public function vouchers(): HasMany
+    {
+        return $this->hasMany(Voucher::class);
+    }
+
+    public function progressSnapshots(): HasMany
+    {
+        return $this->hasMany(ProgressSnapshot::class);
+    }
+
+    public function appNotifications(): HasMany
+    {
+        return $this->hasMany(AppNotification::class);
+    }
+
+    public function auditLogs(): HasMany
+    {
+        return $this->hasMany(AuditLog::class);
     }
 
     public function flashcards(): HasMany

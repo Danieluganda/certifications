@@ -2,6 +2,7 @@
 
 namespace App\Domains\Curriculum\Models;
 
+use App\Domains\Certifications\Models\CertificationObjectiveVersion;
 use App\Domains\Certifications\Models\Certification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,15 +12,23 @@ class CertificationDomain extends Model
 {
     protected $fillable = [
         'certification_id',
+        'objective_version_id',
         'name',
+        'description',
         'weight_percent',
         'mastery_percent',
         'position',
+        'is_major',
     ];
 
     public function certification(): BelongsTo
     {
         return $this->belongsTo(Certification::class);
+    }
+
+    public function objectiveVersion(): BelongsTo
+    {
+        return $this->belongsTo(CertificationObjectiveVersion::class, 'objective_version_id');
     }
 
     public function lessons(): HasMany

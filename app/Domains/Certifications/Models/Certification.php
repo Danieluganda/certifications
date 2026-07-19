@@ -2,8 +2,12 @@
 
 namespace App\Domains\Certifications\Models;
 
+use App\Domains\Budgeting\Models\ExamBudget;
+use App\Domains\Budgeting\Models\Voucher;
 use App\Domains\Certifications\Enums\CertificationTrack;
+use App\Domains\Certifications\Models\CertificationObjectiveVersion;
 use App\Domains\Curriculum\Models\CertificationDomain;
+use App\Domains\Curriculum\Models\Lab;
 use App\Domains\Curriculum\Models\Lesson;
 use App\Domains\Curriculum\Models\Topic;
 use App\Domains\Planning\Models\StudySession;
@@ -11,6 +15,8 @@ use App\Domains\Planning\Models\StudyGoal;
 use App\Domains\Planning\Models\PlannerRecommendation;
 use App\Domains\Practice\Models\Question;
 use App\Domains\Practice\Models\QuizAttempt;
+use App\Domains\Practice\Models\QuizBlueprint;
+use App\Domains\Progress\Models\ProgressSnapshot;
 use App\Domains\Progress\Models\ReadinessSnapshot;
 use App\Domains\Budgeting\Models\SavingsTransaction;
 use App\Domains\Credentials\Models\Credential;
@@ -76,6 +82,11 @@ class Certification extends Model
         return $this->hasMany(CertificationDomain::class);
     }
 
+    public function objectiveVersions(): HasMany
+    {
+        return $this->hasMany(CertificationObjectiveVersion::class);
+    }
+
     public function lessons(): HasMany
     {
         return $this->hasMany(Lesson::class);
@@ -116,6 +127,11 @@ class Certification extends Model
         return $this->hasMany(Question::class);
     }
 
+    public function quizBlueprints(): HasMany
+    {
+        return $this->hasMany(QuizBlueprint::class);
+    }
+
     public function quizAttempts(): HasMany
     {
         return $this->hasMany(QuizAttempt::class);
@@ -124,6 +140,26 @@ class Certification extends Model
     public function readinessSnapshots(): HasMany
     {
         return $this->hasMany(ReadinessSnapshot::class);
+    }
+
+    public function progressSnapshots(): HasMany
+    {
+        return $this->hasMany(ProgressSnapshot::class);
+    }
+
+    public function labs(): HasMany
+    {
+        return $this->hasMany(Lab::class);
+    }
+
+    public function examBudgets(): HasMany
+    {
+        return $this->hasMany(ExamBudget::class);
+    }
+
+    public function vouchers(): HasMany
+    {
+        return $this->hasMany(Voucher::class);
     }
 
     public function savingsTransactions(): HasMany
