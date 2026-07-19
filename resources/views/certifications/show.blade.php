@@ -291,6 +291,85 @@
           <h2>Resources</h2>
           <p>Official sources are linked, not copied into the app.</p>
         </div>
+        <form method="POST" action="{{ route('resources.store', ['certificationSlug' => $certification->slug]) }}" class="panel resource-form">
+          @csrf
+          <label for="resource-title">
+            Title
+            <input id="resource-title" name="title" type="text" value="{{ old('title') }}" required>
+          </label>
+          <label for="resource-provider">
+            Provider
+            <input id="resource-provider" name="provider_name" type="text" value="{{ old('provider_name', $certification->provider?->name) }}" required>
+          </label>
+          <label for="resource-type">
+            Type
+            <select id="resource-type" name="resource_type" required>
+              @foreach (['Official documentation', 'Official learning path', 'Video', 'Article', 'Book', 'PDF', 'Practice lab', 'Practice test', 'Community discussion', 'Personal note'] as $type)
+                <option value="{{ $type }}" @selected(old('resource_type') === $type)>{{ $type }}</option>
+              @endforeach
+            </select>
+          </label>
+          <label for="resource-domain">
+            Domain
+            <select id="resource-domain" name="domain_id">
+              <option value="">Any domain</option>
+              @foreach ($certification->domains as $domain)
+                <option value="{{ $domain->id }}" @selected((int) old('domain_id') === $domain->id)>{{ $domain->name }}</option>
+              @endforeach
+            </select>
+          </label>
+          <label for="resource-topic">
+            Topic
+            <select id="resource-topic" name="topic_id">
+              <option value="">Any topic</option>
+              @foreach ($certification->topics as $topic)
+                <option value="{{ $topic->id }}" @selected((int) old('topic_id') === $topic->id)>{{ $topic->domain?->name }} / {{ $topic->name }}</option>
+              @endforeach
+            </select>
+          </label>
+          <label for="resource-url">
+            URL
+            <input id="resource-url" name="url" type="url" value="{{ old('url') }}">
+          </label>
+          <label for="resource-file">
+            File path
+            <input id="resource-file" name="file_path" type="text" value="{{ old('file_path') }}">
+          </label>
+          <label for="resource-trust">
+            Trust level
+            <select id="resource-trust" name="trust_level" required>
+              @foreach (['Official', 'verified', 'community', 'personal'] as $trustLevel)
+                <option value="{{ $trustLevel }}" @selected(old('trust_level', 'Official') === $trustLevel)>{{ $trustLevel }}</option>
+              @endforeach
+            </select>
+          </label>
+          <label for="resource-copyright">
+            Copyright status
+            <input id="resource-copyright" name="copyright_status" type="text" value="{{ old('copyright_status', 'linked_not_copied') }}" required>
+          </label>
+          <label for="resource-status">
+            Status
+            <select id="resource-status" name="status" required>
+              @foreach (['Not started', 'in progress', 'completed'] as $status)
+                <option value="{{ $status }}" @selected(old('status', 'Not started') === $status)>{{ $status }}</option>
+              @endforeach
+            </select>
+          </label>
+          <label for="resource-rating">
+            Rating
+            <select id="resource-rating" name="rating">
+              <option value="">Not rated</option>
+              @for ($rating = 1; $rating <= 5; $rating++)
+                <option value="{{ $rating }}" @selected((int) old('rating') === $rating)>{{ $rating }}</option>
+              @endfor
+            </select>
+          </label>
+          <label for="resource-note" class="wide-field">
+            Copyright note
+            <textarea id="resource-note" name="copyright_note" rows="3">{{ old('copyright_note') }}</textarea>
+          </label>
+          <button type="submit" class="primary-action">Add resource</button>
+        </form>
         <div class="resource-list">
           @foreach ($certification->resources as $resource)
             <article class="resource-row">
@@ -302,7 +381,20 @@
                     {{ $resource->title }}
                   @endif
                 </strong>
-                <p class="muted">{{ $resource->provider_name }} - {{ $resource->resource_type }} - {{ $resource->copyright_status }}</p>
+                <p class="muted">
+                  {{ $resource->provider_name }} - {{ $resource->resource_type }} - {{ $resource->trust_level }} - {{ $resource->copyright_status }}
+                  @if ($resource->rating)
+                    - {{ $resource->rating }}/5
+                  @endif
+                </p>
+                @if ($resource->domain || $resource->topic)
+                  <p class="muted">
+                    {{ $resource->domain?->name }}
+                    @if ($resource->topic)
+                      / {{ $resource->topic->name }}
+                    @endif
+                  </p>
+                @endif
               </div>
               <span class="badge free">{{ $resource->status }}</span>
             </article>

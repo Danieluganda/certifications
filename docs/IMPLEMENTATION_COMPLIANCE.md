@@ -10,7 +10,7 @@ The application is being built as a Laravel modular monolith using Blade for the
 
 | Area | Source | Status | Notes |
 |---|---|---|---|
-| Product scope | PRD.md | Partial | Dashboard, roadmap, workspace, curriculum, study planner, projects, resources, auth, certification creation, primary paid activation, free credential activation, domain/topic creation, lesson completion, and notes are started. Practice attempts, flashcards, budgeting, credentials, export remain. |
+| Product scope | PRD.md | Partial | Dashboard, roadmap, workspace, curriculum, study planner, projects, resource library, auth, certification creation, primary paid activation, free credential activation, domain/topic creation, lesson completion, and notes are started. Practice attempts, flashcards, budgeting, credentials, export remain. |
 | Architecture | ARCHITECTURE.md | Partial | Domain folders and Eloquent models exist. More action classes, policies, jobs, and ADRs are needed. |
 | Schema | SCHEMA.md | Partial | Initial relational tables exist. Topics, attempts, flashcards, labs, budgets, credentials, readiness snapshots, audit logs remain. |
 | Rules | RULES.md | Partial | Seed import, tests, and domain models exist. Critical activation rules are being moved into action classes. |
@@ -49,12 +49,12 @@ Completed from MVP acceptance criteria:
 - Activate up to two free credentials.
 - Create domains and ordered topics.
 - Schedule and complete study sessions.
+- Add resources from the UI with source, trust, copyright, status, rating, and optional domain/topic attachment.
 - Add lesson notes.
 - Complete lessons with confidence and server-side progress updates.
 
 Remaining from MVP acceptance criteria:
 
-- Add resources from the UI.
 - Create and review flashcards.
 - Take topic quizzes and timed mock exams.
 - View weak domains and mastery.

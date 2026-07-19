@@ -12,6 +12,7 @@ use App\Http\Controllers\Curriculum\StoreTopic;
 use App\Http\Controllers\Dashboard\ShowDashboard;
 use App\Http\Controllers\Planning\CompleteStudySession;
 use App\Http\Controllers\Planning\StoreStudySession;
+use App\Http\Controllers\Resources\StoreResource;
 use App\Http\Controllers\Study\StoreLessonCompletion;
 use App\Http\Controllers\Study\StoreLessonNote;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,7 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/certifications/{certificationSlug}/free-activation', ActivateFreeCredentialController::class)->name('certifications.free-activation.store');
     Route::post('/certifications/{certificationSlug}/domains', StoreDomain::class)->name('domains.store');
     Route::post('/certifications/{certificationSlug}/topics', StoreTopic::class)->name('topics.store');
+    Route::post('/certifications/{certificationSlug}/resources', StoreResource::class)->name('resources.store');
     Route::post('/certifications/{certificationSlug}/lessons/{lesson}/completion', StoreLessonCompletion::class)->name('lessons.completions.store');
     Route::post('/certifications/{certificationSlug}/lessons/{lesson}/notes', StoreLessonNote::class)->name('lessons.notes.store');
     Route::post('/study-sessions', StoreStudySession::class)->name('study-sessions.store');
