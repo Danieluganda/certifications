@@ -7,6 +7,8 @@ use App\Domains\Curriculum\Models\CertificationDomain;
 use App\Domains\Curriculum\Models\Lesson;
 use App\Domains\Curriculum\Models\Topic;
 use App\Domains\Planning\Models\StudySession;
+use App\Domains\Practice\Models\Question;
+use App\Domains\Practice\Models\QuizAttempt;
 use App\Domains\Projects\Models\Project;
 use App\Domains\Resources\Models\Resource;
 use App\Models\User;
@@ -89,5 +91,15 @@ class Certification extends Model
     public function studySessions(): HasMany
     {
         return $this->hasMany(StudySession::class);
+    }
+
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Question::class);
+    }
+
+    public function quizAttempts(): HasMany
+    {
+        return $this->hasMany(QuizAttempt::class);
     }
 }

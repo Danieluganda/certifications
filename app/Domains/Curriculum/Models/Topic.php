@@ -5,6 +5,7 @@ namespace App\Domains\Curriculum\Models;
 use App\Domains\Certifications\Models\Certification;
 use App\Domains\Flashcards\Models\Flashcard;
 use App\Domains\Notes\Models\Note;
+use App\Domains\Practice\Models\Question;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -44,5 +45,10 @@ class Topic extends Model
     public function flashcards(): HasMany
     {
         return $this->hasMany(Flashcard::class);
+    }
+
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Question::class);
     }
 }

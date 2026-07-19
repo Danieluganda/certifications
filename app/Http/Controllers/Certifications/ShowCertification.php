@@ -26,6 +26,7 @@ class ShowCertification extends Controller
             'projects',
             'resources.domain',
             'resources.topic',
+            'questions',
         ]);
 
         $selectedLesson = $certification->lessons
@@ -46,6 +47,11 @@ class ShowCertification extends Controller
             'certification' => $certification,
             'selectedLesson' => $selectedLesson,
             'completion' => $completion,
+            'recentAttempts' => $certification->quizAttempts()
+                ->where('user_id', $request->user()->id)
+                ->latest()
+                ->take(5)
+                ->get(),
             'flashcards' => $certification->topics()
                 ->with(['domain', 'flashcards' => fn ($query) => $query
                     ->where('user_id', $request->user()->id)

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Domains\Certifications\Models\Certification;
 use App\Domains\Planning\Models\StudySession;
+use App\Domains\Practice\Models\QuizAttempt;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -47,5 +48,10 @@ class User extends Authenticatable
     public function studySessions(): HasMany
     {
         return $this->hasMany(StudySession::class);
+    }
+
+    public function quizAttempts(): HasMany
+    {
+        return $this->hasMany(QuizAttempt::class);
     }
 }

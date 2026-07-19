@@ -7,6 +7,7 @@ use App\Domains\Certifications\Models\CertificationProvider;
 use App\Domains\Curriculum\Models\CertificationDomain;
 use App\Domains\Curriculum\Models\Lesson;
 use App\Domains\Curriculum\Models\Topic;
+use App\Domains\Practice\Models\Question;
 use App\Domains\Projects\Models\Project;
 use App\Domains\Resources\Models\Resource;
 use App\Models\User;
@@ -92,7 +93,7 @@ class CertPathCatalogueSeeder extends Seeder
                     );
                 }
 
-                Lesson::query()->updateOrCreate(
+                $lesson = Lesson::query()->updateOrCreate(
                     ['certification_id' => $certification->id, 'external_id' => $lessonData['id']],
                     [
                         'domain_id' => $domain?->id,
@@ -110,6 +111,44 @@ class CertPathCatalogueSeeder extends Seeder
                         'position' => $position + 1,
                     ]
                 );
+
+                if ($domain && $topic && ! empty($lessonData['quiz']['options'])) {
+                    $question = Question::query()->updateOrCreate(
+                        [
+                            'user_id' => $user->id,
+                            'certification_id' => $certification->id,
+                            'source_reference' => $lesson->external_id,
+                        ],
+                        [
+                            'domain_id' => $domain->id,
+                            'topic_id' => $topic->id,
+                            'question_type' => 'single_choice',
+                            'difficulty' => 'medium',
+                            'status' => 'active',
+                            'source_type' => 'lesson',
+                            'current_version' => 1,
+                        ]
+                    );
+
+                    $version = $question->versions()->updateOrCreate(
+                        ['version_number' => 1],
+                        [
+                            'prompt_markdown' => $lessonData['quiz']['prompt'],
+                            'explanation_markdown' => $lessonData['quiz']['explanation'] ?? null,
+                            'answer_schema' => ['answer_index' => $lessonData['quiz']['answer'] ?? null],
+                        ]
+                    );
+
+                    $version->options()->delete();
+                    foreach ($lessonData['quiz']['options'] as $optionPosition => $option) {
+                        $version->options()->create([
+                            'option_key' => chr(65 + $optionPosition),
+                            'body_markdown' => $option,
+                            'is_correct' => $optionPosition === ($lessonData['quiz']['answer'] ?? -1),
+                            'position' => $optionPosition + 1,
+                        ]);
+                    }
+                }
             }
         }
 

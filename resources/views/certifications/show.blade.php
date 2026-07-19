@@ -10,6 +10,7 @@
         <a href="#overview">Overview</a>
         <a href="#curriculum">Curriculum</a>
         <a href="#lesson">Lesson</a>
+        <a href="#practice">Practice</a>
         <a href="#flashcards">Flashcards</a>
         <a href="#projects">Projects</a>
         <a href="#resources">Resources</a>
@@ -261,6 +262,66 @@
             <p>No lesson exists for this certification yet.</p>
           @endif
         </article>
+      </section>
+
+      <section id="practice" class="content practice-grid">
+        <div>
+          <div class="section-heading">
+            <h2>Practice</h2>
+            <p>Topic quizzes and timed mock exams use versioned question snapshots.</p>
+          </div>
+          <form method="POST" action="{{ route('quiz-attempts.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
+            @csrf
+            <input type="hidden" name="attempt_type" value="topic">
+            <h3>Start topic quiz</h3>
+            <label for="quiz-topic">
+              Topic
+              <select id="quiz-topic" name="topic_id" required>
+                @foreach ($certification->topics as $topic)
+                  <option value="{{ $topic->id }}">{{ $topic->domain?->name }} / {{ $topic->name }}</option>
+                @endforeach
+              </select>
+            </label>
+            <label for="topic-question-count">
+              Questions
+              <input id="topic-question-count" name="question_count" type="number" min="1" max="25" value="5">
+            </label>
+            <button type="submit" class="primary-action">Start topic quiz</button>
+          </form>
+
+          <form method="POST" action="{{ route('quiz-attempts.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
+            @csrf
+            <input type="hidden" name="attempt_type" value="mock">
+            <h3>Start timed mock</h3>
+            <label for="mock-question-count">
+              Questions
+              <input id="mock-question-count" name="question_count" type="number" min="1" max="100" value="{{ min(20, max(1, $certification->questions->count())) }}">
+            </label>
+            <label for="mock-duration">
+              Duration minutes
+              <input id="mock-duration" name="duration_minutes" type="number" min="1" max="240" value="60">
+            </label>
+            <button type="submit" class="primary-action">Start timed mock</button>
+          </form>
+        </div>
+
+        <aside class="panel">
+          <h3>Recent attempts</h3>
+          <div class="session-list">
+            @forelse ($recentAttempts as $attempt)
+              <article class="session-item">
+                <strong>{{ ucfirst($attempt->attempt_type) }} - {{ $attempt->status }}</strong>
+                <span>{{ $attempt->started_at->format('M j, Y H:i') }}</span>
+                @if ($attempt->score_percent !== null)
+                  <p>{{ $attempt->score_percent }}% / {{ $attempt->correct_count }} of {{ $attempt->total_questions }}</p>
+                @endif
+                <a href="{{ route('quiz-attempts.show', ['quizAttempt' => $attempt->id]) }}">Open</a>
+              </article>
+            @empty
+              <p class="muted">No attempts yet.</p>
+            @endforelse
+          </div>
+        </aside>
       </section>
 
       <section id="flashcards" class="content flashcard-grid">
