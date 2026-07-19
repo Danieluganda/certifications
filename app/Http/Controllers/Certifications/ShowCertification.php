@@ -29,6 +29,11 @@ class ShowCertification extends Controller
             'questions',
         ]);
 
+        $latestReadiness = $certification->readinessSnapshots()
+            ->where('user_id', $request->user()->id)
+            ->latest('calculated_at')
+            ->first();
+
         $selectedLesson = $certification->lessons
             ->firstWhere('external_id', $request->query('lesson'))
             ?? $certification->lessons->first();
@@ -47,6 +52,11 @@ class ShowCertification extends Controller
             'certification' => $certification,
             'selectedLesson' => $selectedLesson,
             'completion' => $completion,
+            'latestReadiness' => $latestReadiness,
+            'weakDomains' => $certification->domains()
+                ->where('mastery_percent', '<', 70)
+                ->orderBy('mastery_percent')
+                ->get(),
             'recentAttempts' => $certification->quizAttempts()
                 ->where('user_id', $request->user()->id)
                 ->latest()

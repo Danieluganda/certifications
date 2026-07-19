@@ -6,6 +6,7 @@ use App\Domains\Certifications\Models\Certification;
 use App\Domains\Flashcards\Models\Flashcard;
 use App\Domains\Notes\Models\Note;
 use App\Domains\Practice\Models\Question;
+use App\Domains\Progress\Models\TopicMastery;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -50,5 +51,10 @@ class Topic extends Model
     public function questions(): HasMany
     {
         return $this->hasMany(Question::class);
+    }
+
+    public function mastery(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(TopicMastery::class);
     }
 }

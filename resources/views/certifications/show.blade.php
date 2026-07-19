@@ -11,6 +11,7 @@
         <a href="#curriculum">Curriculum</a>
         <a href="#lesson">Lesson</a>
         <a href="#practice">Practice</a>
+        <a href="#readiness">Readiness</a>
         <a href="#flashcards">Flashcards</a>
         <a href="#projects">Projects</a>
         <a href="#resources">Resources</a>
@@ -321,6 +322,49 @@
               <p class="muted">No attempts yet.</p>
             @endforelse
           </div>
+        </aside>
+      </section>
+
+      <section id="readiness" class="content readiness-grid">
+        <article class="panel hero-panel">
+          <span class="badge paid">{{ $latestReadiness?->status_label ?? 'Not calculated' }}</span>
+          <h2>{{ $latestReadiness?->readiness_percent ?? $certification->readiness_percent }}% readiness</h2>
+          <p>Academic readiness is calculated from topic quizzes, mock exams, domain mastery, labs, projects, and revision consistency. Exam savings are visible but do not change this score.</p>
+          <form method="POST" action="{{ route('readiness.calculate', ['certificationSlug' => $certification->slug]) }}">
+            @csrf
+            <button type="submit" class="primary-action">Recalculate readiness</button>
+          </form>
+        </article>
+
+        <aside class="panel">
+          <h3>Guard conditions</h3>
+          @if ($latestReadiness)
+            <ul class="guard-list">
+              @foreach ($latestReadiness->guard_conditions ?? [] as $guard => $passed)
+                <li>
+                  <span class="badge {{ $passed ? 'free' : 'paid' }}">{{ $passed ? 'Pass' : 'Block' }}</span>
+                  {{ str_replace('_', ' ', $guard) }}
+                </li>
+              @endforeach
+            </ul>
+          @else
+            <p class="muted">No readiness snapshot yet.</p>
+          @endif
+        </aside>
+
+        <aside class="panel">
+          <h3>Weak domains</h3>
+          @forelse ($weakDomains as $domain)
+            <div class="progress-block">
+              <div class="progress-line">
+                <span>{{ $domain->name }}</span>
+                <strong>{{ $domain->mastery_percent }}%</strong>
+              </div>
+              <div class="progress-track"><span style="width: {{ $domain->mastery_percent }}%"></span></div>
+            </div>
+          @empty
+            <p class="muted">No weak domains are visible from current mastery data.</p>
+          @endforelse
         </aside>
       </section>
 

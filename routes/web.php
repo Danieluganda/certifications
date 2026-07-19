@@ -17,6 +17,7 @@ use App\Http\Controllers\Planning\StoreStudySession;
 use App\Http\Controllers\Practice\ShowQuizAttempt;
 use App\Http\Controllers\Practice\StartQuizAttempt;
 use App\Http\Controllers\Practice\SubmitQuizAttempt;
+use App\Http\Controllers\Progress\CalculateReadinessController;
 use App\Http\Controllers\Resources\StoreResource;
 use App\Http\Controllers\Study\StoreLessonCompletion;
 use App\Http\Controllers\Study\StoreLessonNote;
@@ -40,6 +41,7 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/certifications/{certificationSlug}/resources', StoreResource::class)->name('resources.store');
     Route::post('/certifications/{certificationSlug}/flashcards', StoreFlashcard::class)->name('flashcards.store');
     Route::post('/certifications/{certificationSlug}/quiz-attempts', StartQuizAttempt::class)->name('quiz-attempts.store');
+    Route::post('/certifications/{certificationSlug}/readiness', CalculateReadinessController::class)->name('readiness.calculate');
     Route::get('/quiz-attempts/{quizAttempt}', ShowQuizAttempt::class)->name('quiz-attempts.show');
     Route::post('/quiz-attempts/{quizAttempt}/submit', SubmitQuizAttempt::class)->name('quiz-attempts.submit');
     Route::post('/flashcards/{flashcard}/reviews', ReviewFlashcardController::class)->name('flashcards.reviews.store');
