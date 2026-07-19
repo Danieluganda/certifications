@@ -45,8 +45,19 @@ class StudyMaterialsImportTest extends TestCase
         foreach ([
             'Power Automate Partner Workflow',
             'Copilot Studio Study Coach',
+            'Sourced Certification Research Agent',
             'AWS Educate Combined Cloud Portfolio',
+            'Real-Time Device-Financing Analytics',
+            'Azure Governance Lab',
+            'National MSME Digital Platform Architecture',
+            'Multi-Region 10X Digital Activation Rollout',
+            'Audit of the 10X Data Ecosystem',
+            'Cloud and Third-Party Risk Programme',
+            'Enterprise Architecture for Digital Procurement',
+            'Incident Response and Business Continuity Exercise',
+            'Explainable Document Classifier Prototype',
             'Secure CertPath or ProcureFlow',
+            'Secure Software Development Pipeline',
             'Uganda MSME Digital Public Infrastructure Concept',
         ] as $projectTitle) {
             $this->assertDatabaseHas('projects', [
@@ -61,6 +72,10 @@ class StudyMaterialsImportTest extends TestCase
             'Linux Foundation LFD121 course page',
             'Cisco Skills for All Ethical Hacker',
             'ADBI E-Learning',
+            '2026 PMP Examination Content Outline',
+            'TOGAF study guides and practice tests',
+            'TOGAF Standard 10th Edition downloads',
+            'CISSP self-study resources',
         ] as $resourceTitle) {
             $this->assertDatabaseHas('resources', [
                 'user_id' => $user->id,

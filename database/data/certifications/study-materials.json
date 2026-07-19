@@ -886,6 +886,105 @@
       "deliverables": ["Stakeholders", "Public value", "Architecture diagram", "Governance", "Inclusion", "Privacy", "Cybersecurity", "Interoperability", "Risk assessment"],
       "nextMilestone": "Sketch the identity, consent, data exchange, and service channels.",
       "status": "Planned"
+    },
+    {
+      "certificationId": "DP-700",
+      "title": "Real-Time Device-Financing Analytics",
+      "businessProblem": "Device-financing teams need near-real-time visibility into applications, approvals, repayments, and risk events.",
+      "skills": ["Streaming ingestion", "KQL/event analytics", "Late-event handling", "Monitoring", "Alerting"],
+      "deliverables": ["Simulated event source", "Eventhouse or KQL store", "Transformation rules", "Late-event policy", "Monitoring dashboard", "Risk alerts"],
+      "nextMilestone": "Define the device-financing event schema.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "AZ-104",
+      "title": "Azure Governance Lab",
+      "businessProblem": "Cloud resources need RBAC, policy, monitoring, budgets, and repeatable governance controls.",
+      "skills": ["RBAC", "Azure Policy", "Monitoring", "Budgets", "Governance documentation"],
+      "deliverables": ["Management scope", "Role assignments", "Policy assignment", "Monitoring alerts", "Budget", "Governance runbook"],
+      "nextMilestone": "Draft the governance scope and role matrix.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "AZ-305",
+      "title": "National MSME Digital Platform Architecture",
+      "businessProblem": "A national MSME platform needs scalable, secure, resilient, and governable cloud architecture.",
+      "skills": ["Solution architecture", "Identity design", "Data platform design", "Integration", "Security", "Resilience"],
+      "deliverables": ["Architecture diagram", "Identity model", "Integration design", "Data architecture", "Security controls", "Resilience notes", "Cost trade-offs"],
+      "nextMilestone": "Write the first architecture decision record.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "PMP",
+      "title": "Multi-Region 10X Digital Activation Rollout",
+      "businessProblem": "A multi-region digital activation programme needs formal planning, governance, stakeholder communication, and risk control.",
+      "skills": ["Hybrid project planning", "Stakeholder management", "Risk management", "Schedule management", "Benefits tracking"],
+      "deliverables": ["Project charter", "Stakeholder register", "Work breakdown", "Schedule", "Risk register", "Communications plan", "Benefits plan"],
+      "nextMilestone": "Create the rollout charter and stakeholder register.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "CISA",
+      "title": "Audit of the 10X Data Ecosystem",
+      "businessProblem": "Programme data systems need audit evidence across governance, acquisition, operations, protection, and reporting integrity.",
+      "skills": ["Audit planning", "Control testing", "Evidence collection", "Data governance", "Audit reporting"],
+      "deliverables": ["Audit objective", "Scope", "Control matrix", "Evidence log", "Findings", "Recommendations", "Management response"],
+      "nextMilestone": "Define the audit objective and data-system scope.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "CRISC",
+      "title": "Cloud and Third-Party Risk Programme",
+      "businessProblem": "Cloud and vendor dependencies need risk identification, assessment, response, and monitoring.",
+      "skills": ["Risk identification", "Risk assessment", "Control mapping", "Third-party risk", "Risk monitoring"],
+      "deliverables": ["Risk register", "Vendor risk profile", "Control map", "Treatment plan", "KRI dashboard", "Review cadence"],
+      "nextMilestone": "List top cloud and vendor risk scenarios.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "TOGAF",
+      "title": "Enterprise Architecture for Digital Procurement",
+      "businessProblem": "A digital procurement platform needs architecture views that connect business capability, applications, data, and technology.",
+      "skills": ["Capability mapping", "Architecture viewpoints", "Roadmapping", "Gap analysis", "Governance"],
+      "deliverables": ["Capability map", "Baseline architecture", "Target architecture", "Gap analysis", "Roadmap", "Architecture decision log"],
+      "nextMilestone": "Create the procurement capability map.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "CISSP",
+      "title": "Incident Response and Business Continuity Exercise",
+      "businessProblem": "A SaaS product needs tested incident response and continuity practices before a real outage or breach.",
+      "skills": ["Incident response", "Business continuity", "Disaster recovery", "Communications", "Security governance"],
+      "deliverables": ["Incident scenario", "Response roles", "Communication plan", "Recovery priorities", "Tabletop notes", "Improvement backlog"],
+      "nextMilestone": "Write the tabletop incident scenario.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "MS-APPLIED-AUTONOMOUS-AGENTS",
+      "title": "Sourced Certification Research Agent",
+      "businessProblem": "Certification plans change, so CertPath needs a controlled research agent that produces sourced update reports without overwriting trusted content.",
+      "skills": ["Agent planning", "Source verification", "Report generation", "Human approval", "Audit logging"],
+      "deliverables": ["Allowed-source policy", "Research prompt set", "Sourced report", "Human review checklist", "Change log"],
+      "nextMilestone": "Define the official-source whitelist and report template.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "AI-FUNDAMENTALS",
+      "title": "Explainable Document Classifier Prototype",
+      "businessProblem": "CertPath needs a small, explainable way to classify learning resources or support requests.",
+      "skills": ["Data preparation", "Baseline modeling", "Evaluation", "Error analysis", "Model cards", "AI ethics"],
+      "deliverables": ["Sample dataset", "Cleaning notes", "Baseline model or rules", "Evaluation metrics", "Error analysis", "Model card", "Ethical limitations"],
+      "nextMilestone": "Create a small labeled dataset and baseline rules.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "LFD121",
+      "title": "Secure Software Development Pipeline",
+      "businessProblem": "CertPath needs repeatable CI/CD controls for dependency scanning, secret detection, tests, release approval, and vulnerability response.",
+      "skills": ["CI/CD security", "Dependency scanning", "Secret detection", "Static analysis", "Release governance", "Vulnerability response"],
+      "deliverables": ["Pull-request security checklist", "Dependency scan", "Secret scan", "Static analysis", "Automated tests", "Release approval checklist", "Vulnerability response procedure"],
+      "nextMilestone": "Draft the pull-request security checklist.",
+      "status": "Planned"
     }
   ],
   "resources": [
@@ -1005,6 +1104,46 @@
       "resourceType": "official_catalogue",
       "provider": "ADBI",
       "officialUrl": "https://elearning-adbi.org/",
+      "trustLevel": "official",
+      "copyrightStatus": "link_and_personal_notes_only",
+      "status": "Not started"
+    },
+    {
+      "certificationId": "PMP",
+      "title": "2026 PMP Examination Content Outline",
+      "resourceType": "official_exam_outline",
+      "provider": "PMI",
+      "officialUrl": "https://www.pmi.org/-/media/pmi/documents/public/pdf/certifications/new-pmp-examination-content-outline-2026.pdf",
+      "trustLevel": "official",
+      "copyrightStatus": "link_and_personal_notes_only",
+      "status": "Not started"
+    },
+    {
+      "certificationId": "TOGAF",
+      "title": "TOGAF study guides and practice tests",
+      "resourceType": "official_study_resource",
+      "provider": "The Open Group",
+      "officialUrl": "https://www.opengroup.org/certifications/study-guides-and-practice-test",
+      "trustLevel": "official",
+      "copyrightStatus": "link_and_personal_notes_only",
+      "status": "Not started"
+    },
+    {
+      "certificationId": "TOGAF",
+      "title": "TOGAF Standard 10th Edition downloads",
+      "resourceType": "official_standard",
+      "provider": "The Open Group",
+      "officialUrl": "https://www.opengroup.org/togaf-standard-10th-edition-downloads",
+      "trustLevel": "official",
+      "copyrightStatus": "link_and_personal_notes_only",
+      "status": "Not started"
+    },
+    {
+      "certificationId": "CISSP",
+      "title": "CISSP self-study resources",
+      "resourceType": "official_study_resource",
+      "provider": "ISC2",
+      "officialUrl": "https://www.isc2.org/certifications/cissp/cissp-self-study-resources",
       "trustLevel": "official",
       "copyrightStatus": "link_and_personal_notes_only",
       "status": "Not started"
