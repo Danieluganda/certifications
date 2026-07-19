@@ -6,6 +6,7 @@ use App\Domains\Certifications\Models\Certification;
 use App\Domains\Evidence\Models\EvidenceFile;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Project extends Model
@@ -47,5 +48,10 @@ class Project extends Model
     public function evidenceFiles(): MorphMany
     {
         return $this->morphMany(EvidenceFile::class, 'evidenceable');
+    }
+
+    public function milestones(): HasMany
+    {
+        return $this->hasMany(ProjectMilestone::class)->orderBy('position');
     }
 }

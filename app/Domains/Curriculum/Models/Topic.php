@@ -5,8 +5,13 @@ namespace App\Domains\Curriculum\Models;
 use App\Domains\Certifications\Models\Certification;
 use App\Domains\Flashcards\Models\Flashcard;
 use App\Domains\Notes\Models\Note;
+use App\Domains\Planning\Models\SessionTask;
+use App\Domains\Planning\Models\StudySession;
 use App\Domains\Practice\Models\Question;
 use App\Domains\Progress\Models\TopicMastery;
+use App\Domains\Tutor\Models\LearnerMisconception;
+use App\Domains\Tutor\Models\TutorRecommendation;
+use App\Domains\Tutor\Models\TutorSession;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -56,5 +61,30 @@ class Topic extends Model
     public function mastery(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(TopicMastery::class);
+    }
+
+    public function studySessions(): HasMany
+    {
+        return $this->hasMany(StudySession::class);
+    }
+
+    public function sessionTasks(): HasMany
+    {
+        return $this->hasMany(SessionTask::class);
+    }
+
+    public function tutorSessions(): HasMany
+    {
+        return $this->hasMany(TutorSession::class);
+    }
+
+    public function tutorRecommendations(): HasMany
+    {
+        return $this->hasMany(TutorRecommendation::class);
+    }
+
+    public function learnerMisconceptions(): HasMany
+    {
+        return $this->hasMany(LearnerMisconception::class);
     }
 }

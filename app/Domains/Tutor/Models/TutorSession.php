@@ -1,42 +1,33 @@
 <?php
 
-namespace App\Domains\Planning\Models;
+namespace App\Domains\Tutor\Models;
 
 use App\Domains\Certifications\Models\Certification;
-use App\Domains\Curriculum\Models\Lesson;
 use App\Domains\Curriculum\Models\Topic;
+use App\Domains\Projects\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class StudySession extends Model
+class TutorSession extends Model
 {
     protected $fillable = [
         'user_id',
         'certification_id',
-        'lesson_id',
         'topic_id',
-        'activity_type',
-        'scheduled_start',
-        'scheduled_end',
-        'scheduled_for',
-        'planned_minutes',
-        'actual_minutes',
-        'target_description',
-        'priority',
+        'project_id',
+        'mode',
+        'title',
         'status',
-        'notes',
         'started_at',
         'completed_at',
+        'summary',
     ];
 
     protected function casts(): array
     {
         return [
-            'scheduled_start' => 'datetime',
-            'scheduled_end' => 'datetime',
-            'scheduled_for' => 'datetime',
             'started_at' => 'datetime',
             'completed_at' => 'datetime',
         ];
@@ -52,18 +43,23 @@ class StudySession extends Model
         return $this->belongsTo(Certification::class);
     }
 
-    public function lesson(): BelongsTo
-    {
-        return $this->belongsTo(Lesson::class);
-    }
-
     public function topic(): BelongsTo
     {
         return $this->belongsTo(Topic::class);
     }
 
-    public function tasks(): HasMany
+    public function project(): BelongsTo
     {
-        return $this->hasMany(SessionTask::class)->orderBy('position');
+        return $this->belongsTo(Project::class);
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(TutorMessage::class);
+    }
+
+    public function recommendations(): HasMany
+    {
+        return $this->hasMany(TutorRecommendation::class);
     }
 }

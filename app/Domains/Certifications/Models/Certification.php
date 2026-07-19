@@ -7,6 +7,8 @@ use App\Domains\Curriculum\Models\CertificationDomain;
 use App\Domains\Curriculum\Models\Lesson;
 use App\Domains\Curriculum\Models\Topic;
 use App\Domains\Planning\Models\StudySession;
+use App\Domains\Planning\Models\StudyGoal;
+use App\Domains\Planning\Models\PlannerRecommendation;
 use App\Domains\Practice\Models\Question;
 use App\Domains\Practice\Models\QuizAttempt;
 use App\Domains\Progress\Models\ReadinessSnapshot;
@@ -14,6 +16,9 @@ use App\Domains\Budgeting\Models\SavingsTransaction;
 use App\Domains\Credentials\Models\Credential;
 use App\Domains\Projects\Models\Project;
 use App\Domains\Resources\Models\Resource;
+use App\Domains\Tutor\Models\LearnerMisconception;
+use App\Domains\Tutor\Models\TutorRecommendation;
+use App\Domains\Tutor\Models\TutorSession;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -96,6 +101,16 @@ class Certification extends Model
         return $this->hasMany(StudySession::class);
     }
 
+    public function studyGoals(): HasMany
+    {
+        return $this->hasMany(StudyGoal::class);
+    }
+
+    public function plannerRecommendations(): HasMany
+    {
+        return $this->hasMany(PlannerRecommendation::class);
+    }
+
     public function questions(): HasMany
     {
         return $this->hasMany(Question::class);
@@ -119,5 +134,20 @@ class Certification extends Model
     public function credentials(): HasMany
     {
         return $this->hasMany(Credential::class);
+    }
+
+    public function tutorSessions(): HasMany
+    {
+        return $this->hasMany(TutorSession::class);
+    }
+
+    public function tutorRecommendations(): HasMany
+    {
+        return $this->hasMany(TutorRecommendation::class);
+    }
+
+    public function learnerMisconceptions(): HasMany
+    {
+        return $this->hasMany(LearnerMisconception::class);
     }
 }

@@ -46,8 +46,8 @@ Current seeded database snapshot after `php artisan migrate:fresh --seed`:
 | `AMENDMENT_GIS_KNOWLEDGE_SYSTEMS.md` | Partial | Catalogue and core projects are represented. Dedicated amendment tables are missing: `specialisations`, `certification_specialisation`, `datasets`, `ontology_resources`, `search_indexes`, `analytics_properties`. Some specialist tracks still need lessons/resources/projects. |
 | `MATERIALS_AND_PROJECTS.md` | Mostly complete | Official sources, priority content seed, and main projects are imported. Some long-tail project depth can still be expanded. |
 | `study_materials.md` | Mostly complete | Extra projects/resources from this file are now imported, including PMP 2026 outline, AI agent research project, explainable classifier, and LFD121 CI/CD pipeline. |
-| `Private_Tutor_module.md` | Not implemented | This new rule defines a first-class certification-aware Private Tutor module. Current app has no Tutor domain, no tutor workspace, no Ask Tutor buttons, no tutor tables, no provider-independent AI boundary, no approved-source retrieval service, and no tutor recommendation workflow. |
-| `first-class_Study_Planner_module.md` | Partial, low | Current app has basic study sessions and dashboard planning fragments, but not the first-class planner module. Missing Today flow, Continue logic, timetable/week/month views, daily/weekly/monthly goals, session tasks, revision queue, dynamic rescheduling, streaks, quests, planner recommendations, and tutor integration. |
+| `Private_Tutor_module.md` | Foundation started | Tutor domain models and required foundation tables now exist: sessions, messages, recommendations, misconceptions, and feedback. Remaining gaps: tutor workspace, Ask Tutor buttons, provider-independent AI boundary, approved-source retrieval service, guardrails, knowledge checks, incorrect-answer review workflow, and planner integration UI. |
+| `first-class_Study_Planner_module.md` | Foundation started | Study goals, richer study-session fields, session tasks, project milestones, study streaks, and planner recommendations now exist. Remaining gaps: Today flow, Continue logic, timetable/week/month views, availability, missed-session rescheduling, revision queue, dynamic scheduling, streak/quest UI, and tutor integration. |
 
 ## Schema Gaps
 
@@ -60,7 +60,6 @@ Tables required by `SCHEMA.md` but not currently created:
 - `labs`
 - `notifications`
 - `progress_snapshots`
-- `project_milestones`
 - `quiz_blueprints`
 - `study_plans`
 - `study_session_events`
@@ -69,18 +68,6 @@ Tables required by `SCHEMA.md` but not currently created:
 - `topic_prerequisites`
 - `vouchers`
 - `weekly_availabilities`
-- `study_goals`
-- `session_tasks`
-- `study_streaks`
-- `planner_recommendations`
-
-Tables required by `Private_Tutor_module.md` but not currently created:
-
-- `tutor_sessions`
-- `tutor_messages`
-- `tutor_recommendations`
-- `learner_misconceptions`
-- `tutor_feedback`
 
 Tables required by `AMENDMENT_GIS_KNOWLEDGE_SYSTEMS.md` but not currently created:
 
@@ -133,8 +120,8 @@ Partial content coverage:
 8. Add notifications for due reviews, study sessions, exam dates, voucher expiry, and free credential deadlines.
 9. Add audit logging for activation, primary change, budget changes, attempt submission, evidence upload, and credential recording.
 10. Add visual/browser QA evidence for `DESIGN.md`, `design_ref.md`, and `refrence_apps.md`.
-11. Build the first-class Study Planner module: Today, timetable, daily targets, weekly goals, monthly milestones, availability, missed sessions, dynamic rescheduling, streaks, quests, and planner recommendations.
-12. Build the Private Tutor module: tutor sessions, source-grounded explanations, knowledge checks, incorrect-answer review, recommendations, tutor history, feedback, guardrails, and planner integration.
+11. Build the first-class Study Planner UI and intelligence: Today, timetable, daily targets, weekly goals, monthly milestones, availability, missed sessions, dynamic rescheduling, streaks, quests, and recommendation acceptance.
+12. Build the Private Tutor workflows: source-grounded explanations, knowledge checks, incorrect-answer review, tutor history, feedback UI, guardrails, and planner integration.
 
 ## Current Verdict
 
@@ -146,11 +133,11 @@ Estimated compliance:
 - Study-material source policy: 85%
 - Core PRD workflows: 65%
 - Architecture organization: 75%
-- Schema completeness: 45%
+- Schema completeness: 55%
 - GIS/search/knowledge amendment depth: 60%
 - Design/reference-app standard: 70% pending browser QA
-- Study Planner module: 25%
-- Private Tutor module: 0%
-- Overall: about 60%
+- Study Planner module: 35%
+- Private Tutor module: 15%
+- Overall: about 65%
 
 To honestly call it 100%, the schema and UI gaps above need to be implemented, tested, and verified.
