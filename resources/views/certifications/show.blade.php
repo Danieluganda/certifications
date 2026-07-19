@@ -312,42 +312,99 @@
       <section id="practice" class="content practice-grid">
         <div>
           <div class="section-heading">
-            <h2>Practice</h2>
-            <p>Topic quizzes and timed mock exams use versioned question snapshots.</p>
+            <h2>Practice Centre</h2>
+            <p>Quick drills, adaptive weak-area practice, missed-question review, and serious certification simulation.</p>
           </div>
-          <form method="POST" action="{{ route('quiz-attempts.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
-            @csrf
-            <input type="hidden" name="attempt_type" value="topic">
-            <h3>Start topic quiz</h3>
-            <label for="quiz-topic">
-              Topic
-              <select id="quiz-topic" name="topic_id" required>
-                @foreach ($certification->topics as $topic)
-                  <option value="{{ $topic->id }}">{{ $topic->domain?->name }} / {{ $topic->name }}</option>
-                @endforeach
-              </select>
-            </label>
-            <label for="topic-question-count">
-              Questions
-              <input id="topic-question-count" name="question_count" type="number" min="1" max="25" value="5">
-            </label>
-            <button type="submit" class="primary-action">Start topic quiz</button>
-          </form>
+          <div class="practice-mode-grid">
+            <form method="POST" action="{{ route('quiz-attempts.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
+              @csrf
+              <input type="hidden" name="attempt_type" value="quick">
+              <h3>Quick 10</h3>
+              <p class="muted">A short mixed drill for daily momentum.</p>
+              <input type="hidden" name="question_count" value="10">
+              <button type="submit" class="primary-action">Start Quick 10</button>
+            </form>
 
-          <form method="POST" action="{{ route('quiz-attempts.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
-            @csrf
-            <input type="hidden" name="attempt_type" value="mock">
-            <h3>Start timed mock</h3>
-            <label for="mock-question-count">
-              Questions
-              <input id="mock-question-count" name="question_count" type="number" min="1" max="100" value="{{ min(20, max(1, $certification->questions->count())) }}">
-            </label>
-            <label for="mock-duration">
-              Duration minutes
-              <input id="mock-duration" name="duration_minutes" type="number" min="1" max="240" value="60">
-            </label>
-            <button type="submit" class="primary-action">Start timed mock</button>
-          </form>
+            <form method="POST" action="{{ route('quiz-attempts.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
+              @csrf
+              <input type="hidden" name="attempt_type" value="weakest">
+              <h3>Weakest domain</h3>
+              <p class="muted">Practice from the domain with the lowest current mastery.</p>
+              <label for="weak-question-count">
+                Questions
+                <input id="weak-question-count" name="question_count" type="number" min="1" max="25" value="10">
+              </label>
+              <button type="submit" class="primary-action">Practice weakest</button>
+            </form>
+
+            <form method="POST" action="{{ route('quiz-attempts.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
+              @csrf
+              <input type="hidden" name="attempt_type" value="missed">
+              <h3>Missed questions</h3>
+              <p class="muted">Revisit questions you previously missed.</p>
+              <label for="missed-question-count">
+                Questions
+                <input id="missed-question-count" name="question_count" type="number" min="1" max="25" value="10">
+              </label>
+              <button type="submit" class="primary-action">Review mistakes</button>
+            </form>
+
+            <form method="POST" action="{{ route('quiz-attempts.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
+              @csrf
+              <input type="hidden" name="attempt_type" value="domain">
+              <h3>Domain quiz</h3>
+              <label for="quiz-domain">
+                Domain
+                <select id="quiz-domain" name="domain_id" required>
+                  @foreach ($certification->domains as $domain)
+                    <option value="{{ $domain->id }}">{{ $domain->name }}</option>
+                  @endforeach
+                </select>
+              </label>
+              <label for="domain-question-count">
+                Questions
+                <input id="domain-question-count" name="question_count" type="number" min="1" max="50" value="10">
+              </label>
+              <button type="submit" class="primary-action">Start domain quiz</button>
+            </form>
+
+            <form method="POST" action="{{ route('quiz-attempts.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
+              @csrf
+              <input type="hidden" name="attempt_type" value="practice">
+              <h3>Practice mode</h3>
+              <p class="muted">Custom practice with explanations after submission.</p>
+              <label for="practice-topic">
+                Topic
+                <select id="practice-topic" name="topic_id">
+                  <option value="">Any topic</option>
+                  @foreach ($certification->topics as $topic)
+                    <option value="{{ $topic->id }}">{{ $topic->domain?->name }} / {{ $topic->name }}</option>
+                  @endforeach
+                </select>
+              </label>
+              <label for="practice-question-count">
+                Questions
+                <input id="practice-question-count" name="question_count" type="number" min="1" max="50" value="10">
+              </label>
+              <button type="submit" class="primary-action">Start practice</button>
+            </form>
+
+            <form method="POST" action="{{ route('quiz-attempts.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
+              @csrf
+              <input type="hidden" name="attempt_type" value="certification">
+              <h3>Certification mode</h3>
+              <p class="muted">Timed exam simulation. Explanations stay hidden until submission.</p>
+              <label for="certification-question-count">
+                Questions
+                <input id="certification-question-count" name="question_count" type="number" min="1" max="100" value="{{ min(20, max(1, $certification->questions->count())) }}">
+              </label>
+              <label for="certification-duration">
+                Duration minutes
+                <input id="certification-duration" name="duration_minutes" type="number" min="1" max="240" value="60">
+              </label>
+              <button type="submit" class="primary-action">Start certification mode</button>
+            </form>
+          </div>
         </div>
 
         <aside class="panel">

@@ -13,7 +13,8 @@ class StartQuizAttempt extends Controller
     public function __invoke(Request $request, string $certificationSlug): RedirectResponse
     {
         $data = $request->validate([
-            'attempt_type' => ['required', Rule::in(['topic', 'mock'])],
+            'attempt_type' => ['required', Rule::in(['quick', 'topic', 'domain', 'weakest', 'missed', 'practice', 'certification', 'mock'])],
+            'domain_id' => ['nullable', 'integer'],
             'topic_id' => ['nullable', 'integer'],
             'question_count' => ['nullable', 'integer', 'min:1', 'max:100'],
             'duration_minutes' => ['nullable', 'integer', 'min:1', 'max:240'],
@@ -27,22 +28,67 @@ class StartQuizAttempt extends Controller
             ->where('status', 'active');
 
         $configuration = ['mode' => $data['attempt_type']];
-        if ($data['attempt_type'] === 'topic') {
+        if (in_array($data['attempt_type'], ['topic', 'practice'], true) && ! empty($data['topic_id'])) {
             $topic = $certification->topics()->whereKey($data['topic_id'] ?? null)->firstOrFail();
             $questionQuery->where('topic_id', $topic->id);
             $configuration['topic_id'] = $topic->id;
             $configuration['topic_name'] = $topic->name;
         }
 
+        if ($data['attempt_type'] === 'domain') {
+            $domain = $certification->domains()->whereKey($data['domain_id'] ?? null)->firstOrFail();
+            $questionQuery->where('domain_id', $domain->id);
+            $configuration['domain_id'] = $domain->id;
+            $configuration['domain_name'] = $domain->name;
+        }
+
+        if ($data['attempt_type'] === 'weakest') {
+            $domainIdsWithQuestions = $certification->questions()
+                ->where('status', 'active')
+                ->pluck('domain_id')
+                ->unique();
+
+            $domain = $certification->domains()
+                ->whereIn('id', $domainIdsWithQuestions)
+                ->orderBy('mastery_percent')
+                ->firstOrFail();
+            $questionQuery->where('domain_id', $domain->id);
+            $configuration['domain_id'] = $domain->id;
+            $configuration['domain_name'] = $domain->name;
+        }
+
+        if ($data['attempt_type'] === 'missed') {
+            $missedQuestionIds = $request->user()->quizAttempts()
+                ->where('certification_id', $certification->id)
+                ->whereIn('status', ['submitted', 'expired'])
+                ->with('questions')
+                ->get()
+                ->flatMap->questions
+                ->where('is_correct', false)
+                ->pluck('question_id')
+                ->unique()
+                ->values();
+
+            $questionQuery->whereIn('id', $missedQuestionIds);
+            $configuration['missed_question_count'] = $missedQuestionIds->count();
+        }
+
+        $isCertificationMode = in_array($data['attempt_type'], ['certification', 'mock'], true);
+        $defaultQuestionCount = match ($data['attempt_type']) {
+            'quick' => 10,
+            'certification', 'mock' => 20,
+            default => 10,
+        };
+
         $questions = $questionQuery->inRandomOrder()
-            ->limit($data['question_count'] ?? ($data['attempt_type'] === 'mock' ? 20 : 10))
+            ->limit($data['question_count'] ?? $defaultQuestionCount)
             ->get();
 
         if ($questions->isEmpty()) {
             return back()->withErrors(['quiz' => 'No reviewed questions are available for this selection yet.']);
         }
 
-        $duration = $data['attempt_type'] === 'mock'
+        $duration = $isCertificationMode
             ? ($data['duration_minutes'] ?? 60)
             : null;
 

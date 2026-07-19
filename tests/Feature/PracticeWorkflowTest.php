@@ -101,6 +101,83 @@ class PracticeWorkflowTest extends TestCase
         $this->assertSame(2, $attempt->total_questions);
     }
 
+    public function test_user_can_start_reference_app_practice_modes(): void
+    {
+        $this->seed();
+
+        $user = User::query()->where('email', 'learner@certpath.test')->firstOrFail();
+        $certification = $user->certifications()->where('slug', 'pl-300')->firstOrFail();
+        $domain = $certification->domains()->where('name', 'Model the data')->firstOrFail();
+
+        $this->actingAs($user)
+            ->post(route('quiz-attempts.store', ['certificationSlug' => $certification->slug]), [
+                'attempt_type' => 'quick',
+                'question_count' => 2,
+            ])
+            ->assertRedirect();
+
+        $this->actingAs($user)
+            ->post(route('quiz-attempts.store', ['certificationSlug' => $certification->slug]), [
+                'attempt_type' => 'domain',
+                'domain_id' => $domain->id,
+                'question_count' => 1,
+            ])
+            ->assertRedirect();
+
+        $this->actingAs($user)
+            ->post(route('quiz-attempts.store', ['certificationSlug' => $certification->slug]), [
+                'attempt_type' => 'weakest',
+                'question_count' => 1,
+            ])
+            ->assertRedirect();
+
+        $this->actingAs($user)
+            ->post(route('quiz-attempts.store', ['certificationSlug' => $certification->slug]), [
+                'attempt_type' => 'certification',
+                'question_count' => 2,
+                'duration_minutes' => 45,
+            ])
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('quiz_attempts', ['attempt_type' => 'quick', 'total_questions' => 2]);
+        $this->assertDatabaseHas('quiz_attempts', ['attempt_type' => 'domain', 'total_questions' => 1]);
+        $this->assertDatabaseHas('quiz_attempts', ['attempt_type' => 'weakest', 'total_questions' => 1]);
+        $this->assertDatabaseHas('quiz_attempts', ['attempt_type' => 'certification', 'total_questions' => 2]);
+    }
+
+    public function test_user_can_practice_missed_questions(): void
+    {
+        $this->seed();
+
+        $user = User::query()->where('email', 'learner@certpath.test')->firstOrFail();
+        $certification = $user->certifications()->where('slug', 'pl-300')->firstOrFail();
+        $topic = $certification->topics()->where('name', 'Data modelling')->firstOrFail();
+
+        $this->actingAs($user)->post(route('quiz-attempts.store', ['certificationSlug' => $certification->slug]), [
+            'attempt_type' => 'topic',
+            'topic_id' => $topic->id,
+        ]);
+
+        $attempt = QuizAttempt::query()->with('questions.version.options')->firstOrFail();
+        $attemptQuestion = $attempt->questions->first();
+        $wrongOption = $attemptQuestion->version->options->firstWhere('is_correct', false);
+
+        $this->actingAs($user)->post(route('quiz-attempts.submit', ['quizAttempt' => $attempt->id]), [
+            'answers' => [$attemptQuestion->id => $wrongOption->id],
+        ]);
+
+        $this->actingAs($user)
+            ->post(route('quiz-attempts.store', ['certificationSlug' => $certification->slug]), [
+                'attempt_type' => 'missed',
+                'question_count' => 10,
+            ])
+            ->assertRedirect();
+
+        $missedAttempt = QuizAttempt::query()->where('attempt_type', 'missed')->firstOrFail();
+
+        $this->assertSame(1, $missedAttempt->total_questions);
+    }
+
     public function test_user_cannot_open_another_users_attempt(): void
     {
         $this->seed();

@@ -55,6 +55,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .planner-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr); gap: 16px; align-items: start; }
 .flashcard-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, .9fr); gap: 16px; align-items: start; }
 .practice-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, .75fr); gap: 16px; align-items: start; }
+.practice-mode-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.practice-mode-grid .panel { align-content: start; border-top: 4px solid var(--color-primary); }
+.practice-mode-grid .panel:nth-child(2), .practice-mode-grid .panel:nth-child(6) { border-top-color: var(--color-accent); }
+.practice-mode-grid .panel:nth-child(3), .practice-mode-grid .panel:nth-child(5) { border-top-color: var(--color-free); }
 .readiness-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, .55fr) minmax(260px, .55fr); gap: 16px; align-items: start; }
 .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
 .panel, .card, .resource-row { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 8px; padding: 20px; }
