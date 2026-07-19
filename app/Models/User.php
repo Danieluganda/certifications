@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Domains\Certifications\Models\Certification;
+use App\Domains\Flashcards\Models\Flashcard;
+use App\Domains\Notes\Models\Note;
 use App\Domains\Planning\Models\StudySession;
 use App\Domains\Practice\Models\QuizAttempt;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -53,5 +55,15 @@ class User extends Authenticatable
     public function quizAttempts(): HasMany
     {
         return $this->hasMany(QuizAttempt::class);
+    }
+
+    public function flashcards(): HasMany
+    {
+        return $this->hasMany(Flashcard::class);
+    }
+
+    public function notes(): HasMany
+    {
+        return $this->hasMany(Note::class);
     }
 }

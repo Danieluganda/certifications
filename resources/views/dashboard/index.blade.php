@@ -14,6 +14,7 @@
         <a href="#projects">Projects</a>
         <a href="#resources">Resources</a>
         <a href="#progress">Progress</a>
+        <a href="{{ route('exports.learning-backup') }}">Backup</a>
       </nav>
     </aside>
 
@@ -27,6 +28,7 @@
         <div class="profile-card">
           <strong>{{ $user?->name ?? 'Personal learner' }}</strong>
           <span>{{ $user?->profile?->weekly_target_minutes ?? 0 }} weekly target minutes</span>
+          <a class="link-button" href="{{ route('exports.learning-backup') }}">Download backup</a>
           <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button class="link-button" type="submit">Sign out</button>

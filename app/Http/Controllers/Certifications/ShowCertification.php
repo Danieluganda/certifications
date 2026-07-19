@@ -23,10 +23,12 @@ class ShowCertification extends Controller
             'domains.topics',
             'lessons.domain',
             'lessons.topic',
-            'projects',
+            'projects.evidenceFiles',
             'resources.domain',
             'resources.topic',
             'questions',
+            'credentials',
+            'savingsTransactions',
         ]);
 
         $latestReadiness = $certification->readinessSnapshots()

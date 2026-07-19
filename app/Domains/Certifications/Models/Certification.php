@@ -10,6 +10,8 @@ use App\Domains\Planning\Models\StudySession;
 use App\Domains\Practice\Models\Question;
 use App\Domains\Practice\Models\QuizAttempt;
 use App\Domains\Progress\Models\ReadinessSnapshot;
+use App\Domains\Budgeting\Models\SavingsTransaction;
+use App\Domains\Credentials\Models\Credential;
 use App\Domains\Projects\Models\Project;
 use App\Domains\Resources\Models\Resource;
 use App\Models\User;
@@ -107,5 +109,15 @@ class Certification extends Model
     public function readinessSnapshots(): HasMany
     {
         return $this->hasMany(ReadinessSnapshot::class);
+    }
+
+    public function savingsTransactions(): HasMany
+    {
+        return $this->hasMany(SavingsTransaction::class);
+    }
+
+    public function credentials(): HasMany
+    {
+        return $this->hasMany(Credential::class);
     }
 }

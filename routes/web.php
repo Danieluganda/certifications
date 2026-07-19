@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginUser;
 use App\Http\Controllers\Auth\LogoutUser;
 use App\Http\Controllers\Auth\ShowLogin;
+use App\Http\Controllers\Budgeting\StoreSavingsTransaction;
 use App\Http\Controllers\Certifications\ActivateFreeCredentialController;
 use App\Http\Controllers\Certifications\SetPrimaryCertificationController;
 use App\Http\Controllers\Certifications\ShowCertification;
@@ -10,6 +11,8 @@ use App\Http\Controllers\Certifications\StoreCertification;
 use App\Http\Controllers\Curriculum\StoreDomain;
 use App\Http\Controllers\Curriculum\StoreTopic;
 use App\Http\Controllers\Dashboard\ShowDashboard;
+use App\Http\Controllers\Credentials\StoreCredential;
+use App\Http\Controllers\Exports\DownloadLearningBackup;
 use App\Http\Controllers\Flashcards\ReviewFlashcardController;
 use App\Http\Controllers\Flashcards\StoreFlashcard;
 use App\Http\Controllers\Planning\CompleteStudySession;
@@ -18,6 +21,8 @@ use App\Http\Controllers\Practice\ShowQuizAttempt;
 use App\Http\Controllers\Practice\StartQuizAttempt;
 use App\Http\Controllers\Practice\SubmitQuizAttempt;
 use App\Http\Controllers\Progress\CalculateReadinessController;
+use App\Http\Controllers\Projects\StoreProject;
+use App\Http\Controllers\Projects\StoreProjectEvidence;
 use App\Http\Controllers\Resources\StoreResource;
 use App\Http\Controllers\Study\StoreLessonCompletion;
 use App\Http\Controllers\Study\StoreLessonNote;
@@ -32,6 +37,7 @@ Route::post('/logout', LogoutUser::class)->middleware('auth')->name('logout');
 
 Route::middleware('auth')->group(function (): void {
     Route::get('/', ShowDashboard::class)->name('dashboard');
+    Route::get('/exports/learning-backup', DownloadLearningBackup::class)->name('exports.learning-backup');
     Route::post('/certifications', StoreCertification::class)->name('certifications.store');
     Route::get('/certifications/{certificationSlug}', ShowCertification::class)->name('certifications.show');
     Route::post('/certifications/{certificationSlug}/primary', SetPrimaryCertificationController::class)->name('certifications.primary.store');
@@ -42,6 +48,10 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/certifications/{certificationSlug}/flashcards', StoreFlashcard::class)->name('flashcards.store');
     Route::post('/certifications/{certificationSlug}/quiz-attempts', StartQuizAttempt::class)->name('quiz-attempts.store');
     Route::post('/certifications/{certificationSlug}/readiness', CalculateReadinessController::class)->name('readiness.calculate');
+    Route::post('/certifications/{certificationSlug}/savings', StoreSavingsTransaction::class)->name('savings.store');
+    Route::post('/certifications/{certificationSlug}/projects', StoreProject::class)->name('projects.store');
+    Route::post('/projects/{project}/evidence', StoreProjectEvidence::class)->name('projects.evidence.store');
+    Route::post('/certifications/{certificationSlug}/credentials', StoreCredential::class)->name('credentials.store');
     Route::get('/quiz-attempts/{quizAttempt}', ShowQuizAttempt::class)->name('quiz-attempts.show');
     Route::post('/quiz-attempts/{quizAttempt}/submit', SubmitQuizAttempt::class)->name('quiz-attempts.submit');
     Route::post('/flashcards/{flashcard}/reviews', ReviewFlashcardController::class)->name('flashcards.reviews.store');

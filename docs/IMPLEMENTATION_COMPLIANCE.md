@@ -10,7 +10,7 @@ The application is being built as a Laravel modular monolith using Blade for the
 
 | Area | Source | Status | Notes |
 |---|---|---|---|
-| Product scope | PRD.md | Partial | Dashboard, roadmap, workspace, curriculum, study planner, projects, resource library, flashcards, topic quizzes, timed mock attempts, weak-domain view, guarded readiness snapshots, auth, certification creation, primary paid activation, free credential activation, domain/topic creation, lesson completion, and notes are started. Budgeting, credentials, export remain. |
+| Product scope | PRD.md | Complete | MVP acceptance criteria are implemented: dashboard, roadmap, workspace, curriculum, study planner, projects, project evidence, resource library, flashcards, topic quizzes, timed mock attempts, weak-domain view, guarded readiness snapshots, budgeting, credential vault, personal backup export, auth, certification creation, primary paid activation, free credential activation, domain/topic creation, lesson completion, and notes. |
 | Architecture | ARCHITECTURE.md | Partial | Domain folders and Eloquent models exist. More action classes, policies, jobs, and ADRs are needed. |
 | Schema | SCHEMA.md | Partial | Initial relational tables exist. Topics, attempts, flashcards, labs, budgets, credentials, readiness snapshots, audit logs remain. |
 | Rules | RULES.md | Partial | Seed import, tests, and domain models exist. Critical activation rules are being moved into action classes. |
@@ -19,11 +19,9 @@ The application is being built as a Laravel modular monolith using Blade for the
 
 ## Highest Priority Gaps
 
-1. Budgeting and credential vault.
-2. Labs, evidence upload, and credential evidence.
-3. Export and backup workflow.
-4. Audit logging and rate limiting.
-5. PostgreSQL production verification.
+1. Audit logging and rate limiting.
+2. PostgreSQL production verification.
+3. Complete ARCHITECTURE.md/RULES.md/DESIGN.md/SCHEMA.md hardening passes after the PRD MVP.
 
 ## Definition of Done for Current Foundation Slice
 
@@ -35,7 +33,7 @@ The application is being built as a Laravel modular monolith using Blade for the
 
 ## PRD.md Pass
 
-Status: in progress.
+Status: complete for MVP acceptance criteria.
 
 Completed from MVP acceptance criteria:
 
@@ -51,12 +49,13 @@ Completed from MVP acceptance criteria:
 - Take timed mock exams.
 - View weak domains and mastery.
 - View a guarded readiness score.
+- Track exam savings.
+- Create a project and upload evidence.
+- Record an earned certificate.
+- Export or back up personal learning data.
 - Add lesson notes.
 - Complete lessons with confidence and server-side progress updates.
 
 Remaining from MVP acceptance criteria:
 
-- Track exam savings.
-- Create a project and upload evidence.
-- Record an earned certificate.
-- Export or back up personal learning data.
+- None.

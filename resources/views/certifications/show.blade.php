@@ -13,7 +13,9 @@
         <a href="#practice">Practice</a>
         <a href="#readiness">Readiness</a>
         <a href="#flashcards">Flashcards</a>
+        <a href="#budget">Budget</a>
         <a href="#projects">Projects</a>
+        <a href="#credentials">Credentials</a>
         <a href="#resources">Resources</a>
       </nav>
     </aside>
@@ -443,11 +445,57 @@
         </aside>
       </section>
 
+      <section id="budget" class="content dashboard-grid">
+        <article class="panel">
+          <h2>Exam savings</h2>
+          @php($target = ($certification->exam_target_amount_minor ?? 0) / 100)
+          @php($saved = ($certification->exam_saved_amount_minor ?? 0) / 100)
+          <p class="metric-row">
+            <span><strong>{{ $certification->exam_currency ?? 'USD' }} {{ number_format($saved, 2) }}</strong><span>Saved</span></span>
+            <span><strong>{{ $certification->exam_currency ?? 'USD' }} {{ number_format($target, 2) }}</strong><span>Target</span></span>
+            <span><strong>{{ $target > 0 ? (int) min(100, ($saved / $target) * 100) : 0 }}%</strong><span>Funded</span></span>
+          </p>
+          <form method="POST" action="{{ route('savings.store', ['certificationSlug' => $certification->slug]) }}" class="study-form">
+            @csrf
+            <label>Amount <input name="amount" type="number" step="0.01" min="0.01" required></label>
+            <label>Currency <input name="currency" type="text" maxlength="3" value="{{ $certification->exam_currency ?? 'USD' }}" required></label>
+            <label>Type
+              <select name="transaction_type">
+                <option value="saving">Saving</option>
+                <option value="withdrawal">Withdrawal</option>
+              </select>
+            </label>
+            <label>Date <input name="transaction_date" type="date" value="{{ now()->toDateString() }}" required></label>
+            <label>Notes <textarea name="notes" rows="3"></textarea></label>
+            <button class="primary-action" type="submit">Record savings</button>
+          </form>
+        </article>
+
+        <aside class="panel">
+          <h3>Transactions</h3>
+          @forelse ($certification->savingsTransactions->sortByDesc('transaction_date')->take(5) as $transaction)
+            <p class="muted">{{ $transaction->transaction_date->format('M j, Y') }} - {{ $transaction->currency }} {{ number_format($transaction->amount_minor / 100, 2) }} - {{ $transaction->transaction_type }}</p>
+          @empty
+            <p class="muted">No savings transactions yet.</p>
+          @endforelse
+        </aside>
+      </section>
+
       <section id="projects" class="content">
         <div class="section-heading">
           <h2>Projects</h2>
           <p>Portfolio evidence connected to this certification.</p>
         </div>
+        <form method="POST" action="{{ route('projects.store', ['certificationSlug' => $certification->slug]) }}" class="panel resource-form">
+          @csrf
+          <label>Title <input name="title" type="text" required></label>
+          <label class="wide-field">Business problem <textarea name="business_problem" rows="3" required></textarea></label>
+          <label class="wide-field">Scope <textarea name="scope_markdown" rows="3"></textarea></label>
+          <label>Repository URL <input name="repository_url" type="url"></label>
+          <label>Demo URL <input name="demo_url" type="url"></label>
+          <label>Target date <input name="target_date" type="date"></label>
+          <button class="primary-action" type="submit">Create project</button>
+        </form>
         <div class="cards-grid">
           @foreach ($certification->projects as $project)
             <article class="card">
@@ -462,9 +510,54 @@
                 </ul>
               @endif
               <p class="muted"><strong>Next:</strong> {{ $project->next_milestone }}</p>
+              @if ($project->repository_url)
+                <p><a href="{{ $project->repository_url }}" target="_blank" rel="noreferrer">Repository</a></p>
+              @endif
+              <form method="POST" action="{{ route('projects.evidence.store', ['project' => $project->id]) }}" enctype="multipart/form-data" class="study-form">
+                @csrf
+                <label>Evidence file <input name="evidence" type="file" required></label>
+                <label>Description <textarea name="description" rows="2"></textarea></label>
+                <label>Review notes <textarea name="review_notes" rows="2"></textarea></label>
+                <label class="checkbox-row"><input name="mark_completed" type="checkbox" value="1"> Mark completed</label>
+                <button class="secondary-action" type="submit">Save evidence</button>
+              </form>
+              <p class="muted">{{ $project->evidenceFiles->count() }} evidence file(s)</p>
             </article>
           @endforeach
         </div>
+      </section>
+
+      <section id="credentials" class="content dashboard-grid">
+        <article class="panel">
+          <h2>Credential vault</h2>
+          <form method="POST" action="{{ route('credentials.store', ['certificationSlug' => $certification->slug]) }}" class="study-form">
+            @csrf
+            <label>Name <input name="credential_name" type="text" value="{{ $certification->name }}" required></label>
+            <label>Provider <input name="provider_name" type="text" value="{{ $certification->provider?->name }}" required></label>
+            <label>Issue date <input name="issue_date" type="date"></label>
+            <label>Expiry date <input name="expiry_date" type="date"></label>
+            <label>Credential ID <input name="credential_id" type="text"></label>
+            <label>Verification URL <input name="verification_url" type="url"></label>
+            <label>Renewal reminder <input name="renewal_reminder_date" type="date"></label>
+            <label class="checkbox-row"><input name="linkedin_added" type="checkbox" value="1"> Added to LinkedIn</label>
+            <label class="checkbox-row"><input name="cv_added" type="checkbox" value="1"> Added to CV</label>
+            <button class="primary-action" type="submit">Record credential</button>
+          </form>
+        </article>
+        <aside class="panel">
+          <h3>Recorded credentials</h3>
+          @forelse ($certification->credentials as $credential)
+            <div class="mini-card">
+              <strong>{{ $credential->credential_name }}</strong>
+              <p class="muted">{{ $credential->provider_name }} - issued {{ optional($credential->issue_date)->format('M j, Y') ?? 'not set' }}</p>
+              @if ($credential->verification_url)
+                <a href="{{ $credential->verification_url }}" target="_blank" rel="noreferrer">Verify</a>
+              @endif
+            </div>
+          @empty
+            <p class="muted">No earned credential recorded yet.</p>
+          @endforelse
+        </aside>
       </section>
 
       <section id="resources" class="content">
