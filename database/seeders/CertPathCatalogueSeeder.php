@@ -23,6 +23,7 @@ class CertPathCatalogueSeeder extends Seeder
         $payload = $this->mergePayloads([
             database_path('data/certifications/certpath-seed.json'),
             database_path('data/certifications/amendment-gis-knowledge-systems.json'),
+            database_path('data/certifications/study-materials.json'),
         ]);
 
         $user = User::query()->firstOrCreate(

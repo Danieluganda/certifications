@@ -21,6 +21,7 @@ class LessonActivityTest extends TestCase
         $user = User::query()->where('email', 'learner@certpath.test')->firstOrFail();
         $certification = $user->certifications()->where('slug', 'pl-300')->firstOrFail();
         $lesson = $certification->lessons()->firstOrFail();
+        $expectedProgress = (int) round((1 / $certification->lessons()->count()) * 100);
 
         $this->actingAs($user)
             ->post(route('lessons.completions.store', [
@@ -39,7 +40,7 @@ class LessonActivityTest extends TestCase
             'notes' => 'I can explain fact and dimension tables.',
         ]);
 
-        $this->assertSame(33, $certification->refresh()->progress_percent);
+        $this->assertSame($expectedProgress, $certification->refresh()->progress_percent);
     }
 
     public function test_marking_the_same_lesson_complete_updates_existing_completion(): void

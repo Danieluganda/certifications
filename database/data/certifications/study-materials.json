@@ -1,0 +1,1013 @@
+{
+  "certifications": [
+    {
+      "id": "PL-300",
+      "provider": "Microsoft",
+      "name": "Power BI Data Analyst",
+      "trackType": "paid_professional",
+      "status": "In progress",
+      "isPrimary": true,
+      "priority": 1,
+      "targetDate": "2026-09-30",
+      "weeklyMinutes": 420,
+      "readiness": 12,
+      "progress": 18,
+      "examFund": { "targetAmount": 165, "savedAmount": 45, "currency": "USD" },
+      "domains": [
+        { "name": "Prepare the data", "weight": 25, "mastery": 15 },
+        { "name": "Model the data", "weight": 25, "mastery": 20 },
+        { "name": "Visualize and analyze the data", "weight": 25, "mastery": 10 },
+        { "name": "Deploy and maintain assets", "weight": 25, "mastery": 5 }
+      ],
+      "lessons": [
+        {
+          "id": "pl300-executive-dashboard-evidence",
+          "domain": "Visualize and analyze the data",
+          "topic": "Portfolio dashboard delivery",
+          "title": "Executive dashboard evidence pack",
+          "minutes": 45,
+          "summary": "Turn the 10X dashboard project into exam-ready evidence across Power Query, model design, DAX, visuals, security, and deployment.",
+          "learn": [
+            "The PL-300 portfolio project should prove the full path from messy source data to an executive-ready report. Capture screenshots and notes for each step, not only the final page.",
+            "Your evidence pack should include Power Query transformations, star schema choices, date and geography dimensions, DAX measures, accessibility checks, drill-through pages, row-level security, and workspace deployment notes.",
+            "A strong dashboard tells a decision story: who is served, where gaps remain, which partners perform well, what quality issues exist, and which actions leadership should take next."
+          ],
+          "example": {
+            "intro": "A practical evidence sequence:",
+            "code": "Raw programme files -> Power Query cleaning -> Star schema -> Measures -> Executive report -> RLS test -> Deployment notes",
+            "explanation": "This sequence maps directly to the materials rule for the 10X Executive Performance Dashboard."
+          },
+          "exercise": {
+            "prompt": "Create an evidence checklist for your current Power BI report.",
+            "starter": "Data cleaning evidence:\nModel evidence:\nDAX evidence:\nVisual evidence:\nSecurity/deployment evidence:",
+            "answerGuide": "A complete answer names one artifact for each PL-300 skill area and ties it to a report decision."
+          },
+          "quiz": {
+            "prompt": "Which item best proves deploy-and-maintain readiness for PL-300?",
+            "options": ["A screenshot of a chart only", "Workspace roles, refresh plan, RLS test, and deployment notes", "A list of raw columns", "A copied exam question"],
+            "answer": 1,
+            "explanation": "Deployment evidence should show how the asset is published, secured, refreshed, and maintained."
+          },
+          "reference": ["Use only official study objectives, Microsoft Learn content, and personal project notes.", "Do not import exam dumps or copied proprietary questions."],
+          "proofTask": "Attach a one-page dashboard evidence pack covering cleaning, model, measures, visuals, security, and deployment."
+        }
+      ]
+    },
+    {
+      "id": "MS-APPLIED-POWER-AUTOMATE",
+      "provider": "Microsoft",
+      "name": "Create and Manage Automated Processes Using Microsoft Power Automate",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 2,
+      "targetDate": "2026-08-30",
+      "weeklyMinutes": 90,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Flow design", "weight": 35, "mastery": 0 },
+        { "name": "Approvals and notifications", "weight": 35, "mastery": 0 },
+        { "name": "Monitoring and governance", "weight": 30, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "power-automate-partner-workflow",
+          "domain": "Flow design",
+          "topic": "Partner approval automation",
+          "title": "Power Automate partner workflow",
+          "minutes": 40,
+          "summary": "Design an approval flow that captures requests, validates fields, routes decisions, sends reminders, and keeps an audit trail.",
+          "learn": [
+            "A useful Power Automate workflow starts with a trigger, validates required fields, routes work to the right approver, and records every decision.",
+            "For CertPath, the target project is a partner workflow: request capture, approval, reminders, requester notifications, and approval history.",
+            "Lab readiness means you can explain failure handling, ownership, permissions, and how the audit log supports accountability."
+          ],
+          "example": {
+            "intro": "Partner request flow:",
+            "code": "Form submission -> Validate fields -> Approval -> Reminder timer -> Decision log -> Requester notification",
+            "explanation": "This is the smallest version of the materials rule project that still proves workflow design."
+          },
+          "exercise": {
+            "prompt": "Draft the columns needed for the partner request list.",
+            "starter": "Requester:\nPartner:\nRequest type:\nApprover:\nStatus:\nDecision date:\nAudit notes:",
+            "answerGuide": "Include status, approver, timestamps, decision outcome, reminders, and an immutable audit note."
+          },
+          "quiz": {
+            "prompt": "Why should an approval flow record history?",
+            "options": ["To avoid documenting decisions", "To support auditability and follow-up", "To make the flow slower", "To hide requester details"],
+            "answer": 1,
+            "explanation": "Approval history supports accountability, review, and process improvement."
+          },
+          "reference": ["Use the current Applied Skills detail page and Microsoft Learn preparation path before attempting the lab."],
+          "proofTask": "Build or sketch the partner workflow and upload the trigger, approval, reminder, and audit-log evidence."
+        }
+      ]
+    },
+    {
+      "id": "MS-APPLIED-COPILOT-STUDIO",
+      "provider": "Microsoft",
+      "name": "Build an Agent with Microsoft Copilot Studio",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 2,
+      "targetDate": "2026-10-15",
+      "weeklyMinutes": 90,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Agent design", "weight": 35, "mastery": 0 },
+        { "name": "Knowledge and grounding", "weight": 35, "mastery": 0 },
+        { "name": "Testing and escalation", "weight": 30, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "copilot-studio-study-coach",
+          "domain": "Knowledge and grounding",
+          "topic": "Grounded study assistant",
+          "title": "Copilot Studio study coach",
+          "minutes": 45,
+          "summary": "Build an agent pattern that answers from approved CertPath content, recommends next activities, refuses exam dumps, and records feedback.",
+          "learn": [
+            "The agent should be grounded in approved CertPath notes, official objectives, and user-created summaries.",
+            "A safe study coach answers with sources, recommends the next activity, escalates uncertainty, and refuses unsupported exam-dump requests.",
+            "Testing should cover correct answers, missing knowledge, unsafe prompts, feedback capture, and handoff behavior."
+          ],
+          "example": {
+            "intro": "Study coach flow:",
+            "code": "Learner question -> Retrieve approved source -> Answer with citation -> Recommend next lesson -> Capture feedback",
+            "explanation": "The agent is useful only when its answer can be traced to approved materials."
+          },
+          "exercise": {
+            "prompt": "Write five test prompts for the study coach.",
+            "starter": "Known topic:\nUnknown topic:\nExam-dump request:\nNext activity request:\nFeedback request:",
+            "answerGuide": "Include expected safe behavior and the source or escalation path for each prompt."
+          },
+          "quiz": {
+            "prompt": "What should the study coach do with an exam-dump request?",
+            "options": ["Provide copied questions", "Refuse and redirect to approved practice", "Ignore policy", "Disable feedback"],
+            "answer": 1,
+            "explanation": "The materials rule forbids exam dumps and copied proprietary questions."
+          },
+          "reference": ["Applied Skills content changes over time; verify the credential page before building the lab."],
+          "proofTask": "Document a grounded answer, a refusal, an escalation, and a next-activity recommendation."
+        }
+      ]
+    },
+    {
+      "id": "MS-APPLIED-AUTONOMOUS-AGENTS",
+      "provider": "Microsoft",
+      "name": "Enhance Agents with Autonomous Capabilities",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 3,
+      "targetDate": "2026-12-15",
+      "weeklyMinutes": 75,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Autonomous behavior", "weight": 35, "mastery": 0 },
+        { "name": "Controls and escalation", "weight": 35, "mastery": 0 },
+        { "name": "Monitoring", "weight": 30, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "autonomous-agent-controls",
+          "domain": "Controls and escalation",
+          "topic": "Guarded autonomy",
+          "title": "Autonomous agent control plan",
+          "minutes": 35,
+          "summary": "Plan agent autonomy with clear boundaries, approval checkpoints, source limits, and monitoring.",
+          "learn": [
+            "Autonomous capability is useful only when the agent has a bounded goal, trusted tools, and explicit rules for when to stop.",
+            "For CertPath, a safe agent can suggest study tasks, schedule reviews, and draft summaries, but should not book exams or change official content without review.",
+            "A control plan names allowed actions, blocked actions, escalation triggers, logs, and success measures."
+          ],
+          "example": {
+            "intro": "Guarded autonomy pattern:",
+            "code": "Goal -> Allowed tools -> Source check -> Draft action -> Human approval when risk is high -> Log outcome",
+            "explanation": "This keeps the agent helpful while preserving learner control."
+          },
+          "exercise": {
+            "prompt": "Define three actions your study agent may do alone and three that require approval.",
+            "starter": "Allowed alone:\nApproval required:",
+            "answerGuide": "Good answers separate low-risk study recommendations from high-impact changes or external actions."
+          },
+          "quiz": {
+            "prompt": "Which design choice makes an autonomous study agent safer?",
+            "options": ["No logs", "Unlimited actions", "Clear boundaries and escalation triggers", "Hidden sources"],
+            "answer": 2,
+            "explanation": "Boundaries, escalation, and logging are core safety controls."
+          },
+          "reference": ["Use current Microsoft Applied Skills guidance for the exact lab requirements."],
+          "proofTask": "Create a one-page autonomy control plan for the CertPath study coach."
+        }
+      ]
+    },
+    {
+      "id": "AWS-EDUCATE-COMPUTE",
+      "provider": "AWS Educate",
+      "name": "Getting Started with Compute",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 3,
+      "targetDate": "2026-09-15",
+      "weeklyMinutes": 60,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Compute foundations", "weight": 100, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "aws-compute-small-app",
+          "domain": "Compute foundations",
+          "topic": "Host a small application",
+          "title": "AWS compute portfolio lab",
+          "minutes": 35,
+          "summary": "Launch and secure a small compute workload with monitoring and cost controls.",
+          "learn": [
+            "The AWS Educate compute project proves that you can choose a compute option, deploy a small app, secure access, and monitor health.",
+            "Keep the lab small and time-boxed. The important evidence is architecture, security groups, monitoring, shutdown notes, and cost awareness.",
+            "Document every setting you would need to recreate the environment."
+          ],
+          "example": {
+            "intro": "Small app flow:",
+            "code": "Compute instance -> Security group -> App deploy -> Monitoring -> Shutdown plan",
+            "explanation": "The materials rule stresses secure hosting and cost controls."
+          },
+          "exercise": {
+            "prompt": "Write a shutdown and cost-control note for your compute lab.",
+            "starter": "Resources to stop:\nBudget guardrail:\nMonitoring check:\nEvidence captured:",
+            "answerGuide": "Include instance state, storage, budget, logs, and what screenshots prove completion."
+          },
+          "quiz": {
+            "prompt": "What should be documented before leaving a compute lab running?",
+            "options": ["Only the app name", "Shutdown steps and cost controls", "A private password in notes", "Nothing"],
+            "answer": 1,
+            "explanation": "Cost controls and shutdown steps prevent accidental spend."
+          },
+          "reference": ["Use AWS Educate labs and AWS documentation as official sources."],
+          "proofTask": "Upload architecture, security group, monitoring, and shutdown evidence."
+        }
+      ]
+    },
+    {
+      "id": "AWS-EDUCATE-NETWORKING",
+      "provider": "AWS Educate",
+      "name": "Getting Started with Networking",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 3,
+      "targetDate": "2026-09-30",
+      "weeklyMinutes": 60,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Networking foundations", "weight": 100, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "aws-secure-vpc",
+          "domain": "Networking foundations",
+          "topic": "Secure VPC design",
+          "title": "Secure VPC lab",
+          "minutes": 35,
+          "summary": "Design public and private network areas with route tables, access controls, security groups, and a diagram.",
+          "learn": [
+            "A useful networking lab separates public entry points from private workloads.",
+            "The materials rule expects public and private subnets, route tables, an internet gateway, network ACLs, security groups, and an architecture diagram.",
+            "Your explanation should make clear which traffic is allowed, which is denied, and why."
+          ],
+          "example": {
+            "intro": "VPC evidence map:",
+            "code": "VPC -> Public subnet -> Private subnet -> Route tables -> Security groups -> Diagram",
+            "explanation": "This gives enough structure to reason about access and isolation."
+          },
+          "exercise": {
+            "prompt": "Sketch the traffic rules for a small public web tier and private database tier.",
+            "starter": "Inbound web:\nOutbound web:\nInbound database:\nBlocked traffic:",
+            "answerGuide": "Allow only the required ports and explain why database access should be restricted."
+          },
+          "quiz": {
+            "prompt": "Why use a private subnet for a database?",
+            "options": ["To make it publicly searchable", "To reduce direct exposure from the internet", "To remove backups", "To avoid access controls"],
+            "answer": 1,
+            "explanation": "Private placement helps limit direct internet exposure."
+          },
+          "reference": ["Use AWS Educate labs and AWS networking documentation."],
+          "proofTask": "Create a VPC diagram with allowed and blocked traffic notes."
+        }
+      ]
+    },
+    {
+      "id": "AWS-EDUCATE-DATABASES",
+      "provider": "AWS Educate",
+      "name": "Getting Started with Databases",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 3,
+      "targetDate": "2026-10-15",
+      "weeklyMinutes": 60,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Database foundations", "weight": 100, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "aws-managed-postgresql",
+          "domain": "Database foundations",
+          "topic": "Managed PostgreSQL application",
+          "title": "Managed database lab",
+          "minutes": 35,
+          "summary": "Use a managed PostgreSQL service with restricted access, backups, restore testing, and credential handling.",
+          "learn": [
+            "A managed database lab should prove secure connectivity, backup configuration, restore awareness, and credential management.",
+            "The application does not need to be complex. The learning outcome is whether you can connect it safely and recover from expected failure.",
+            "Never place credentials directly in project notes or screenshots."
+          ],
+          "example": {
+            "intro": "Database lab path:",
+            "code": "Database -> Restricted network access -> App connection -> Backup -> Restore test -> Credential note",
+            "explanation": "This mirrors the managed PostgreSQL project from the materials rule."
+          },
+          "exercise": {
+            "prompt": "Write a database recovery checklist.",
+            "starter": "Backup setting:\nRestore test:\nConnection test:\nCredential storage:\nEvidence:",
+            "answerGuide": "Mention backup frequency, restore validation, secure secret storage, and proof screenshots without secrets."
+          },
+          "quiz": {
+            "prompt": "What is the safest way to document database credentials?",
+            "options": ["Paste the password into notes", "Describe the secret store without exposing the secret", "Share a screenshot of the password", "Disable authentication"],
+            "answer": 1,
+            "explanation": "Evidence should prove credential handling without exposing secrets."
+          },
+          "reference": ["Use AWS Educate labs and AWS database documentation."],
+          "proofTask": "Attach backup, restore-test, access-control, and secret-handling evidence."
+        }
+      ]
+    },
+    {
+      "id": "AWS-EDUCATE-CLOUD-OPERATIONS",
+      "provider": "AWS Educate",
+      "name": "Getting Started with Cloud Operations",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 3,
+      "targetDate": "2026-10-30",
+      "weeklyMinutes": 60,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Cloud operations foundations", "weight": 100, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "aws-cost-operations-runbook",
+          "domain": "Cloud operations foundations",
+          "topic": "Cost and operations runbook",
+          "title": "Cloud operations runbook",
+          "minutes": 35,
+          "summary": "Create a runbook covering cost estimates, budgets, monitoring, logs, incidents, and recovery.",
+          "learn": [
+            "Cloud operations is about keeping a workload understandable after deployment.",
+            "The materials rule expects cost estimates, a budget, monitoring, log review, and incident/recovery steps.",
+            "A strong runbook tells future-you what to check first, how to respond, and when to shut resources down."
+          ],
+          "example": {
+            "intro": "Runbook sections:",
+            "code": "Cost -> Budget -> Metrics -> Logs -> Incident steps -> Recovery steps -> Shutdown",
+            "explanation": "These sections keep operations practical and repeatable."
+          },
+          "exercise": {
+            "prompt": "Draft a first-incident checklist for a small app becoming unavailable.",
+            "starter": "Signal:\nFirst check:\nLogs:\nRollback/restart:\nCommunication:\nRecovery evidence:",
+            "answerGuide": "Include monitoring signal, recent changes, logs, restart or rollback, and final verification."
+          },
+          "quiz": {
+            "prompt": "What belongs in a cloud operations runbook?",
+            "options": ["Only marketing copy", "Cost, monitoring, logs, incident steps, and recovery", "Copied exam answers", "Untracked manual changes"],
+            "answer": 1,
+            "explanation": "A runbook captures operational checks and recovery steps."
+          },
+          "reference": ["Use AWS Educate labs and AWS documentation."],
+          "proofTask": "Create a combined AWS Educate operations runbook for the cloud portfolio project."
+        }
+      ]
+    },
+    {
+      "id": "AI-FUNDAMENTALS",
+      "provider": "IBM SkillsBuild",
+      "name": "AI Fundamentals",
+      "trackType": "free_credential",
+      "status": "Active",
+      "isPrimary": false,
+      "priority": 2,
+      "targetDate": "2026-08-15",
+      "weeklyMinutes": 120,
+      "readiness": 10,
+      "progress": 15,
+      "domains": [
+        { "name": "AI concepts and ethics", "weight": 50, "mastery": 20 },
+        { "name": "AI use cases and evaluation", "weight": 50, "mastery": 10 }
+      ],
+      "lessons": [
+        {
+          "id": "ibm-ai-use-case-assessment",
+          "domain": "AI use cases and evaluation",
+          "topic": "Responsible AI project framing",
+          "title": "AI use-case assessment",
+          "minutes": 40,
+          "summary": "Evaluate AI opportunities using value, data readiness, risk, privacy, bias, and human oversight.",
+          "learn": [
+            "The IBM AI project in the materials file asks you to assess five possible AI use cases.",
+            "Each use case should connect a business problem to users, data, expected value, risks, bias concerns, privacy concerns, and human oversight.",
+            "A strong recommendation explains why one use case should move forward and why another should wait."
+          ],
+          "example": {
+            "intro": "Use-case scoring frame:",
+            "code": "Problem -> Users -> Data -> Value -> Risk -> Bias/privacy -> Oversight -> Recommendation",
+            "explanation": "This keeps AI evaluation practical instead of hype-driven."
+          },
+          "exercise": {
+            "prompt": "Assess one AI use case for CertPath.",
+            "starter": "Problem:\nUsers:\nData:\nValue:\nRisks:\nBias/privacy:\nOversight:\nRecommendation:",
+            "answerGuide": "The answer should weigh benefit against data quality, user impact, privacy, and human control."
+          },
+          "quiz": {
+            "prompt": "Which concern must be included in an AI use-case assessment?",
+            "options": ["Only model popularity", "Privacy, bias, risk, and human oversight", "A copied vendor slogan", "No data assumptions"],
+            "answer": 1,
+            "explanation": "Responsible AI assessment includes value and risk dimensions."
+          },
+          "reference": ["Use IBM SkillsBuild AI Fundamentals and personal project notes."],
+          "proofTask": "Complete a five-use-case AI assessment table with one recommendation."
+        }
+      ]
+    },
+    {
+      "id": "IBM-PM-FUNDAMENTALS",
+      "provider": "IBM SkillsBuild",
+      "name": "Project Management Fundamentals",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 3,
+      "targetDate": "2026-09-15",
+      "weeklyMinutes": 60,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Project management foundations", "weight": 100, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "ibm-pm-certpath-mvp-plan",
+          "domain": "Project management foundations",
+          "topic": "MVP project planning",
+          "title": "CertPath MVP plan",
+          "minutes": 35,
+          "summary": "Create a simple project plan with goals, scope, backlog, milestones, schedule, risks, roles, and status reporting.",
+          "learn": [
+            "The materials file turns IBM project-management learning into a CertPath MVP planning exercise.",
+            "A good MVP plan says what will be built now, what is out of scope, who owns each part, and what risk could block progress.",
+            "Status reporting should be brief, evidence-based, and tied to milestones."
+          ],
+          "example": {
+            "intro": "MVP plan skeleton:",
+            "code": "Goal -> Scope -> Backlog -> Milestones -> Schedule -> Risks -> Roles -> Status",
+            "explanation": "This structure mirrors the required project deliverables."
+          },
+          "exercise": {
+            "prompt": "Write a one-week CertPath sprint plan.",
+            "starter": "Goal:\nTasks:\nOwner:\nRisks:\nDone means:\nStatus note:",
+            "answerGuide": "A useful plan has measurable completion criteria and one clear status update."
+          },
+          "quiz": {
+            "prompt": "What should a project status report emphasize?",
+            "options": ["Evidence, progress, blockers, and next steps", "Only a long story", "Private passwords", "Unapproved scope"],
+            "answer": 0,
+            "explanation": "Status reports should show progress, evidence, risk, and next action."
+          },
+          "reference": ["Use the current IBM SkillsBuild project-management learning plan from the official catalogue."],
+          "proofTask": "Upload a CertPath MVP plan and first status report."
+        }
+      ]
+    },
+    {
+      "id": "IBM-DESIGN-THINKING",
+      "provider": "IBM SkillsBuild",
+      "name": "Enterprise Design Thinking Practitioner",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 3,
+      "targetDate": "2026-10-15",
+      "weeklyMinutes": 60,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Enterprise design thinking foundations", "weight": 100, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "ibm-design-thinking-learner-research",
+          "domain": "Enterprise design thinking foundations",
+          "topic": "Learner research and prototyping",
+          "title": "CertPath learner research",
+          "minutes": 35,
+          "summary": "Use learner research, journey mapping, opportunity framing, prototyping, and feedback to improve CertPath.",
+          "learn": [
+            "The materials rule frames design thinking around your own study experience.",
+            "Start with pain points and assumptions, then create an as-is journey, needs statement, prioritized opportunities, prototype, feedback, and iteration log.",
+            "Design evidence should show what changed because of feedback."
+          ],
+          "example": {
+            "intro": "Design thinking path:",
+            "code": "Pain diary -> As-is journey -> Needs statement -> Opportunity -> Prototype -> Feedback -> Iteration",
+            "explanation": "The output proves learning through an improved app or study workflow."
+          },
+          "exercise": {
+            "prompt": "Write one CertPath learner need statement.",
+            "starter": "Learner needs a way to ____ because ____.",
+            "answerGuide": "A strong need statement names the learner, need, and reason without jumping straight to a feature."
+          },
+          "quiz": {
+            "prompt": "What should drive the next prototype iteration?",
+            "options": ["User feedback and observed pain points", "Random colors", "Exam dumps", "No evidence"],
+            "answer": 0,
+            "explanation": "Design thinking uses feedback to guide iteration."
+          },
+          "reference": ["Use the current IBM Enterprise Design Thinking learning plan and badge requirements."],
+          "proofTask": "Upload a journey, need statement, prototype, feedback notes, and iteration log."
+        }
+      ]
+    },
+    {
+      "id": "LFD121",
+      "provider": "Linux Foundation / OpenSSF",
+      "name": "Developing Secure Software",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 2,
+      "targetDate": "2026-11-15",
+      "weeklyMinutes": 90,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Secure software development", "weight": 100, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "lfd121-secure-certpath-review",
+          "domain": "Secure software development",
+          "topic": "Secure application review",
+          "title": "Secure CertPath review",
+          "minutes": 45,
+          "summary": "Review CertPath or ProcureFlow for threat modeling, validation, authorization, secrets, dependencies, headers, and logging.",
+          "learn": [
+            "The LFD121 materials project turns secure development into a practical review of your own app.",
+            "Evidence should include a threat model, input validation review, authentication and authorization checks, secret scan, dependency scan, security headers, logging review, fixes, and a before-and-after report.",
+            "The goal is not theatrical hacking; it is secure engineering evidence that reduces real risk."
+          ],
+          "example": {
+            "intro": "Secure review flow:",
+            "code": "Threat model -> Validation -> Auth -> Authorization tests -> Secrets -> Dependencies -> Headers -> Logging -> Fixes",
+            "explanation": "This sequence maps directly to the materials rule deliverables."
+          },
+          "exercise": {
+            "prompt": "Create a secure-development checklist for one CertPath route.",
+            "starter": "Route:\nInputs:\nAuth requirement:\nAuthorization rule:\nSecret risk:\nLog event:\nTest:",
+            "answerGuide": "Include validation, access control, test evidence, and any remediation needed."
+          },
+          "quiz": {
+            "prompt": "Which artifact best proves secure-development practice?",
+            "options": ["A before-and-after security report with tests", "A hidden password", "A copied exploit", "An unreviewed deployment"],
+            "answer": 0,
+            "explanation": "The materials rule expects review evidence, fixes, and proof that the fix worked."
+          },
+          "reference": ["Use the LFD121 course page and linked OpenSSF materials as official sources."],
+          "proofTask": "Upload a before-and-after security review for one CertPath feature."
+        }
+      ]
+    },
+    {
+      "id": "CISCO-ETHICAL-HACKER",
+      "provider": "Cisco Skills for All",
+      "name": "Ethical Hacker",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2026-12-30",
+      "weeklyMinutes": 60,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Ethical hacking foundations", "weight": 100, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "cisco-authorised-security-assessment",
+          "domain": "Ethical hacking foundations",
+          "topic": "Authorized assessment",
+          "title": "Authorized security assessment",
+          "minutes": 40,
+          "summary": "Define rules of engagement, scope, evidence, severity, remediation, and retest steps for systems you own or have permission to test.",
+          "learn": [
+            "The materials file is explicit: only assess systems you own or have explicit permission to test.",
+            "A professional assessment starts with rules of engagement, scope, asset inventory, and safe reconnaissance.",
+            "Findings should include evidence, severity, remediation, retest results, and an executive summary."
+          ],
+          "example": {
+            "intro": "Assessment workflow:",
+            "code": "Permission -> Scope -> Asset inventory -> Recon within scope -> Findings -> Remediation -> Retest -> Report",
+            "explanation": "Permission and scope are part of the technical work, not paperwork afterthoughts."
+          },
+          "exercise": {
+            "prompt": "Write rules of engagement for testing your own local app.",
+            "starter": "Authorized target:\nExcluded targets:\nAllowed methods:\nStop conditions:\nEvidence handling:",
+            "answerGuide": "Limit the work to owned assets, define excluded systems, and include safe stop conditions."
+          },
+          "quiz": {
+            "prompt": "When is it acceptable to test a third-party public system?",
+            "options": ["Whenever it is interesting", "Only with explicit written permission", "If no one notices", "When copied from a video"],
+            "answer": 1,
+            "explanation": "The materials rule requires ownership or explicit permission."
+          },
+          "reference": ["Use Cisco Skills for All course material and lab downloads only in authorized lab contexts."],
+          "proofTask": "Upload rules of engagement and a safe assessment report for an owned or isolated lab target."
+        }
+      ]
+    },
+    {
+      "id": "PMI-KICKOFF",
+      "provider": "PMI",
+      "name": "PMI KICKOFF",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2026-08-30",
+      "weeklyMinutes": 45,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Project kickoff foundations", "weight": 100, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "pmi-kickoff-certpath-plan",
+          "domain": "Project kickoff foundations",
+          "topic": "Predictive and agile kickoff",
+          "title": "CertPath kickoff plan",
+          "minutes": 30,
+          "summary": "Use PMI KICKOFF to prepare both predictive and agile planning artifacts for CertPath work.",
+          "learn": [
+            "The predictive kickoff artifact covers goal, scope, stakeholders, tasks, schedule, risks, communication, and definition of success.",
+            "The agile artifact covers product goal, user stories, prioritized backlog, sprint plan, review approach, retrospective, and definition of done.",
+            "The best learning evidence compares when each approach is useful."
+          ],
+          "example": {
+            "intro": "Two kickoff modes:",
+            "code": "Predictive: scope -> tasks -> schedule\nAgile: goal -> stories -> sprint -> review",
+            "explanation": "Both approaches can plan CertPath work; the choice depends on uncertainty and iteration needs."
+          },
+          "exercise": {
+            "prompt": "Write one predictive milestone and one agile user story for CertPath.",
+            "starter": "Predictive milestone:\nAgile user story:",
+            "answerGuide": "The milestone should be measurable; the user story should state user, need, and value."
+          },
+          "quiz": {
+            "prompt": "Which item belongs in an agile kickoff?",
+            "options": ["Prioritized backlog", "Only fixed final scope", "No review", "Hidden risks"],
+            "answer": 0,
+            "explanation": "Agile kickoff uses a product goal, stories, backlog, sprint plan, and review cycle."
+          },
+          "reference": ["Use PMI KICKOFF and PMI free online courses as official sources."],
+          "proofTask": "Upload one predictive kickoff and one agile kickoff for CertPath."
+        }
+      ]
+    },
+    {
+      "id": "HP-LIFE",
+      "provider": "HP LIFE",
+      "name": "Digital and Business Skills Certificates",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2026-12-15",
+      "weeklyMinutes": 45,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Digital business skills", "weight": 100, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "hp-life-certpath-business-model",
+          "domain": "Digital business skills",
+          "topic": "Business model and transformation",
+          "title": "CertPath business model",
+          "minutes": 35,
+          "summary": "Model CertPath as a product using user segments, problem, value proposition, channels, costs, revenue options, competition, and adoption risk.",
+          "learn": [
+            "Even if CertPath remains personal, the HP LIFE project asks you to understand its product logic.",
+            "A clear business model explains who the user is, what problem is painful, what value is offered, and what alternatives already exist.",
+            "The digital transformation proposal turns a manual process into a digital service with training, cost, benefit, risk, adoption, and KPI evidence."
+          ],
+          "example": {
+            "intro": "Business model frame:",
+            "code": "User segment -> Problem -> Value proposition -> Channels -> Costs -> Revenue options -> Alternatives -> Risks",
+            "explanation": "This keeps the idea concrete enough to evaluate."
+          },
+          "exercise": {
+            "prompt": "Draft the CertPath value proposition.",
+            "starter": "For:\nWho struggle with:\nCertPath helps by:\nUnlike:",
+            "answerGuide": "Name a real learner segment, a specific pain, the benefit, and the alternative."
+          },
+          "quiz": {
+            "prompt": "What makes a digital transformation proposal credible?",
+            "options": ["Clear current process, benefits, risks, adoption plan, and KPIs", "Only a logo", "No user training", "No cost discussion"],
+            "answer": 0,
+            "explanation": "Credible proposals explain process change, cost, benefit, risk, adoption, and measurement."
+          },
+          "reference": ["Use HP LIFE digital business skills and course catalogue as official sources."],
+          "proofTask": "Upload a CertPath business model and one digital transformation proposal."
+        }
+      ]
+    },
+    {
+      "id": "ADBI-DPI",
+      "provider": "ADBI E-Learning",
+      "name": "Digital Public Infrastructure Course",
+      "trackType": "free_credential",
+      "status": "Planned",
+      "isPrimary": false,
+      "priority": 4,
+      "targetDate": "2027-01-15",
+      "weeklyMinutes": 60,
+      "readiness": 0,
+      "progress": 0,
+      "domains": [
+        { "name": "Digital public infrastructure", "weight": 100, "mastery": 0 }
+      ],
+      "lessons": [
+        {
+          "id": "adbi-dpi-msme-concept",
+          "domain": "Digital public infrastructure",
+          "topic": "Inclusive digital service design",
+          "title": "Uganda MSME digital public infrastructure concept",
+          "minutes": 45,
+          "summary": "Design an inclusive DPI concept connecting identity, payments, consent, registry, data exchange, credit referrals, and services.",
+          "learn": [
+            "The materials project asks for a Uganda MSME DPI concept that connects public and private services through trusted digital rails.",
+            "Strong DPI thinking covers public value, governance, inclusion, privacy, cybersecurity, interoperability, sustainability, and risk.",
+            "The service blueprint must support web, mobile, USSD, assisted channels, accessibility, grievance handling, and monitoring indicators."
+          ],
+          "example": {
+            "intro": "DPI concept map:",
+            "code": "Identity -> Consent -> Registry -> Data exchange -> Payments -> Credit referrals -> Service channels",
+            "explanation": "This shows how users, institutions, and infrastructure connect."
+          },
+          "exercise": {
+            "prompt": "Write one inclusive service blueprint row for an MSME applying for device financing.",
+            "starter": "Channel:\nUser action:\nBack-office action:\nData exchanged:\nConsent:\nSupport/grievance:\nMetric:",
+            "answerGuide": "Include access channel, consent, data flow, support path, and measurable indicator."
+          },
+          "quiz": {
+            "prompt": "Which topic is essential in a DPI concept?",
+            "options": ["Interoperability and governance", "Only color choices", "No privacy model", "No support channel"],
+            "answer": 0,
+            "explanation": "DPI requires governance, interoperability, inclusion, privacy, and security."
+          },
+          "reference": ["Use ADBI E-Learning and the current DPI course catalogue as official sources."],
+          "proofTask": "Upload a DPI concept note and inclusive service blueprint."
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "certificationId": "MS-APPLIED-POWER-AUTOMATE",
+      "title": "Power Automate Partner Workflow",
+      "businessProblem": "Partner requests need validation, approval, reminders, notifications, and audit history.",
+      "skills": ["Triggers", "Approvals", "Notifications", "Audit logging", "Workflow monitoring"],
+      "deliverables": ["Request form", "Approval flow", "Reminder rule", "Decision log", "Requester notification", "Workflow evidence"],
+      "nextMilestone": "Draft the request schema and approval states.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "MS-APPLIED-COPILOT-STUDIO",
+      "title": "Copilot Studio Study Coach",
+      "businessProblem": "Learners need a grounded assistant that answers from approved CertPath content and refuses unsupported exam-dump requests.",
+      "skills": ["Agent design", "Knowledge grounding", "Source references", "Escalation", "Feedback capture"],
+      "deliverables": ["Knowledge source list", "Conversation topics", "Refusal test", "Next-activity recommendation", "Feedback log"],
+      "nextMilestone": "Define the allowed source set and refusal tests.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "AWS-EDUCATE-COMPUTE",
+      "title": "AWS Educate Combined Cloud Portfolio",
+      "businessProblem": "A small application needs secure compute, networking, database, monitoring, and cost controls.",
+      "skills": ["Compute", "Networking", "Managed databases", "Monitoring", "Cost control"],
+      "deliverables": ["Architecture diagram", "Compute evidence", "VPC evidence", "Database evidence", "Operations runbook"],
+      "nextMilestone": "Create a one-page architecture for the combined AWS lab.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "IBM-PM-FUNDAMENTALS",
+      "title": "CertPath MVP Plan",
+      "businessProblem": "CertPath needs a disciplined MVP plan with scope, milestones, risks, roles, and status reporting.",
+      "skills": ["Scope definition", "Backlog planning", "Milestone planning", "Risk management", "Status reporting"],
+      "deliverables": ["Goals", "Scope", "Backlog", "Milestones", "Schedule", "Risks", "Roles", "Status report"],
+      "nextMilestone": "Write the first MVP milestone and risk log.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "IBM-DESIGN-THINKING",
+      "title": "CertPath Learner Research",
+      "businessProblem": "The app needs learner-centered improvements based on observed pain points and feedback.",
+      "skills": ["Research framing", "Journey mapping", "Needs statements", "Prototyping", "Feedback synthesis"],
+      "deliverables": ["Research questions", "Pain-point diary", "As-is journey", "Needs statement", "Prototype", "Feedback notes", "Iteration log"],
+      "nextMilestone": "Write three learner research questions.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "LFD121",
+      "title": "Secure CertPath or ProcureFlow",
+      "businessProblem": "The app needs a repeatable secure-development review and before-and-after remediation evidence.",
+      "skills": ["Threat modeling", "Input validation", "Authorization testing", "Secrets scanning", "Dependency scanning", "Security reporting"],
+      "deliverables": ["Threat model", "Validation review", "Authorization tests", "Secret scan", "Dependency scan", "Fix log", "Before-and-after report"],
+      "nextMilestone": "Select one route and write its threat model.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "CISCO-ETHICAL-HACKER",
+      "title": "Authorised Security Assessment of Your Own App",
+      "businessProblem": "Security practice must stay inside owned or explicitly authorized systems with clear scope and evidence.",
+      "skills": ["Rules of engagement", "Asset inventory", "Safe reconnaissance", "Finding documentation", "Remediation", "Retesting"],
+      "deliverables": ["Rules of engagement", "Scope", "Asset inventory", "Findings", "Evidence", "Severity", "Remediation", "Retest results", "Executive report"],
+      "nextMilestone": "Write the rules of engagement for a local lab.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "PMI-KICKOFF",
+      "title": "Predictive and Agile CertPath Kickoff",
+      "businessProblem": "CertPath needs lightweight project-start artifacts for both predictable and iterative work.",
+      "skills": ["Predictive planning", "Agile planning", "Risk planning", "Communication planning", "Definition of done"],
+      "deliverables": ["Predictive kickoff", "Agile kickoff", "Backlog", "Sprint plan", "Risk list", "Success definition"],
+      "nextMilestone": "Create one predictive milestone and three user stories.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "HP-LIFE",
+      "title": "CertPath Business Model",
+      "businessProblem": "CertPath needs a product-style view of user value, alternatives, adoption risk, and operating model.",
+      "skills": ["Business model design", "Value proposition", "Digital transformation", "KPI selection", "Adoption planning"],
+      "deliverables": ["User segment", "Problem", "Value proposition", "Channels", "Cost structure", "Revenue options", "Alternatives", "Adoption risks"],
+      "nextMilestone": "Draft the value proposition and user segment.",
+      "status": "Planned"
+    },
+    {
+      "certificationId": "ADBI-DPI",
+      "title": "Uganda MSME Digital Public Infrastructure Concept",
+      "businessProblem": "MSMEs need inclusive digital rails for identity, consent, payments, registries, data exchange, and service access.",
+      "skills": ["DPI architecture", "Governance", "Inclusion", "Privacy", "Interoperability", "Service blueprinting"],
+      "deliverables": ["Stakeholders", "Public value", "Architecture diagram", "Governance", "Inclusion", "Privacy", "Cybersecurity", "Interoperability", "Risk assessment"],
+      "nextMilestone": "Sketch the identity, consent, data exchange, and service channels.",
+      "status": "Planned"
+    }
+  ],
+  "resources": [
+    {
+      "certificationId": "MS-APPLIED-POWER-AUTOMATE",
+      "title": "Microsoft Applied Skills catalogue",
+      "resourceType": "official_catalogue",
+      "provider": "Microsoft",
+      "officialUrl": "https://learn.microsoft.com/en-us/credentials/applied-skills/",
+      "trustLevel": "official",
+      "copyrightStatus": "link_and_personal_notes_only",
+      "status": "Not started"
+    },
+    {
+      "certificationId": "MS-APPLIED-COPILOT-STUDIO",
+      "title": "Microsoft Applied Skills catalogue",
+      "resourceType": "official_catalogue",
+      "provider": "Microsoft",
+      "officialUrl": "https://learn.microsoft.com/en-us/credentials/applied-skills/",
+      "trustLevel": "official",
+      "copyrightStatus": "link_and_personal_notes_only",
+      "status": "Not started"
+    },
+    {
+      "certificationId": "MS-APPLIED-AUTONOMOUS-AGENTS",
+      "title": "Microsoft Applied Skills catalogue",
+      "resourceType": "official_catalogue",
+      "provider": "Microsoft",
+      "officialUrl": "https://learn.microsoft.com/en-us/credentials/applied-skills/",
+      "trustLevel": "official",
+      "copyrightStatus": "link_and_personal_notes_only",
+      "status": "Not started"
+    },
+    {
+      "certificationId": "AWS-EDUCATE-COMPUTE",
+      "title": "AWS Educate",
+      "resourceType": "official_catalogue",
+      "provider": "AWS Educate",
+      "officialUrl": "https://aws.amazon.com/education/awseducate/",
+      "trustLevel": "official",
+      "copyrightStatus": "link_and_personal_notes_only",
+      "status": "Not started"
+    },
+    {
+      "certificationId": "AWS-EDUCATE-NETWORKING",
+      "title": "AWS Documentation",
+      "resourceType": "official_documentation",
+      "provider": "AWS",
+      "officialUrl": "https://docs.aws.amazon.com/",
+      "trustLevel": "official",
+      "copyrightStatus": "link_and_personal_notes_only",
+      "status": "Not started"
+    },
+    {
+      "certificationId": "IBM-PM-FUNDAMENTALS",
+      "title": "IBM SkillsBuild learning catalogue",
+      "resourceType": "official_catalogue",
+      "provider": "IBM SkillsBuild",
+      "officialUrl": "https://skillsbuild.org/learning-catalog/university-catalog",
+      "trustLevel": "official",
+      "copyrightStatus": "link_and_personal_notes_only",
+      "status": "Not started"
+    },
+    {
+      "certificationId": "IBM-DESIGN-THINKING",
+      "title": "IBM SkillsBuild learning catalogue",
+      "resourceType": "official_catalogue",
+      "provider": "IBM SkillsBuild",
+      "officialUrl": "https://skillsbuild.org/learning-catalog/university-catalog",
+      "trustLevel": "official",
+      "copyrightStatus": "link_and_personal_notes_only",
+      "status": "Not started"
+    },
+    {
+      "certificationId": "LFD121",
+      "title": "Linux Foundation LFD121 course page",
+      "resourceType": "official_course",
+      "provider": "Linux Foundation",
+      "officialUrl": "https://training.linuxfoundation.org/training/developing-secure-software-lfd121/",
+      "trustLevel": "official",
+      "copyrightStatus": "link_and_personal_notes_only",
+      "status": "Not started"
+    },
+    {
+      "certificationId": "CISCO-ETHICAL-HACKER",
+      "title": "Cisco Skills for All Ethical Hacker",
+      "resourceType": "official_course",
+      "provider": "Cisco Skills for All",
+      "officialUrl": "https://skillsforall.com/course/ethical-hacker",
+      "trustLevel": "official",
+      "copyrightStatus": "link_and_personal_notes_only",
+      "status": "Not started"
+    },
+    {
+      "certificationId": "PMI-KICKOFF",
+      "title": "PMI KICKOFF",
+      "resourceType": "official_course",
+      "provider": "PMI",
+      "officialUrl": "https://www.pmi.org/kickoff",
+      "trustLevel": "official",
+      "copyrightStatus": "link_and_personal_notes_only",
+      "status": "Not started"
+    },
+    {
+      "certificationId": "HP-LIFE",
+      "title": "HP LIFE",
+      "resourceType": "official_catalogue",
+      "provider": "HP LIFE",
+      "officialUrl": "https://www.life-global.org/",
+      "trustLevel": "official",
+      "copyrightStatus": "link_and_personal_notes_only",
+      "status": "Not started"
+    },
+    {
+      "certificationId": "ADBI-DPI",
+      "title": "ADBI E-Learning",
+      "resourceType": "official_catalogue",
+      "provider": "ADBI",
+      "officialUrl": "https://elearning-adbi.org/",
+      "trustLevel": "official",
+      "copyrightStatus": "link_and_personal_notes_only",
+      "status": "Not started"
+    }
+  ]
+}
