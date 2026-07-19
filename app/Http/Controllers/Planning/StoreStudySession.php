@@ -54,6 +54,7 @@ class StoreStudySession extends Controller
         $scheduledEnd = isset($data['scheduled_end'])
             ? Carbon::parse($data['scheduled_end'])
             : $scheduledStart->copy()->addMinutes((int) $data['planned_minutes']);
+        $targetDescription = $data['target_description'] ?? null;
 
         $session = $request->user()->studySessions()->create([
             'certification_id' => $certification->id,
@@ -64,7 +65,7 @@ class StoreStudySession extends Controller
             'scheduled_start' => $scheduledStart,
             'scheduled_end' => $scheduledEnd,
             'planned_minutes' => $data['planned_minutes'],
-            'target_description' => $data['target_description'] ?? null,
+            'target_description' => $targetDescription,
             'priority' => $data['priority'] ?? 3,
             'notes' => $data['notes'] ?? null,
         ]);
@@ -73,7 +74,7 @@ class StoreStudySession extends Controller
             'task_type' => strtolower($data['activity_type']),
             'lesson_id' => $lessonId,
             'topic_id' => $topicId,
-            'title' => $data['target_description'] ?: $this->defaultTaskTitle($data['activity_type']),
+            'title' => $targetDescription ?: $this->defaultTaskTitle($data['activity_type']),
             'target_value' => $data['activity_type'] === 'quiz' ? 10 : 1,
             'position' => 1,
         ]);

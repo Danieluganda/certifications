@@ -55,6 +55,32 @@ class StudySessionWorkflowTest extends TestCase
         ]);
     }
 
+    public function test_user_can_schedule_a_study_session_without_optional_target_description(): void
+    {
+        $this->seed();
+
+        $user = User::query()->where('email', 'learner@certpath.test')->firstOrFail();
+        $certification = $user->certifications()->where('slug', 'pl-300')->firstOrFail();
+
+        $this->actingAs($user)
+            ->post(route('study-sessions.store'), [
+                'certification_id' => $certification->id,
+                'activity_type' => 'review',
+                'scheduled_for' => '2026-07-20 18:00:00',
+                'planned_minutes' => 30,
+            ])
+            ->assertRedirect(route('dashboard.page', ['dashboardPage' => 'planner']));
+
+        $session = $user->studySessions()->latest('id')->firstOrFail();
+
+        $this->assertNull($session->target_description);
+        $this->assertDatabaseHas('session_tasks', [
+            'study_session_id' => $session->id,
+            'task_type' => 'review',
+            'title' => 'Review weak topics and notes',
+        ]);
+    }
+
     public function test_user_can_complete_their_study_session(): void
     {
         $this->seed();
