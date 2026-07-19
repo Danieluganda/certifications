@@ -131,16 +131,28 @@
       </section>
 
       <section id="lesson" class="content workspace-grid">
-        <aside class="panel">
-          <h3>Lessons</h3>
-          <div class="lesson-list">
-            @foreach ($certification->lessons as $lesson)
-              <a class="lesson-link {{ $selectedLesson?->id === $lesson->id ? 'active' : '' }}" href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'lesson' => $lesson->external_id]) }}#lesson">
-                <strong>{{ $lesson->title }}</strong>
-                <span>{{ $lesson->domain?->name }} - {{ $lesson->estimated_minutes }} min</span>
-              </a>
+        <aside class="panel doc-nav">
+          <h3>{{ $certification->exam_code }}</h3>
+          <ul class="doc-tree">
+            <li><a href="#overview">Overview</a></li>
+            @foreach ($certification->domains as $domain)
+              <li>
+                <strong>{{ $domain->name }}</strong>
+                <ul>
+                  @foreach ($certification->lessons->where('domain_id', $domain->id) as $lesson)
+                    <li>
+                      <a class="{{ $selectedLesson?->id === $lesson->id ? 'active' : '' }}" href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'lesson' => $lesson->external_id]) }}#lesson">
+                        {{ $lesson->title }}
+                      </a>
+                    </li>
+                  @endforeach
+                </ul>
+              </li>
             @endforeach
-          </div>
+            <li><a href="#practice">Practice</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#resources">Resources</a></li>
+          </ul>
         </aside>
 
         <article class="panel lesson-panel">
@@ -148,26 +160,35 @@
             <p class="eyebrow">{{ $selectedLesson->domain?->name }} / {{ $selectedLesson->topic_name }}</p>
             <h2>{{ $selectedLesson->title }}</h2>
             <p>{{ $selectedLesson->summary }}</p>
+            <div class="lesson-meta">
+              <span class="badge free">{{ $selectedLesson->estimated_minutes }} min</span>
+              <span class="badge paid">{{ $completion ? 'Completed' : 'In progress' }}</span>
+            </div>
 
             <div class="study-tabs">
-              <section>
-                <h3>Learn</h3>
+              <section id="objectives" class="callout">
+                <h3>Learning objectives</h3>
+                <p>{{ $selectedLesson->proof_task }}</p>
+              </section>
+
+              <section id="concepts">
+                <h3>Key concepts</h3>
                 @foreach (preg_split("/\n\n+/", $selectedLesson->body_markdown) as $paragraph)
                   <p>{{ $paragraph }}</p>
                 @endforeach
               </section>
 
-              <section>
+              <section id="example">
                 <h3>Example</h3>
                 <pre>{{ $selectedLesson->example_markdown }}</pre>
               </section>
 
-              <section>
+              <section id="exercise">
                 <h3>Try it</h3>
                 <pre>{{ $selectedLesson->exercise_markdown }}</pre>
               </section>
 
-              <section>
+              <section id="knowledge-check">
                 <h3>Quick quiz</h3>
                 @php($quiz = $selectedLesson->quiz_payload ?? [])
                 <p>{{ $quiz['prompt'] ?? 'No quiz yet.' }}</p>
@@ -181,7 +202,7 @@
                 @endif
               </section>
 
-              <section>
+              <section id="reference">
                 <h3>Reference</h3>
                 <ul>
                   @foreach (($selectedLesson->reference_payload ?? []) as $reference)
@@ -190,12 +211,12 @@
                 </ul>
               </section>
 
-              <section class="callout">
+              <section id="proof-task" class="callout">
                 <h3>Proof task</h3>
                 <p>{{ $selectedLesson->proof_task }}</p>
               </section>
 
-              <section>
+              <section id="completion">
                 <h3>{{ $completion ? 'Completion saved' : 'Mark complete' }}</h3>
                 @if ($completion)
                   <p class="muted">
@@ -265,6 +286,20 @@
             <p>No lesson exists for this certification yet.</p>
           @endif
         </article>
+
+        <aside class="panel on-page">
+          <h3>On this page</h3>
+          <ol>
+            <li><a href="#objectives">Learning objectives</a></li>
+            <li><a href="#concepts">Key concepts</a></li>
+            <li><a href="#example">Example</a></li>
+            <li><a href="#exercise">Exercise</a></li>
+            <li><a href="#knowledge-check">Knowledge check</a></li>
+            <li><a href="#reference">Reference</a></li>
+            <li><a href="#proof-task">Proof task</a></li>
+            <li><a href="#completion">Completion</a></li>
+          </ol>
+        </aside>
       </section>
 
       <section id="practice" class="content practice-grid">
@@ -450,11 +485,11 @@
           <h2>Exam savings</h2>
           @php($target = ($certification->exam_target_amount_minor ?? 0) / 100)
           @php($saved = ($certification->exam_saved_amount_minor ?? 0) / 100)
-          <p class="metric-row">
-            <span><strong>{{ $certification->exam_currency ?? 'USD' }} {{ number_format($saved, 2) }}</strong><span>Saved</span></span>
-            <span><strong>{{ $certification->exam_currency ?? 'USD' }} {{ number_format($target, 2) }}</strong><span>Target</span></span>
-            <span><strong>{{ $target > 0 ? (int) min(100, ($saved / $target) * 100) : 0 }}%</strong><span>Funded</span></span>
-          </p>
+          <div class="metric-row">
+            <div><strong>{{ $certification->exam_currency ?? 'USD' }} {{ number_format($saved, 2) }}</strong><span>Saved</span></div>
+            <div><strong>{{ $certification->exam_currency ?? 'USD' }} {{ number_format($target, 2) }}</strong><span>Target</span></div>
+            <div><strong>{{ $target > 0 ? (int) min(100, ($saved / $target) * 100) : 0 }}%</strong><span>Funded</span></div>
+          </div>
           <form method="POST" action="{{ route('savings.store', ['certificationSlug' => $certification->slug]) }}" class="study-form">
             @csrf
             <label>Amount <input name="amount" type="number" step="0.01" min="0.01" required></label>

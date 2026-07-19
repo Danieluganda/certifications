@@ -6,14 +6,13 @@
         <p>Excelling at certifications made easy as 1-2-3.</p>
       </div>
       <nav class="main-nav" aria-label="Main navigation">
-        <a href="#today">Today</a>
-        <a href="#catalogue">Catalogue</a>
-        <a href="#planner">Planner</a>
-        <a href="#roadmap">Roadmap</a>
-        <a href="#workspace">Workspace</a>
+        <a href="#learn">Learn</a>
+        <a href="#catalogue">Certifications</a>
+        <a href="#planner">Practice</a>
         <a href="#projects">Projects</a>
-        <a href="#resources">Resources</a>
-        <a href="#progress">Progress</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#today">Today</a>
+        <a href="#workspace">Workspace</a>
         <a href="{{ route('exports.learning-backup') }}">Backup</a>
       </nav>
     </aside>
@@ -44,10 +43,25 @@
         <div class="content form-error" role="alert">{{ $errors->first() }}</div>
       @endif
 
+      <section id="learn" class="content">
+        <article class="panel hero-panel portal-hero">
+          <p class="eyebrow">Welcome back, {{ $user?->name ?? 'Daniel' }}</p>
+          <h2>What do you want to master today?</h2>
+          <p>Search your certifications, lessons, topics, practice attempts, projects, and trusted resources from one learning portal.</p>
+          <form class="portal-search" role="search" method="GET" action="{{ route('dashboard') }}">
+            <label class="wide-field" for="portal-search">
+              <span class="sr-only">Search CertPath</span>
+              <input id="portal-search" name="search" type="search" placeholder="Search certifications, lessons, questions, projects..." value="{{ request('search') }}">
+            </label>
+            <button class="primary-action" type="submit">Search</button>
+          </form>
+        </article>
+      </section>
+
       <section id="today" class="content grid dashboard-grid">
-        <article class="panel hero-panel">
+        <article class="panel hero-panel continue-card">
           <span class="badge paid">Paid professional</span>
-          <h2>{{ $primary?->exam_code }}: {{ $primary?->name }}</h2>
+          <h2>Continue {{ $primary?->exam_code }}: {{ $primary?->name }}</h2>
           <p>{{ $primary?->provider?->name }} certification workspace is active. Keep the paid track focused while using free credentials for supporting momentum.</p>
           <div class="metric-row">
             <div>
@@ -63,6 +77,9 @@
               <span>Lessons</span>
             </div>
           </div>
+          @if ($primary)
+            <p><a class="primary-action" href="{{ route('certifications.show', ['certificationSlug' => $primary->slug]) }}">Continue learning</a></p>
+          @endif
         </article>
 
         <aside class="panel">
@@ -77,6 +94,33 @@
             <p class="muted">No active free credential yet.</p>
           @endforelse
         </aside>
+      </section>
+
+      <section class="content">
+        <div class="section-heading">
+          <h2>Explore CertPath</h2>
+          <p>Choose the lane that matches the next outcome you want.</p>
+        </div>
+        <div class="cards-grid">
+          <article class="card explore-card paid">
+            <span class="badge paid">Paid certifications</span>
+            <h3>Prepare for major exams</h3>
+            <p class="muted">Keep one professional certification primary and drive it with lessons, mocks, projects, and readiness checks.</p>
+            <a href="#roadmap">Open paid lane</a>
+          </article>
+          <article class="card explore-card free">
+            <span class="badge free">Free credentials</span>
+            <h3>Earn continuous badges</h3>
+            <p class="muted">Run up to two active free credentials beside the paid track for steady supporting momentum.</p>
+            <a href="#roadmap">Open free lane</a>
+          </article>
+          <article class="card explore-card">
+            <span class="badge free">Specialisations</span>
+            <h3>Build supporting skills</h3>
+            <p class="muted">Use projects, resources, flashcards, and notes to connect GIS, data, knowledge systems, and analytics practice.</p>
+            <a href="#projects">Open projects</a>
+          </article>
+        </div>
       </section>
 
       <section id="catalogue" class="content">
