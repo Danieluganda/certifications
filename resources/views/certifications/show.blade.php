@@ -10,6 +10,7 @@
         <a href="#overview">Overview</a>
         <a href="#curriculum">Curriculum</a>
         <a href="#lesson">Lesson</a>
+        <a href="#flashcards">Flashcards</a>
         <a href="#projects">Projects</a>
         <a href="#resources">Resources</a>
       </nav>
@@ -260,6 +261,81 @@
             <p>No lesson exists for this certification yet.</p>
           @endif
         </article>
+      </section>
+
+      <section id="flashcards" class="content flashcard-grid">
+        <div>
+          <div class="section-heading">
+            <h2>Flashcards</h2>
+            <p>Simple spaced repetition for topic recall.</p>
+          </div>
+          <form method="POST" action="{{ route('flashcards.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
+            @csrf
+            <label for="flashcard-topic">
+              Topic
+              <select id="flashcard-topic" name="topic_id" required>
+                @foreach ($certification->topics as $topic)
+                  <option value="{{ $topic->id }}">{{ $topic->domain?->name }} / {{ $topic->name }}</option>
+                @endforeach
+              </select>
+            </label>
+            <label for="flashcard-front">
+              Front
+              <textarea id="flashcard-front" name="front" rows="4" required>{{ old('front') }}</textarea>
+            </label>
+            <label for="flashcard-back">
+              Back
+              <textarea id="flashcard-back" name="back" rows="4" required>{{ old('back') }}</textarea>
+            </label>
+            <label for="flashcard-source-type">
+              Source
+              <select id="flashcard-source-type" name="source_type" required>
+                <option value="Manual">Manual</option>
+                <option value="lesson">Lesson</option>
+                <option value="AI">AI</option>
+              </select>
+            </label>
+            <label for="flashcard-source-reference">
+              Source reference
+              <input id="flashcard-source-reference" name="source_reference" type="text" value="{{ old('source_reference') }}">
+            </label>
+            <button type="submit" class="primary-action">Create flashcard</button>
+          </form>
+        </div>
+
+        <aside class="panel">
+          <h3>Due review</h3>
+          <div class="flashcard-list">
+            @forelse ($flashcards as $flashcard)
+              <article class="flashcard-item">
+                <p class="eyebrow">{{ $flashcard->topic?->domain?->name }} / {{ $flashcard->topic?->name }}</p>
+                <strong>{{ $flashcard->front }}</strong>
+                <details>
+                  <summary>Show answer</summary>
+                  <p>{{ $flashcard->back }}</p>
+                </details>
+                <form method="POST" action="{{ route('flashcards.reviews.store', ['flashcard' => $flashcard->id]) }}" class="review-form">
+                  @csrf
+                  <label>
+                    Confidence
+                    <select name="confidence">
+                      <option value="">-</option>
+                      @for ($level = 1; $level <= 5; $level++)
+                        <option value="{{ $level }}">{{ $level }}</option>
+                      @endfor
+                    </select>
+                  </label>
+                  <button type="submit" name="rating" value="again" class="secondary-action">Again</button>
+                  <button type="submit" name="rating" value="hard" class="secondary-action">Hard</button>
+                  <button type="submit" name="rating" value="good" class="secondary-action">Good</button>
+                  <button type="submit" name="rating" value="easy" class="secondary-action">Easy</button>
+                </form>
+              </article>
+            @empty
+              <p class="muted">No flashcards are due.</p>
+            @endforelse
+          </div>
+        </aside>
       </section>
 
       <section id="projects" class="content">

@@ -3,6 +3,7 @@
 namespace App\Domains\Curriculum\Models;
 
 use App\Domains\Certifications\Models\Certification;
+use App\Domains\Flashcards\Models\Flashcard;
 use App\Domains\Notes\Models\Note;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,5 +39,10 @@ class Topic extends Model
     public function notes(): MorphMany
     {
         return $this->morphMany(Note::class, 'noteable');
+    }
+
+    public function flashcards(): HasMany
+    {
+        return $this->hasMany(Flashcard::class);
     }
 }

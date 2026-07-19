@@ -24,7 +24,8 @@ class ShowCertification extends Controller
             'lessons.domain',
             'lessons.topic',
             'projects',
-            'resources',
+            'resources.domain',
+            'resources.topic',
         ]);
 
         $selectedLesson = $certification->lessons
@@ -45,6 +46,17 @@ class ShowCertification extends Controller
             'certification' => $certification,
             'selectedLesson' => $selectedLesson,
             'completion' => $completion,
+            'flashcards' => $certification->topics()
+                ->with(['domain', 'flashcards' => fn ($query) => $query
+                    ->where('user_id', $request->user()->id)
+                    ->where('status', 'Active')
+                    ->where(function ($query): void {
+                        $query->whereNull('next_review_at')->orWhere('next_review_at', '<=', now());
+                    })
+                    ->orderBy('next_review_at')])
+                ->get()
+                ->flatMap->flashcards
+                ->take(8),
             'notes' => $notes,
         ]);
     }

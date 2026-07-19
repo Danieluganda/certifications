@@ -10,7 +10,7 @@ The application is being built as a Laravel modular monolith using Blade for the
 
 | Area | Source | Status | Notes |
 |---|---|---|---|
-| Product scope | PRD.md | Partial | Dashboard, roadmap, workspace, curriculum, study planner, projects, resource library, auth, certification creation, primary paid activation, free credential activation, domain/topic creation, lesson completion, and notes are started. Practice attempts, flashcards, budgeting, credentials, export remain. |
+| Product scope | PRD.md | Partial | Dashboard, roadmap, workspace, curriculum, study planner, projects, resource library, flashcards, auth, certification creation, primary paid activation, free credential activation, domain/topic creation, lesson completion, and notes are started. Practice attempts, budgeting, credentials, export remain. |
 | Architecture | ARCHITECTURE.md | Partial | Domain folders and Eloquent models exist. More action classes, policies, jobs, and ADRs are needed. |
 | Schema | SCHEMA.md | Partial | Initial relational tables exist. Topics, attempts, flashcards, labs, budgets, credentials, readiness snapshots, audit logs remain. |
 | Rules | RULES.md | Partial | Seed import, tests, and domain models exist. Critical activation rules are being moved into action classes. |
@@ -21,13 +21,12 @@ The application is being built as a Laravel modular monolith using Blade for the
 
 1. Question bank with versioned questions.
 2. Topic quizzes and basic mock exams.
-3. Flashcards and spaced repetition service.
-4. Readiness calculator with guard conditions.
-5. Budgeting and credential vault.
-6. Labs, evidence upload, and credential evidence.
-7. Export and backup workflow.
-8. Audit logging and rate limiting.
-9. PostgreSQL production verification.
+3. Readiness calculator with guard conditions.
+4. Budgeting and credential vault.
+5. Labs, evidence upload, and credential evidence.
+6. Export and backup workflow.
+7. Audit logging and rate limiting.
+8. PostgreSQL production verification.
 
 ## Definition of Done for Current Foundation Slice
 
@@ -50,12 +49,12 @@ Completed from MVP acceptance criteria:
 - Create domains and ordered topics.
 - Schedule and complete study sessions.
 - Add resources from the UI with source, trust, copyright, status, rating, and optional domain/topic attachment.
+- Create and review flashcards with simple spaced repetition.
 - Add lesson notes.
 - Complete lessons with confidence and server-side progress updates.
 
 Remaining from MVP acceptance criteria:
 
-- Create and review flashcards.
 - Take topic quizzes and timed mock exams.
 - View weak domains and mastery.
 - Track exam savings.

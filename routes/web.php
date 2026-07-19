@@ -10,6 +10,8 @@ use App\Http\Controllers\Certifications\StoreCertification;
 use App\Http\Controllers\Curriculum\StoreDomain;
 use App\Http\Controllers\Curriculum\StoreTopic;
 use App\Http\Controllers\Dashboard\ShowDashboard;
+use App\Http\Controllers\Flashcards\ReviewFlashcardController;
+use App\Http\Controllers\Flashcards\StoreFlashcard;
 use App\Http\Controllers\Planning\CompleteStudySession;
 use App\Http\Controllers\Planning\StoreStudySession;
 use App\Http\Controllers\Resources\StoreResource;
@@ -33,6 +35,8 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/certifications/{certificationSlug}/domains', StoreDomain::class)->name('domains.store');
     Route::post('/certifications/{certificationSlug}/topics', StoreTopic::class)->name('topics.store');
     Route::post('/certifications/{certificationSlug}/resources', StoreResource::class)->name('resources.store');
+    Route::post('/certifications/{certificationSlug}/flashcards', StoreFlashcard::class)->name('flashcards.store');
+    Route::post('/flashcards/{flashcard}/reviews', ReviewFlashcardController::class)->name('flashcards.reviews.store');
     Route::post('/certifications/{certificationSlug}/lessons/{lesson}/completion', StoreLessonCompletion::class)->name('lessons.completions.store');
     Route::post('/certifications/{certificationSlug}/lessons/{lesson}/notes', StoreLessonNote::class)->name('lessons.notes.store');
     Route::post('/study-sessions', StoreStudySession::class)->name('study-sessions.store');
