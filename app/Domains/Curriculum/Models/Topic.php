@@ -9,34 +9,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class Lesson extends Model
+class Topic extends Model
 {
     protected $fillable = [
         'certification_id',
         'domain_id',
-        'topic_id',
-        'external_id',
-        'topic_name',
-        'title',
-        'summary',
-        'body_markdown',
-        'example_markdown',
-        'exercise_markdown',
-        'quiz_payload',
-        'reference_payload',
-        'proof_task',
-        'estimated_minutes',
+        'name',
+        'prerequisites',
         'position',
-        'status',
+        'mastery_percent',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'quiz_payload' => 'array',
-            'reference_payload' => 'array',
-        ];
-    }
 
     public function certification(): BelongsTo
     {
@@ -48,14 +30,9 @@ class Lesson extends Model
         return $this->belongsTo(CertificationDomain::class, 'domain_id');
     }
 
-    public function topic(): BelongsTo
+    public function lessons(): HasMany
     {
-        return $this->belongsTo(Topic::class);
-    }
-
-    public function completions(): HasMany
-    {
-        return $this->hasMany(LessonCompletion::class);
+        return $this->hasMany(Lesson::class);
     }
 
     public function notes(): MorphMany

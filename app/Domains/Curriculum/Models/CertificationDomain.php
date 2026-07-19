@@ -26,4 +26,9 @@ class CertificationDomain extends Model
     {
         return $this->hasMany(Lesson::class, 'domain_id');
     }
+
+    public function topics(): HasMany
+    {
+        return $this->hasMany(Topic::class, 'domain_id');
+    }
 }

@@ -7,6 +7,8 @@
       </div>
       <nav class="main-nav" aria-label="Main navigation">
         <a href="#today">Today</a>
+        <a href="#catalogue">Catalogue</a>
+        <a href="#planner">Planner</a>
         <a href="#roadmap">Roadmap</a>
         <a href="#workspace">Workspace</a>
         <a href="#projects">Projects</a>
@@ -31,6 +33,14 @@
           </form>
         </div>
       </header>
+
+      @if (session('status'))
+        <div class="content flash-message" role="status">{{ session('status') }}</div>
+      @endif
+
+      @if ($errors->any())
+        <div class="content form-error" role="alert">{{ $errors->first() }}</div>
+      @endif
 
       <section id="today" class="content grid dashboard-grid">
         <article class="panel hero-panel">
@@ -67,6 +77,108 @@
         </aside>
       </section>
 
+      <section id="catalogue" class="content">
+        <div class="section-heading">
+          <h2>Add certification</h2>
+          <p>Create a paid certification or a supporting free credential.</p>
+        </div>
+        <form method="POST" action="{{ route('certifications.store') }}" class="catalogue-form panel">
+          @csrf
+          <label for="provider-name">
+            Provider
+            <input id="provider-name" name="provider_name" type="text" value="{{ old('provider_name') }}" required>
+          </label>
+          <label for="certification-name">
+            Certification
+            <input id="certification-name" name="name" type="text" value="{{ old('name') }}" required>
+          </label>
+          <label for="exam-code">
+            Exam code
+            <input id="exam-code" name="exam_code" type="text" value="{{ old('exam_code') }}">
+          </label>
+          <label for="track-type">
+            Track
+            <select id="track-type" name="track_type" required>
+              <option value="paid_professional" @selected(old('track_type') === 'paid_professional')>Paid professional</option>
+              <option value="free_credential" @selected(old('track_type') === 'free_credential')>Free credential</option>
+            </select>
+          </label>
+          <label for="target-completion-date">
+            Target date
+            <input id="target-completion-date" name="target_completion_date" type="date" value="{{ old('target_completion_date') }}">
+          </label>
+          <label for="weekly-minutes">
+            Weekly minutes
+            <input id="weekly-minutes" name="weekly_minutes" type="number" min="0" max="10080" value="{{ old('weekly_minutes', 120) }}">
+          </label>
+          <button type="submit" class="primary-action">Add</button>
+        </form>
+      </section>
+
+      <section id="planner" class="content planner-grid">
+        <div>
+          <div class="section-heading">
+            <h2>Study planner</h2>
+            <p>Schedule focused sessions without overloading the week.</p>
+          </div>
+          <form method="POST" action="{{ route('study-sessions.store') }}" class="panel study-form">
+            @csrf
+            <label for="session-certification">
+              Certification
+              <select id="session-certification" name="certification_id" required>
+                @foreach ($certifications as $certification)
+                  <option value="{{ $certification->id }}">{{ $certification->exam_code }}: {{ $certification->name }}</option>
+                @endforeach
+              </select>
+            </label>
+            <label for="session-activity">
+              Activity
+              <select id="session-activity" name="activity_type" required>
+                <option value="Lesson">Lesson</option>
+                <option value="quiz">Quiz</option>
+                <option value="review">Review</option>
+                <option value="lab">Lab</option>
+                <option value="project">Project</option>
+              </select>
+            </label>
+            <label for="session-scheduled-for">
+              Scheduled for
+              <input id="session-scheduled-for" name="scheduled_for" type="datetime-local" required>
+            </label>
+            <label for="session-minutes">
+              Minutes
+              <input id="session-minutes" name="planned_minutes" type="number" min="5" max="480" value="45" required>
+            </label>
+            <label for="session-notes">
+              Notes
+              <textarea id="session-notes" name="notes" rows="3"></textarea>
+            </label>
+            <button type="submit" class="primary-action">Schedule</button>
+          </form>
+        </div>
+
+        <aside class="panel">
+          <h3>Upcoming sessions</h3>
+          <div class="session-list">
+            @forelse ($studySessions as $session)
+              <article class="session-item">
+                <strong>{{ $session->activity_type }} - {{ $session->certification?->exam_code }}</strong>
+                <span>{{ $session->scheduled_for->format('M j, Y H:i') }} / {{ $session->planned_minutes }} min</span>
+                @if ($session->notes)
+                  <p>{{ $session->notes }}</p>
+                @endif
+                <form method="POST" action="{{ route('study-sessions.complete', ['studySession' => $session->id]) }}">
+                  @csrf
+                  <button type="submit" class="secondary-action">Complete</button>
+                </form>
+              </article>
+            @empty
+              <p class="muted">No sessions scheduled yet.</p>
+            @endforelse
+          </div>
+        </aside>
+      </section>
+
       <section id="roadmap" class="content">
         <div class="section-heading">
           <h2>Roadmap</h2>
@@ -80,6 +192,14 @@
                 <span class="badge paid">Paid professional</span>
                 <h3><a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug]) }}">{{ $certification->exam_code }}: {{ $certification->name }}</a></h3>
                 <p class="muted">{{ $certification->status }} - target {{ optional($certification->target_completion_date)->format('M j, Y') ?? 'not set' }}</p>
+                @if (! $certification->is_primary)
+                  <form method="POST" action="{{ route('certifications.primary.store', ['certificationSlug' => $certification->slug]) }}">
+                    @csrf
+                    <button type="submit" class="secondary-action">Make primary</button>
+                  </form>
+                @else
+                  <p class="muted"><strong>Primary certification</strong></p>
+                @endif
               </article>
             @endforeach
           </div>
@@ -90,6 +210,14 @@
                 <span class="badge free">Free credential</span>
                 <h3><a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug]) }}">{{ $certification->exam_code }}: {{ $certification->name }}</a></h3>
                 <p class="muted">{{ $certification->status }} - target {{ optional($certification->target_completion_date)->format('M j, Y') ?? 'not set' }}</p>
+                @if ($certification->status !== 'Active')
+                  <form method="POST" action="{{ route('certifications.free-activation.store', ['certificationSlug' => $certification->slug]) }}">
+                    @csrf
+                    <button type="submit" class="secondary-action">Activate</button>
+                  </form>
+                @else
+                  <p class="muted"><strong>Active credential</strong></p>
+                @endif
               </article>
             @endforeach
           </div>

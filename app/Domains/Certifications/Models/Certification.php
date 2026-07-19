@@ -5,6 +5,8 @@ namespace App\Domains\Certifications\Models;
 use App\Domains\Certifications\Enums\CertificationTrack;
 use App\Domains\Curriculum\Models\CertificationDomain;
 use App\Domains\Curriculum\Models\Lesson;
+use App\Domains\Curriculum\Models\Topic;
+use App\Domains\Planning\Models\StudySession;
 use App\Domains\Projects\Models\Project;
 use App\Domains\Resources\Models\Resource;
 use App\Models\User;
@@ -69,6 +71,11 @@ class Certification extends Model
         return $this->hasMany(Lesson::class);
     }
 
+    public function topics(): HasMany
+    {
+        return $this->hasMany(Topic::class);
+    }
+
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class);
@@ -77,5 +84,10 @@ class Certification extends Model
     public function resources(): HasMany
     {
         return $this->hasMany(Resource::class);
+    }
+
+    public function studySessions(): HasMany
+    {
+        return $this->hasMany(StudySession::class);
     }
 }

@@ -32,6 +32,7 @@ class ExampleTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('Star schema fundamentals');
+        $response->assertSee('Data modelling');
         $response->assertSee('Quick quiz');
         $response->assertSee('Procurement and Spend Analytics');
     }

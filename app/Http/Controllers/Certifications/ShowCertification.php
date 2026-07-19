@@ -20,8 +20,9 @@ class ShowCertification extends Controller
 
         $certification->load([
             'provider',
-            'domains',
+            'domains.topics',
             'lessons.domain',
+            'lessons.topic',
             'projects',
             'resources',
         ]);

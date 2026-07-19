@@ -33,6 +33,12 @@ class ShowDashboard extends Controller
             'activeFreeCredentials' => $activeFreeCredentials,
             'projects' => $certifications->flatMap->projects,
             'resources' => $certifications->flatMap->resources,
+            'studySessions' => $user->studySessions()
+                ->with(['certification', 'lesson'])
+                ->whereIn('status', ['Pending', 'in_progress'])
+                ->orderBy('scheduled_for')
+                ->take(6)
+                ->get(),
         ]);
     }
 }

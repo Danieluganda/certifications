@@ -36,6 +36,10 @@
         <div class="content flash-message" role="status">{{ session('status') }}</div>
       @endif
 
+      @if ($errors->any())
+        <div class="content form-error" role="alert">{{ $errors->first() }}</div>
+      @endif
+
       <section id="overview" class="content grid dashboard-grid">
         <article class="panel hero-panel">
           <span class="badge {{ $certification->track_type->value === 'paid_professional' ? 'paid' : 'free' }}">{{ $certification->track_type->label() }}</span>
@@ -66,9 +70,59 @@
                 <strong>{{ $domain->mastery_percent }}%</strong>
               </div>
               <div class="progress-track"><span style="width: {{ $domain->mastery_percent }}%"></span></div>
+              @if ($domain->topics->isNotEmpty())
+                <ul class="topic-list">
+                  @foreach ($domain->topics as $topic)
+                    <li>
+                      <strong>{{ $topic->name }}</strong>
+                      @if ($topic->prerequisites)
+                        <span>{{ $topic->prerequisites }}</span>
+                      @endif
+                    </li>
+                  @endforeach
+                </ul>
+              @endif
             </div>
           @endforeach
         </aside>
+      </section>
+
+      <section class="content curriculum-tools">
+        <form method="POST" action="{{ route('domains.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
+          @csrf
+          <h3>Add domain</h3>
+          <label for="domain-name">
+            Name
+            <input id="domain-name" name="name" type="text" value="{{ old('name') }}" required>
+          </label>
+          <label for="domain-weight">
+            Weight percent
+            <input id="domain-weight" name="weight_percent" type="number" min="0" max="100" step="0.01" value="{{ old('weight_percent') }}">
+          </label>
+          <button type="submit" class="primary-action">Add domain</button>
+        </form>
+
+        <form method="POST" action="{{ route('topics.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
+          @csrf
+          <h3>Add topic</h3>
+          <label for="topic-domain">
+            Domain
+            <select id="topic-domain" name="domain_id" required>
+              @foreach ($certification->domains as $domain)
+                <option value="{{ $domain->id }}">{{ $domain->name }}</option>
+              @endforeach
+            </select>
+          </label>
+          <label for="topic-name">
+            Topic
+            <input id="topic-name" name="name" type="text" value="{{ old('name') }}" required>
+          </label>
+          <label for="topic-prerequisites">
+            Prerequisites
+            <textarea id="topic-prerequisites" name="prerequisites" rows="3">{{ old('prerequisites') }}</textarea>
+          </label>
+          <button type="submit" class="primary-action">Add topic</button>
+        </form>
       </section>
 
       <section id="lesson" class="content workspace-grid">

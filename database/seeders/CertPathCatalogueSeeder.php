@@ -6,6 +6,7 @@ use App\Domains\Certifications\Models\Certification;
 use App\Domains\Certifications\Models\CertificationProvider;
 use App\Domains\Curriculum\Models\CertificationDomain;
 use App\Domains\Curriculum\Models\Lesson;
+use App\Domains\Curriculum\Models\Topic;
 use App\Domains\Projects\Models\Project;
 use App\Domains\Resources\Models\Resource;
 use App\Models\User;
@@ -78,11 +79,24 @@ class CertPathCatalogueSeeder extends Seeder
 
             foreach (($certificationData['lessons'] ?? []) as $position => $lessonData) {
                 $domain = $domainsByName[$lessonData['domain']] ?? null;
+                $topic = null;
+
+                if ($domain && ! empty($lessonData['topic'])) {
+                    $topic = Topic::query()->firstOrCreate(
+                        [
+                            'certification_id' => $certification->id,
+                            'domain_id' => $domain->id,
+                            'name' => $lessonData['topic'],
+                        ],
+                        ['position' => $position + 1]
+                    );
+                }
 
                 Lesson::query()->updateOrCreate(
                     ['certification_id' => $certification->id, 'external_id' => $lessonData['id']],
                     [
                         'domain_id' => $domain?->id,
+                        'topic_id' => $topic?->id,
                         'topic_name' => $lessonData['topic'] ?? null,
                         'title' => $lessonData['title'],
                         'summary' => $lessonData['summary'] ?? null,
