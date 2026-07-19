@@ -16,6 +16,7 @@ use App\Http\Controllers\Exports\DownloadLearningBackup;
 use App\Http\Controllers\Flashcards\ReviewFlashcardController;
 use App\Http\Controllers\Flashcards\StoreFlashcard;
 use App\Http\Controllers\Planning\CompleteStudySession;
+use App\Http\Controllers\Planning\StoreStudyGoal;
 use App\Http\Controllers\Planning\StoreStudySession;
 use App\Http\Controllers\Practice\ShowQuizAttempt;
 use App\Http\Controllers\Practice\StartQuizAttempt;
@@ -64,4 +65,5 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/certifications/{certificationSlug}/lessons/{lesson}/notes', StoreLessonNote::class)->name('lessons.notes.store');
     Route::post('/study-sessions', StoreStudySession::class)->name('study-sessions.store');
     Route::post('/study-sessions/{studySession}/complete', CompleteStudySession::class)->name('study-sessions.complete');
+    Route::post('/study-goals', StoreStudyGoal::class)->name('study-goals.store');
 });

@@ -47,7 +47,7 @@ Current seeded database snapshot after `php artisan migrate:fresh --seed`:
 | `MATERIALS_AND_PROJECTS.md` | Mostly complete | Official sources, priority content seed, and main projects are imported. Some long-tail project depth can still be expanded. |
 | `study_materials.md` | Mostly complete | Extra projects/resources from this file are now imported, including PMP 2026 outline, AI agent research project, explainable classifier, and LFD121 CI/CD pipeline. |
 | `Private_Tutor_module.md` | Foundation started | Tutor domain models and required foundation tables now exist: sessions, messages, recommendations, misconceptions, and feedback. Remaining gaps: tutor workspace, Ask Tutor buttons, provider-independent AI boundary, approved-source retrieval service, guardrails, knowledge checks, incorrect-answer review workflow, and planner integration UI. |
-| `first-class_Study_Planner_module.md` | Foundation started | Study goals, richer study-session fields, session tasks, project milestones, study streaks, and planner recommendations now exist. Remaining gaps: Today flow, Continue logic, timetable/week/month views, availability, missed-session rescheduling, revision queue, dynamic scheduling, streak/quest UI, and tutor integration. |
+| `first-class_Study_Planner_module.md` | Partial, improving | Study goals, richer study-session fields, session tasks, project milestones, study streaks, planner recommendations, Today entry point, Continue action, timetable list, goal form, milestone list, workload summary, and recommendation display now exist. Remaining gaps: full week/month views, availability, missed-session rescheduling, revision queue, dynamic scheduling, quest UI, recommendation acceptance, and tutor integration. |
 
 ## Schema Gaps
 
@@ -120,7 +120,7 @@ Partial content coverage:
 8. Add notifications for due reviews, study sessions, exam dates, voucher expiry, and free credential deadlines.
 9. Add audit logging for activation, primary change, budget changes, attempt submission, evidence upload, and credential recording.
 10. Add visual/browser QA evidence for `DESIGN.md`, `design_ref.md`, and `refrence_apps.md`.
-11. Build the first-class Study Planner UI and intelligence: Today, timetable, daily targets, weekly goals, monthly milestones, availability, missed sessions, dynamic rescheduling, streaks, quests, and recommendation acceptance.
+11. Expand the first-class Study Planner intelligence: week/month views, availability, missed sessions, dynamic rescheduling, revision queue, quests, and recommendation acceptance.
 12. Build the Private Tutor workflows: source-grounded explanations, knowledge checks, incorrect-answer review, tutor history, feedback UI, guardrails, and planner integration.
 
 ## Current Verdict
@@ -136,8 +136,8 @@ Estimated compliance:
 - Schema completeness: 55%
 - GIS/search/knowledge amendment depth: 60%
 - Design/reference-app standard: 70% pending browser QA
-- Study Planner module: 35%
+- Study Planner module: 45%
 - Private Tutor module: 15%
-- Overall: about 65%
+- Overall: about 68%
 
 To honestly call it 100%, the schema and UI gaps above need to be implemented, tested, and verified.

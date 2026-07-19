@@ -16,12 +16,14 @@ class CompleteStudySession extends Controller
         }
 
         $data = $request->validate([
+            'actual_minutes' => ['nullable', 'integer', 'min:1', 'max:480'],
             'notes' => ['nullable', 'string', 'max:2000'],
         ]);
 
         $studySession->forceFill([
             'status' => 'completed',
             'completed_at' => now(),
+            'actual_minutes' => $data['actual_minutes'] ?? $studySession->planned_minutes,
             'notes' => $data['notes'] ?? $studySession->notes,
         ])->save();
 

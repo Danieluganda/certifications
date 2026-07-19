@@ -8,7 +8,7 @@
       <nav class="main-nav" aria-label="Main navigation">
         <a href="{{ route('dashboard.page', ['dashboardPage' => 'learn']) }}">Learn</a>
         <a href="{{ route('dashboard.page', ['dashboardPage' => 'catalogue']) }}">Certifications</a>
-        <a href="{{ route('dashboard.page', ['dashboardPage' => 'planner']) }}">Practice</a>
+        <a href="{{ route('dashboard.page', ['dashboardPage' => 'planner']) }}">Study Planner</a>
         <a href="{{ route('dashboard.page', ['dashboardPage' => 'projects']) }}">Projects</a>
         <a href="{{ route('dashboard.page', ['dashboardPage' => 'roadmap']) }}">Roadmap</a>
         <a href="{{ route('dashboard.page', ['dashboardPage' => 'today']) }}">Today</a>
@@ -171,68 +171,243 @@
       @endif
 
       @if ($dashboardPage === 'planner')
-      <section id="planner" class="content planner-grid">
-        <div>
-          <div class="section-heading">
-            <h2>Study planner</h2>
-            <p>Schedule focused sessions without overloading the week.</p>
-          </div>
-          <form method="POST" action="{{ route('study-sessions.store') }}" class="panel study-form">
-            @csrf
-            <label for="session-certification">
-              Certification
-              <select id="session-certification" name="certification_id" required>
-                @foreach ($certifications as $certification)
-                  <option value="{{ $certification->id }}">{{ $certification->exam_code }}: {{ $certification->name }}</option>
-                @endforeach
-              </select>
-            </label>
-            <label for="session-activity">
-              Activity
-              <select id="session-activity" name="activity_type" required>
-                <option value="Lesson">Lesson</option>
-                <option value="quiz">Quiz</option>
-                <option value="review">Review</option>
-                <option value="lab">Lab</option>
-                <option value="project">Project</option>
-              </select>
-            </label>
-            <label for="session-scheduled-for">
-              Scheduled for
-              <input id="session-scheduled-for" name="scheduled_for" type="datetime-local" required>
-            </label>
-            <label for="session-minutes">
-              Minutes
-              <input id="session-minutes" name="planned_minutes" type="number" min="5" max="480" value="45" required>
-            </label>
-            <label for="session-notes">
-              Notes
-              <textarea id="session-notes" name="notes" rows="3"></textarea>
-            </label>
-            <button type="submit" class="primary-action">Schedule</button>
-          </form>
+      <section id="planner" class="content">
+        @php
+          $todayPlannedMinutes = $todaySessions->sum('planned_minutes');
+          $todayCompletedMinutes = $todaySessions->where('status', 'completed')->sum('actual_minutes');
+          $weekPlannedMinutes = $weekSessions->sum('planned_minutes');
+          $weeklyTarget = $user?->profile?->weekly_target_minutes ?? 0;
+          $nextSession = $todaySessions->first() ?? $studySessions->first();
+          $continueUrl = $nextSession?->lesson
+            ? route('certifications.show', ['certificationSlug' => $nextSession->certification->slug, 'workspacePage' => 'lesson'])
+            : ($primary ? route('certifications.show', ['certificationSlug' => $primary->slug, 'workspacePage' => 'lesson']) : route('dashboard.page', ['dashboardPage' => 'planner']));
+        @endphp
+
+        <div class="section-heading">
+          <h2>Study planner</h2>
+          <p>Today, timetable, goals, milestones, and next-best recommendations in one place.</p>
         </div>
 
-        <aside class="panel">
-          <h3>Upcoming sessions</h3>
-          <div class="session-list">
-            @forelse ($studySessions as $session)
-              <article class="session-item">
-                <strong>{{ $session->activity_type }} - {{ $session->certification?->exam_code }}</strong>
-                <span>{{ $session->scheduled_for->format('M j, Y H:i') }} / {{ $session->planned_minutes }} min</span>
-                @if ($session->notes)
-                  <p>{{ $session->notes }}</p>
-                @endif
-                <form method="POST" action="{{ route('study-sessions.complete', ['studySession' => $session->id]) }}">
-                  @csrf
-                  <button type="submit" class="secondary-action">Complete</button>
-                </form>
-              </article>
-            @empty
-              <p class="muted">No sessions scheduled yet.</p>
-            @endforelse
+        <div class="planner-board">
+          <article class="panel planner-today">
+            <p class="eyebrow">Today</p>
+            <h2>{{ now()->format('l, F j') }}</h2>
+            @if ($nextSession)
+              <p><strong>{{ $nextSession->certification?->exam_code }}</strong> - {{ $nextSession->target_description ?: $nextSession->activity_type }}</p>
+              <p class="muted">{{ ($nextSession->scheduled_start ?? $nextSession->scheduled_for)->format('H:i') }} to {{ optional($nextSession->scheduled_end)->format('H:i') ?? 'open' }} / {{ $nextSession->planned_minutes }} min</p>
+            @else
+              <p>No session is scheduled yet. Create a measurable block and continue from here.</p>
+            @endif
+            <div class="goal-ring-row">
+              <div class="goal-ring"><strong>{{ $todayCompletedMinutes }}</strong><span>/ {{ max($todayPlannedMinutes, 1) }} min</span></div>
+              <div class="goal-ring"><strong>{{ $todaySessions->count() }}</strong><span>today blocks</span></div>
+              <div class="goal-ring"><strong>{{ $studyStreak?->current_streak ?? 0 }}</strong><span>day streak</span></div>
+            </div>
+            <a class="primary-action" href="{{ $continueUrl }}">Continue today's plan</a>
+          </article>
+
+          <aside class="panel planner-summary">
+            <h3>Weekly workload</h3>
+            <div class="progress-block">
+              <div class="progress-line">
+                <span>{{ $weekPlannedMinutes }} / {{ max($weeklyTarget, 1) }} minutes planned</span>
+                <strong>{{ $weeklyTarget > 0 ? min(100, (int) round(($weekPlannedMinutes / $weeklyTarget) * 100)) : 0 }}%</strong>
+              </div>
+              <div class="progress-track"><span style="width: {{ $weeklyTarget > 0 ? min(100, (int) round(($weekPlannedMinutes / $weeklyTarget) * 100)) : 0 }}%"></span></div>
+            </div>
+            <p class="muted">Default balance target: 70% primary paid, 20% supporting free, 10% project or skill.</p>
+          </aside>
+        </div>
+
+        <div class="planner-grid planner-main-grid">
+          <div class="planner-stack">
+            <article class="panel">
+              <h3>Timetable</h3>
+              <div class="session-list">
+                @forelse ($studySessions as $session)
+                  <article class="session-item planner-session">
+                    <div>
+                      <strong>{{ $session->certification?->exam_code }} - {{ $session->activity_type }}</strong>
+                      <span>{{ ($session->scheduled_start ?? $session->scheduled_for)->format('M j, H:i') }} / {{ $session->planned_minutes }} min / priority {{ $session->priority }}</span>
+                      @if ($session->topic)
+                        <p>{{ $session->topic->name }}</p>
+                      @endif
+                      @if ($session->target_description)
+                        <p>{{ $session->target_description }}</p>
+                      @endif
+                      @foreach ($session->tasks as $task)
+                        <p class="task-line">{{ $task->title }} - {{ $task->status }}</p>
+                      @endforeach
+                    </div>
+                    <form method="POST" action="{{ route('study-sessions.complete', ['studySession' => $session->id]) }}">
+                      @csrf
+                      <input type="hidden" name="actual_minutes" value="{{ $session->planned_minutes }}">
+                      <button type="submit" class="secondary-action">Complete</button>
+                    </form>
+                  </article>
+                @empty
+                  <p class="muted">No sessions scheduled yet.</p>
+                @endforelse
+              </div>
+            </article>
+
+            <article class="panel">
+              <h3>Goals</h3>
+              <div class="goal-list">
+                @forelse ($studyGoals as $goal)
+                  <div class="goal-item">
+                    <div class="progress-line">
+                      <span>{{ str_replace('_', ' ', $goal->goal_type) }} - {{ $goal->certification?->exam_code ?? 'All tracks' }}</span>
+                      <strong>{{ $goal->current_value }} / {{ $goal->target_value }} {{ $goal->unit }}</strong>
+                    </div>
+                    <div class="progress-track"><span style="width: {{ min(100, (int) round(($goal->current_value / max($goal->target_value, 1)) * 100)) }}%"></span></div>
+                    <p class="muted">{{ ucfirst($goal->goal_period) }} goal, due {{ $goal->ends_on->format('M j') }}</p>
+                  </div>
+                @empty
+                  <p class="muted">No active goals yet.</p>
+                @endforelse
+              </div>
+            </article>
+
+            <article class="panel">
+              <h3>Project milestones</h3>
+              <div class="session-list">
+                @forelse ($projectMilestones as $milestone)
+                  <article class="session-item">
+                    <strong>{{ $milestone->project?->certification?->exam_code }} - {{ $milestone->title }}</strong>
+                    <span>{{ $milestone->target_date?->format('M j, Y') ?? 'No target date' }}</span>
+                    <p>{{ $milestone->description }}</p>
+                  </article>
+                @empty
+                  <p class="muted">No project milestones yet.</p>
+                @endforelse
+              </div>
+            </article>
           </div>
-        </aside>
+
+          <aside class="planner-stack">
+            <form method="POST" action="{{ route('study-sessions.store') }}" class="panel study-form">
+              @csrf
+              <h3>Schedule session</h3>
+              <label for="session-certification">
+                Certification
+                <select id="session-certification" name="certification_id" required>
+                  @foreach ($certifications as $certification)
+                    <option value="{{ $certification->id }}">{{ $certification->exam_code }}: {{ $certification->name }}</option>
+                  @endforeach
+                </select>
+              </label>
+              <label for="session-lesson">
+                Lesson
+                <select id="session-lesson" name="lesson_id">
+                  <option value="">No specific lesson</option>
+                  @foreach ($certifications as $certification)
+                    @foreach ($certification->lessons as $lesson)
+                      <option value="{{ $lesson->id }}">{{ $certification->exam_code }} - {{ $lesson->title }}</option>
+                    @endforeach
+                  @endforeach
+                </select>
+              </label>
+              <label for="session-activity">
+                Activity
+                <select id="session-activity" name="activity_type" required>
+                  <option value="Lesson">Lesson</option>
+                  <option value="quiz">Quiz</option>
+                  <option value="review">Review</option>
+                  <option value="lab">Lab</option>
+                  <option value="project">Project</option>
+                </select>
+              </label>
+              <label for="session-scheduled-for">
+                Starts
+                <input id="session-scheduled-for" name="scheduled_for" type="datetime-local" required>
+              </label>
+              <label for="session-minutes">
+                Minutes
+                <input id="session-minutes" name="planned_minutes" type="number" min="5" max="480" value="45" required>
+              </label>
+              <label for="session-priority">
+                Priority
+                <input id="session-priority" name="priority" type="number" min="1" max="5" value="3">
+              </label>
+              <label for="session-target">
+                Measurable target
+                <textarea id="session-target" name="target_description" rows="3" placeholder="Complete one lesson and answer 10 questions."></textarea>
+              </label>
+              <label for="session-notes">
+                Notes
+                <textarea id="session-notes" name="notes" rows="3"></textarea>
+              </label>
+              <button type="submit" class="primary-action">Schedule</button>
+            </form>
+
+            <form method="POST" action="{{ route('study-goals.store') }}" class="panel study-form">
+              @csrf
+              <h3>Add goal</h3>
+              <label for="goal-certification">
+                Certification
+                <select id="goal-certification" name="certification_id">
+                  <option value="">All active learning</option>
+                  @foreach ($certifications as $certification)
+                    <option value="{{ $certification->id }}">{{ $certification->exam_code }}: {{ $certification->name }}</option>
+                  @endforeach
+                </select>
+              </label>
+              <label for="goal-period">
+                Period
+                <select id="goal-period" name="goal_period" required>
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="certification">Certification</option>
+                </select>
+              </label>
+              <label for="goal-type">
+                Goal type
+                <select id="goal-type" name="goal_type" required>
+                  <option value="study_minutes">Study minutes</option>
+                  <option value="lessons_completed">Lessons completed</option>
+                  <option value="questions_answered">Questions answered</option>
+                  <option value="flashcards_reviewed">Flashcards reviewed</option>
+                  <option value="project_tasks_completed">Project tasks completed</option>
+                  <option value="readiness_target">Readiness target</option>
+                </select>
+              </label>
+              <label for="goal-target">
+                Target
+                <input id="goal-target" name="target_value" type="number" min="1" value="60" required>
+              </label>
+              <label for="goal-unit">
+                Unit
+                <input id="goal-unit" name="unit" type="text" value="minutes" required>
+              </label>
+              <label for="goal-starts">
+                Starts
+                <input id="goal-starts" name="starts_on" type="date" value="{{ now()->toDateString() }}" required>
+              </label>
+              <label for="goal-ends">
+                Ends
+                <input id="goal-ends" name="ends_on" type="date" value="{{ now()->endOfWeek()->toDateString() }}" required>
+              </label>
+              <button type="submit" class="primary-action">Add goal</button>
+            </form>
+
+            <article class="panel">
+              <h3>Recommendations</h3>
+              <div class="session-list">
+                @forelse ($plannerRecommendations as $recommendation)
+                  <article class="session-item">
+                    <strong>{{ str_replace('_', ' ', $recommendation->recommendation_type) }}</strong>
+                    <span>{{ $recommendation->certification?->exam_code ?? 'All tracks' }} / {{ $recommendation->duration_minutes ?? 0 }} min</span>
+                    <p>{{ $recommendation->reason }}</p>
+                  </article>
+                @empty
+                  <p class="muted">No planner recommendations yet.</p>
+                @endforelse
+              </div>
+            </article>
+          </aside>
+        </div>
       </section>
       @endif
 

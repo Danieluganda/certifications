@@ -107,13 +107,15 @@ class PlannerTutorFoundationTest extends TestCase
             'position' => 1,
         ]);
 
-        $streak = StudyStreak::query()->create([
-            'user_id' => $user->id,
-            'current_streak' => 3,
-            'longest_streak' => 5,
-            'last_qualified_date' => '2026-07-20',
-            'freeze_count' => 1,
-        ]);
+        $streak = StudyStreak::query()->updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'current_streak' => 3,
+                'longest_streak' => 5,
+                'last_qualified_date' => '2026-07-20',
+                'freeze_count' => 1,
+            ]
+        );
 
         $recommendation = PlannerRecommendation::query()->create([
             'user_id' => $user->id,

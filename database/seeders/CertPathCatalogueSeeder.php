@@ -8,6 +8,10 @@ use App\Domains\Curriculum\Models\CertificationDomain;
 use App\Domains\Curriculum\Models\Lesson;
 use App\Domains\Curriculum\Models\Topic;
 use App\Domains\Practice\Models\Question;
+use App\Domains\Planning\Models\PlannerRecommendation;
+use App\Domains\Planning\Models\StudyGoal;
+use App\Domains\Planning\Models\StudyStreak;
+use App\Domains\Projects\Models\ProjectMilestone;
 use App\Domains\Projects\Models\Project;
 use App\Domains\Resources\Models\Resource;
 use App\Models\User;
@@ -198,6 +202,143 @@ class CertPathCatalogueSeeder extends Seeder
                     'trust_level' => $resourceData['trustLevel'] ?? 'personal',
                     'copyright_status' => $resourceData['copyrightStatus'] ?? 'personal_notes_allowed',
                     'status' => $resourceData['status'] ?? 'Not started',
+                ]
+            );
+        }
+
+        $this->seedPlannerFoundation($user);
+    }
+
+    private function seedPlannerFoundation(User $user): void
+    {
+        $primary = Certification::query()
+            ->where('user_id', $user->id)
+            ->where('is_primary', true)
+            ->first();
+        $powerAutomate = Certification::query()
+            ->where('user_id', $user->id)
+            ->where('exam_code', 'MS-APPLIED-POWER-AUTOMATE')
+            ->first();
+
+        StudyStreak::query()->updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'current_streak' => 3,
+                'longest_streak' => 7,
+                'last_qualified_date' => '2026-07-20',
+                'freeze_count' => 1,
+            ]
+        );
+
+        foreach ([
+            [
+                'certification' => $primary,
+                'goal_period' => 'daily',
+                'goal_type' => 'study_minutes',
+                'target_value' => 60,
+                'current_value' => 0,
+                'unit' => 'minutes',
+                'starts_on' => '2026-07-20',
+                'ends_on' => '2026-07-20',
+            ],
+            [
+                'certification' => $primary,
+                'goal_period' => 'weekly',
+                'goal_type' => 'questions_answered',
+                'target_value' => 100,
+                'current_value' => 0,
+                'unit' => 'questions',
+                'starts_on' => '2026-07-20',
+                'ends_on' => '2026-07-26',
+            ],
+            [
+                'certification' => $powerAutomate,
+                'goal_period' => 'weekly',
+                'goal_type' => 'lessons_completed',
+                'target_value' => 1,
+                'current_value' => 0,
+                'unit' => 'lessons',
+                'starts_on' => '2026-07-20',
+                'ends_on' => '2026-07-26',
+            ],
+        ] as $goalData) {
+            if (! $goalData['certification']) {
+                continue;
+            }
+
+            StudyGoal::query()->updateOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'certification_id' => $goalData['certification']->id,
+                    'goal_period' => $goalData['goal_period'],
+                    'goal_type' => $goalData['goal_type'],
+                    'starts_on' => $goalData['starts_on'],
+                ],
+                [
+                    'target_value' => $goalData['target_value'],
+                    'current_value' => $goalData['current_value'],
+                    'unit' => $goalData['unit'],
+                    'ends_on' => $goalData['ends_on'],
+                    'status' => 'active',
+                ]
+            );
+        }
+
+        foreach ([
+            [
+                'certification' => $primary,
+                'recommendation_type' => 'continue_today',
+                'reason' => 'Keep momentum on the primary paid certification before adding optional work.',
+                'recommended_date' => '2026-07-20',
+                'duration_minutes' => 60,
+                'priority' => 1,
+            ],
+            [
+                'certification' => $powerAutomate,
+                'recommendation_type' => 'supporting_free_credential',
+                'reason' => 'Use a small automation credential to support the main study system and keep free progress active.',
+                'recommended_date' => '2026-07-21',
+                'duration_minutes' => 45,
+                'priority' => 2,
+            ],
+        ] as $recommendationData) {
+            if (! $recommendationData['certification']) {
+                continue;
+            }
+
+            PlannerRecommendation::query()->updateOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'certification_id' => $recommendationData['certification']->id,
+                    'recommendation_type' => $recommendationData['recommendation_type'],
+                    'recommended_date' => $recommendationData['recommended_date'],
+                ],
+                [
+                    'reason' => $recommendationData['reason'],
+                    'duration_minutes' => $recommendationData['duration_minutes'],
+                    'priority' => $recommendationData['priority'],
+                ]
+            );
+        }
+
+        $primaryProjects = Project::query()
+            ->where('user_id', $user->id)
+            ->where('certification_id', $primary?->id)
+            ->take(2)
+            ->get();
+
+        foreach ($primaryProjects as $position => $project) {
+            ProjectMilestone::query()->updateOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'project_id' => $project->id,
+                    'title' => 'Define evidence checklist',
+                ],
+                [
+                    'description' => 'Break the project into artifacts, screenshots, review notes, and proof tasks.',
+                    'target_date' => '2026-07-26',
+                    'status' => 'Planned',
+                    'position' => $position + 1,
                 ]
             );
         }
