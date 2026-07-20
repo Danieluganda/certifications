@@ -11,7 +11,7 @@ class ShowCertification extends Controller
 {
     public function __invoke(Request $request, string $certificationSlug, string $workspacePage = 'overview'): View
     {
-        abort_unless(in_array($workspacePage, ['overview', 'curriculum', 'lesson', 'practice', 'readiness', 'flashcards', 'budget', 'projects', 'credentials', 'resources'], true), 404);
+        abort_unless(in_array($workspacePage, ['overview', 'curriculum', 'lesson', 'practice', 'readiness', 'flashcards', 'budget', 'projects', 'credentials', 'resources', 'labs'], true), 404);
 
         $certification = $request->user()
             ->certifications()
@@ -22,9 +22,13 @@ class ShowCertification extends Controller
 
         $certification->load([
             'provider',
+            'objectiveVersions',
             'domains.topics',
+            'domains.objectiveVersion',
             'lessons.domain',
             'lessons.topic',
+            'labs.topic.domain',
+            'labs.evidenceFiles',
             'projects.evidenceFiles',
             'resources.domain',
             'resources.topic',

@@ -34,9 +34,9 @@ Current seeded database snapshot after `php artisan migrate:fresh --seed`:
 | Rule file | Status | Notes |
 | --- | --- | --- |
 | `README.md` | Mostly complete | Laravel app exists and rule files have been followed as build inputs. |
-| `PRD.md` | Partial, stronger MVP | Core workflows exist. Objective versions, labs, vouchers, notifications, study plans, weekly availability, quiz blueprints, audit logs, tags, and progress snapshots now have schema/model foundations. Remaining gaps: UI workflows for these foundations, first-class planner generation, rest-day scheduling, AI-assisted content workflow, reports, full-text notes search, and Markdown note export. |
+| `PRD.md` | Partial, stronger MVP | Core workflows exist. Objective versions and labs now have schema, seeded records, and UI workflows. Vouchers, notifications, study plans, weekly availability, quiz blueprints, audit logs, tags, and progress snapshots have schema/model foundations. Remaining gaps: UI workflows for the remaining foundations, first-class planner generation, rest-day scheduling, AI-assisted content workflow, reports, full-text notes search, and Markdown note export. |
 | `ARCHITECTURE.md` | Mostly complete | Domain folders, controllers, actions, models, migrations, seeders, and tests exist. Remaining gaps: dedicated Revision domain, notification service implementation, AI boundary service, search service, documented ADR files, and production backup/restore mechanics. |
-| `SCHEMA.md` | Mostly complete | Required backbone tables are now present. Remaining gaps are mostly alias/compatibility decisions, stronger DB constraints, and UI/service usage of the tables. |
+| `SCHEMA.md` | Mostly complete | Required backbone tables are now present. Objective versions and labs are now used by the app. Remaining gaps are mostly alias/compatibility decisions, stronger DB constraints, and UI/service usage of the other backbone tables. |
 | `RULES.md` | Partial, good engineering hygiene | Tests and domain organization are solid. Remaining gaps include audit logs, rate limiting, signed private file URLs, stricter database constraints, full accessibility verification, and question validation for all question types. |
 | `DESIGN.md` | Mostly complete | Rich CSS and responsive layout exist. Needs browser-based visual QA against all stated design expectations before claiming 100%. |
 | `design_ref.md` | Mostly complete | App is no longer a one-page shell; dashboard and certification workspaces have separate pages. Needs detailed visual parity pass against reference standards. |
@@ -121,16 +121,16 @@ Partial content coverage:
 
 ## Highest-Priority Remaining Build Slices
 
-1. Build first-class labs, weekly availability, vouchers, notifications, quiz blueprints, progress snapshots, tags, and audit logs into the UI/service workflows.
-2. Build objective versioning screens and seed PMP 2026 plus other exam objective versions.
-3. Expand specialist study content for ArcGIS, FME, GISP, PCAD, Elastic, Solr, datasets, PostGIS, R analytics, TOGAF split credentials, EO College, and QGIS.
-4. Add planner generation from weekly availability, active tracks, revision needs, rest days, and project sessions.
-5. Add notification generation for due reviews, study sessions, exam dates, voucher expiry, and free credential deadlines.
-6. Add audit logging calls for activation, primary change, budget changes, attempt submission, evidence upload, and credential recording.
-7. Add visual/browser QA evidence for `DESIGN.md`, `design_ref.md`, and `refrence_apps.md`.
-8. Expand the first-class Study Planner intelligence: week/month views, availability UI, missed sessions, dynamic rescheduling, revision queue, quests, and recommendation acceptance.
-9. Build the Private Tutor workflows: source-grounded explanations, knowledge checks, incorrect-answer review, tutor history, feedback UI, guardrails, and planner integration.
-10. Add create/edit workflows and specialised certification workspace tabs for datasets, maps, ontology, and search lab records.
+1. Build weekly availability, vouchers, notifications, quiz blueprints, progress snapshots, tags, and audit logs into the UI/service workflows.
+2. Expand specialist study content for ArcGIS, FME, GISP, PCAD, Elastic, Solr, datasets, PostGIS, R analytics, TOGAF split credentials, EO College, and QGIS.
+3. Add planner generation from weekly availability, active tracks, revision needs, rest days, and project sessions.
+4. Add notification generation for due reviews, study sessions, exam dates, voucher expiry, and free credential deadlines.
+5. Add audit logging calls for activation, primary change, budget changes, attempt submission, evidence upload, and credential recording.
+6. Add visual/browser QA evidence for `DESIGN.md`, `design_ref.md`, and `refrence_apps.md`.
+7. Expand the first-class Study Planner intelligence: week/month views, availability UI, missed sessions, dynamic rescheduling, revision queue, quests, and recommendation acceptance.
+8. Build the Private Tutor workflows: source-grounded explanations, knowledge checks, incorrect-answer review, tutor history, feedback UI, guardrails, and planner integration.
+9. Add create/edit workflows and specialised certification workspace tabs for datasets, maps, ontology, and search lab records.
+10. Broaden lab evidence upload support beyond project evidence, including file-size/type handling and lab-specific evidence workflows.
 
 ## Current Verdict
 
@@ -140,13 +140,13 @@ Estimated compliance:
 
 - Catalogue/content identity: 90%
 - Study-material source policy: 85%
-- Core PRD workflows: 70%
+- Core PRD workflows: 74%
 - Architecture organization: 75%
-- Schema completeness: 78%
+- Schema completeness: 82%
 - GIS/search/knowledge amendment depth: 78%
 - Design/reference-app standard: 70% pending browser QA
 - Study Planner module: 52%
 - Private Tutor module: 15%
-- Overall: about 76%
+- Overall: about 78%
 
 To honestly call it 100%, the schema and UI gaps above need to be implemented, tested, and verified.

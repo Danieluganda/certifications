@@ -8,7 +8,10 @@ use App\Http\Controllers\Certifications\ActivateFreeCredentialController;
 use App\Http\Controllers\Certifications\SetPrimaryCertificationController;
 use App\Http\Controllers\Certifications\ShowCertification;
 use App\Http\Controllers\Certifications\StoreCertification;
+use App\Http\Controllers\Curriculum\CompleteLab;
+use App\Http\Controllers\Curriculum\StoreLab;
 use App\Http\Controllers\Curriculum\StoreDomain;
+use App\Http\Controllers\Curriculum\StoreObjectiveVersion;
 use App\Http\Controllers\Curriculum\StoreTopic;
 use App\Http\Controllers\Dashboard\ShowDashboard;
 use App\Http\Controllers\Credentials\StoreCredential;
@@ -44,12 +47,15 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/exports/learning-backup', DownloadLearningBackup::class)->name('exports.learning-backup');
     Route::post('/certifications', StoreCertification::class)->name('certifications.store');
     Route::get('/certifications/{certificationSlug}/{workspacePage?}', ShowCertification::class)
-        ->whereIn('workspacePage', ['overview', 'curriculum', 'lesson', 'practice', 'readiness', 'flashcards', 'budget', 'projects', 'credentials', 'resources'])
+        ->whereIn('workspacePage', ['overview', 'curriculum', 'lesson', 'practice', 'readiness', 'flashcards', 'budget', 'projects', 'credentials', 'resources', 'labs'])
         ->name('certifications.show');
     Route::post('/certifications/{certificationSlug}/primary', SetPrimaryCertificationController::class)->name('certifications.primary.store');
     Route::post('/certifications/{certificationSlug}/free-activation', ActivateFreeCredentialController::class)->name('certifications.free-activation.store');
     Route::post('/certifications/{certificationSlug}/domains', StoreDomain::class)->name('domains.store');
+    Route::post('/certifications/{certificationSlug}/objective-versions', StoreObjectiveVersion::class)->name('objective-versions.store');
     Route::post('/certifications/{certificationSlug}/topics', StoreTopic::class)->name('topics.store');
+    Route::post('/certifications/{certificationSlug}/labs', StoreLab::class)->name('labs.store');
+    Route::post('/labs/{lab}/complete', CompleteLab::class)->name('labs.complete');
     Route::post('/certifications/{certificationSlug}/resources', StoreResource::class)->name('resources.store');
     Route::post('/certifications/{certificationSlug}/flashcards', StoreFlashcard::class)->name('flashcards.store');
     Route::post('/certifications/{certificationSlug}/quiz-attempts', StartQuizAttempt::class)->name('quiz-attempts.store');

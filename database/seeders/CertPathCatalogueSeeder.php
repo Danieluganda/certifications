@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Domains\Certifications\Models\Certification;
+use App\Domains\Certifications\Models\CertificationObjectiveVersion;
 use App\Domains\Certifications\Models\CertificationProvider;
 use App\Domains\Curriculum\Models\CertificationDomain;
+use App\Domains\Curriculum\Models\Lab;
 use App\Domains\Curriculum\Models\Lesson;
 use App\Domains\Curriculum\Models\Topic;
 use App\Domains\Practice\Models\Question;
@@ -213,6 +215,114 @@ class CertPathCatalogueSeeder extends Seeder
 
         $this->seedPlannerFoundation($user);
         $this->seedSpecialisationFoundation($user);
+        $this->seedObjectiveAndLabFoundation($user);
+    }
+
+    private function seedObjectiveAndLabFoundation(User $user): void
+    {
+        foreach ([
+            'PL-300' => [
+                'version_label' => 'Current Microsoft PL-300 study guide',
+                'source_url' => 'https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300',
+                'effective_from' => '2026-01-01',
+                'notes' => 'Use the current Microsoft Learn study guide as the official objective source before scheduling practice.',
+            ],
+            'PMP' => [
+                'version_label' => '2026 PMP Examination Content Outline',
+                'source_url' => 'https://www.pmi.org/-/media/pmi/documents/public/pdf/certifications/new-pmp-examination-content-outline-2026.pdf',
+                'effective_from' => '2026-01-01',
+                'notes' => 'Track PMP preparation against the 2026 official PMI examination content outline.',
+            ],
+            'AZ-104' => [
+                'version_label' => 'Current AZ-104 study guide',
+                'source_url' => 'https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-104',
+                'effective_from' => '2026-01-01',
+                'notes' => 'Use the official Microsoft Learn study guide for objective version tracking.',
+            ],
+        ] as $examCode => $versionData) {
+            $certification = Certification::query()
+                ->where('user_id', $user->id)
+                ->where('exam_code', $examCode)
+                ->first();
+
+            if (! $certification) {
+                continue;
+            }
+
+            CertificationObjectiveVersion::query()->updateOrCreate(
+                [
+                    'certification_id' => $certification->id,
+                    'version_label' => $versionData['version_label'],
+                ],
+                [
+                    'source_url' => $versionData['source_url'],
+                    'effective_from' => $versionData['effective_from'],
+                    'is_current' => true,
+                    'notes' => $versionData['notes'],
+                ]
+            );
+        }
+
+        foreach ([
+            [
+                'certification_id' => 'PL-300',
+                'topic_hint' => 'Star schema',
+                'title' => 'Power BI model evidence lab',
+                'objective' => 'Create a model evidence pack that proves star schema, relationships, measures, and deployment readiness.',
+                'instructions_markdown' => "1. Choose one programme dashboard idea.\n2. Sketch fact and dimension tables.\n3. List at least five DAX measures.\n4. Capture evidence for RLS, refresh, and deployment notes.",
+                'expected_outcome' => 'A short evidence pack that maps directly to PL-300 model, visualise, analyse, and deploy skills.',
+                'estimated_minutes' => 90,
+            ],
+            [
+                'certification_id' => 'PMP',
+                'topic_hint' => 'Initiating',
+                'title' => 'Project charter and stakeholder lab',
+                'objective' => 'Turn one CertPath or programme idea into a charter, stakeholder register, assumptions, risks, and success measures.',
+                'instructions_markdown' => "1. Write the business need.\n2. Define objectives and scope boundaries.\n3. Identify stakeholders and communication needs.\n4. Add initial risks, assumptions, and acceptance criteria.",
+                'expected_outcome' => 'A PMP-ready charter artifact with stakeholder and risk evidence.',
+                'estimated_minutes' => 75,
+            ],
+            [
+                'certification_id' => 'MS-APPLIED-POWER-AUTOMATE',
+                'topic_hint' => 'Automation',
+                'title' => 'Approval workflow lab',
+                'objective' => 'Build or sketch a practical approval flow with trigger, approvals, reminders, failure handling, and audit notes.',
+                'instructions_markdown' => "1. Define the trigger and data fields.\n2. Add approval and reminder logic.\n3. Document failure handling.\n4. Capture screenshots or a diagram as evidence.",
+                'expected_outcome' => 'An evidence-ready workflow artifact for Applied Skills preparation.',
+                'estimated_minutes' => 60,
+            ],
+        ] as $labData) {
+            $certification = Certification::query()
+                ->where('user_id', $user->id)
+                ->where('exam_code', $labData['certification_id'])
+                ->first();
+
+            if (! $certification) {
+                continue;
+            }
+
+            $topic = $certification->topics()
+                ->where('name', 'like', '%'.$labData['topic_hint'].'%')
+                ->first()
+                ?? $certification->topics()->first();
+
+            Lab::query()->updateOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'certification_id' => $certification->id,
+                    'title' => $labData['title'],
+                ],
+                [
+                    'topic_id' => $topic?->id,
+                    'objective' => $labData['objective'],
+                    'instructions_markdown' => $labData['instructions_markdown'],
+                    'expected_outcome' => $labData['expected_outcome'],
+                    'estimated_minutes' => $labData['estimated_minutes'],
+                    'is_required' => true,
+                    'status' => 'Planned',
+                ]
+            );
+        }
     }
 
     private function seedSpecialisationFoundation(User $user): void

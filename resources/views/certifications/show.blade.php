@@ -12,6 +12,7 @@
         <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'lesson']) }}">Lesson</a>
         <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'practice']) }}">Practice</a>
         <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'readiness']) }}">Readiness</a>
+        <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'labs']) }}">Labs</a>
         <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'flashcards']) }}">Flashcards</a>
         <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'budget']) }}">Budget</a>
         <a href="{{ route('certifications.show', ['certificationSlug' => $certification->slug, 'workspacePage' => 'projects']) }}">Projects</a>
@@ -61,8 +62,8 @@
               <span>Lessons</span>
             </div>
             <div>
-              <strong>{{ $certification->projects->count() }}</strong>
-              <span>Projects</span>
+              <strong>{{ $certification->labs->count() }}</strong>
+              <span>Labs</span>
             </div>
           </div>
         </article>
@@ -75,6 +76,9 @@
                 <span>{{ $domain->name }} @if($domain->weight_percent)({{ (int) $domain->weight_percent }}%)@endif</span>
                 <strong>{{ $domain->mastery_percent }}%</strong>
               </div>
+              @if ($domain->objectiveVersion)
+                <p class="muted">Objective version: {{ $domain->objectiveVersion->version_label }}</p>
+              @endif
               <div class="progress-track"><span style="width: {{ $domain->mastery_percent }}%"></span></div>
               @if ($domain->topics->isNotEmpty())
                 <ul class="topic-list">
@@ -96,6 +100,54 @@
 
       @if ($workspacePage === 'curriculum')
       <section class="content curriculum-tools">
+        <article class="panel">
+          <h3>Objective versions</h3>
+          <div class="session-list">
+            @forelse ($certification->objectiveVersions->sortByDesc('is_current')->sortByDesc('effective_from') as $version)
+              <article class="session-item">
+                <strong>{{ $version->version_label }}</strong>
+                <span>{{ $version->is_current ? 'Current' : 'Archived' }} / effective {{ $version->effective_from?->format('M j, Y') ?? 'not set' }}</span>
+                @if ($version->source_url)
+                  <p><a href="{{ $version->source_url }}" target="_blank" rel="noreferrer">Official objective source</a></p>
+                @endif
+                <p>{{ $version->notes }}</p>
+              </article>
+            @empty
+              <p class="muted">No objective versions tracked yet.</p>
+            @endforelse
+          </div>
+        </article>
+
+        <form method="POST" action="{{ route('objective-versions.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
+          @csrf
+          <h3>Add objective version</h3>
+          <label for="objective-version-label">
+            Version label
+            <input id="objective-version-label" name="version_label" type="text" value="{{ old('version_label') }}" required>
+          </label>
+          <label for="objective-source-url">
+            Official source URL
+            <input id="objective-source-url" name="source_url" type="url" value="{{ old('source_url') }}">
+          </label>
+          <label for="objective-effective-from">
+            Effective from
+            <input id="objective-effective-from" name="effective_from" type="date" value="{{ old('effective_from') }}">
+          </label>
+          <label for="objective-effective-to">
+            Effective to
+            <input id="objective-effective-to" name="effective_to" type="date" value="{{ old('effective_to') }}">
+          </label>
+          <label for="objective-notes">
+            Notes
+            <textarea id="objective-notes" name="notes" rows="3">{{ old('notes') }}</textarea>
+          </label>
+          <label class="checkbox-row" for="objective-is-current">
+            <input id="objective-is-current" name="is_current" type="checkbox" value="1" @checked(old('is_current', true))>
+            Current version
+          </label>
+          <button type="submit" class="primary-action">Add version</button>
+        </form>
+
         <form method="POST" action="{{ route('domains.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
           @csrf
           <h3>Add domain</h3>
@@ -304,6 +356,97 @@
             <li><a href="#proof-task">Proof task</a></li>
             <li><a href="#completion">Completion</a></li>
           </ol>
+        </aside>
+      </section>
+      @endif
+
+      @if ($workspacePage === 'labs')
+      <section id="labs" class="content dashboard-grid">
+        <div>
+          <div class="section-heading">
+            <h2>Labs</h2>
+            <p>Hands-on tasks that prove practical readiness for the exam and portfolio.</p>
+          </div>
+          <div class="cards-grid">
+            @forelse ($certification->labs as $lab)
+              <article class="card">
+                <span class="badge {{ $lab->status === 'completed' ? 'free' : 'paid' }}">{{ $lab->status }}</span>
+                <h3>{{ $lab->title }}</h3>
+                <p>{{ $lab->objective }}</p>
+                <p class="muted">
+                  {{ $lab->topic?->domain?->name }}
+                  @if ($lab->topic)
+                    / {{ $lab->topic->name }}
+                  @endif
+                  @if ($lab->estimated_minutes)
+                    / {{ $lab->estimated_minutes }} min
+                  @endif
+                </p>
+                <h4>Instructions</h4>
+                <pre>{{ $lab->instructions_markdown }}</pre>
+                @if ($lab->expected_outcome)
+                  <p><strong>Expected outcome:</strong> {{ $lab->expected_outcome }}</p>
+                @endif
+                @if ($lab->reflection)
+                  <p class="muted"><strong>Reflection:</strong> {{ $lab->reflection }}</p>
+                @endif
+                @if ($lab->status !== 'completed')
+                  <form method="POST" action="{{ route('labs.complete', ['lab' => $lab->id]) }}" class="study-form">
+                    @csrf
+                    <label for="lab-reflection-{{ $lab->id }}">
+                      Reflection
+                      <textarea id="lab-reflection-{{ $lab->id }}" name="reflection" rows="3"></textarea>
+                    </label>
+                    <button type="submit" class="secondary-action">Mark complete</button>
+                  </form>
+                @endif
+                <p class="muted">{{ $lab->evidenceFiles->count() }} evidence file(s)</p>
+              </article>
+            @empty
+              <p class="muted">No labs have been added yet.</p>
+            @endforelse
+          </div>
+        </div>
+
+        <aside>
+          <form method="POST" action="{{ route('labs.store', ['certificationSlug' => $certification->slug]) }}" class="panel study-form">
+            @csrf
+            <h3>Add lab</h3>
+            <label for="lab-topic">
+              Topic
+              <select id="lab-topic" name="topic_id">
+                <option value="">No specific topic</option>
+                @foreach ($certification->topics as $topic)
+                  <option value="{{ $topic->id }}">{{ $topic->domain?->name }} / {{ $topic->name }}</option>
+                @endforeach
+              </select>
+            </label>
+            <label for="lab-title">
+              Title
+              <input id="lab-title" name="title" type="text" required>
+            </label>
+            <label for="lab-objective">
+              Objective
+              <textarea id="lab-objective" name="objective" rows="3" required></textarea>
+            </label>
+            <label for="lab-instructions">
+              Instructions
+              <textarea id="lab-instructions" name="instructions_markdown" rows="6" required></textarea>
+            </label>
+            <label for="lab-outcome">
+              Expected outcome
+              <textarea id="lab-outcome" name="expected_outcome" rows="3"></textarea>
+            </label>
+            <label for="lab-minutes">
+              Minutes
+              <input id="lab-minutes" name="estimated_minutes" type="number" min="5" max="1440" value="60">
+            </label>
+            <label class="checkbox-row" for="lab-required">
+              <input id="lab-required" name="is_required" type="checkbox" value="1" checked>
+              Required
+            </label>
+            <button type="submit" class="primary-action">Add lab</button>
+          </form>
         </aside>
       </section>
       @endif

@@ -43,6 +43,11 @@ class Topic extends Model
         return $this->hasMany(Lesson::class);
     }
 
+    public function labs(): HasMany
+    {
+        return $this->hasMany(Lab::class);
+    }
+
     public function notes(): MorphMany
     {
         return $this->morphMany(Note::class, 'noteable');
