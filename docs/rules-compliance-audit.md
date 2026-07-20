@@ -47,7 +47,7 @@ Current seeded database snapshot after `php artisan migrate:fresh --seed`:
 | `MATERIALS_AND_PROJECTS.md` | Mostly complete | Official sources, priority content seed, and main projects are imported. Some long-tail project depth can still be expanded. |
 | `study_materials.md` | Mostly complete | Extra projects/resources from this file are now imported, including PMP 2026 outline, AI agent research project, explainable classifier, and LFD121 CI/CD pipeline. |
 | `Private_Tutor_module.md` | Foundation started | Tutor domain models and required foundation tables now exist: sessions, messages, recommendations, misconceptions, and feedback. Remaining gaps: tutor workspace, Ask Tutor buttons, provider-independent AI boundary, approved-source retrieval service, guardrails, knowledge checks, incorrect-answer review workflow, and planner integration UI. |
-| `first-class_Study_Planner_module.md` | Partial, improving | Study goals, richer study-session fields, session tasks, study plans, weekly availability, session events, project milestones, study streaks, planner recommendations, Today entry point, Continue action, timetable list, goal form, milestone list, workload summary, and recommendation display now exist. Remaining gaps: full week/month views, availability UI, missed-session rescheduling, revision queue, dynamic scheduling, quest UI, recommendation acceptance, and tutor integration. |
+| `first-class_Study_Planner_module.md` | Partial, improving | Study goals, richer study-session fields, session tasks, study plans, weekly availability UI, generated plans, session events, project milestones, study streaks, planner recommendations, Today entry point, Continue action, timetable list, goal form, milestone list, workload summary, and recommendation display now exist. Remaining gaps: full week/month calendar views, missed-session rescheduling, revision queue, smarter dynamic scheduling, quest UI, recommendation acceptance, and tutor integration. |
 
 ## Schema Gaps
 
@@ -123,7 +123,7 @@ Partial content coverage:
 
 1. Build weekly availability, vouchers, notifications, quiz blueprints, progress snapshots, tags, and audit logs into the UI/service workflows.
 2. Expand specialist study content for ArcGIS, FME, GISP, PCAD, Elastic, Solr, datasets, PostGIS, R analytics, TOGAF split credentials, EO College, and QGIS.
-3. Add planner generation from weekly availability, active tracks, revision needs, rest days, and project sessions.
+3. Expand planner generation with revision needs, rest days, project sessions, missed-session rescheduling, and recommendation acceptance.
 4. Add notification generation for due reviews, study sessions, exam dates, voucher expiry, and free credential deadlines.
 5. Add audit logging calls for activation, primary change, budget changes, attempt submission, evidence upload, and credential recording.
 6. Add visual/browser QA evidence for `DESIGN.md`, `design_ref.md`, and `refrence_apps.md`.
@@ -145,8 +145,8 @@ Estimated compliance:
 - Schema completeness: 82%
 - GIS/search/knowledge amendment depth: 78%
 - Design/reference-app standard: 70% pending browser QA
-- Study Planner module: 52%
+- Study Planner module: 62%
 - Private Tutor module: 15%
-- Overall: about 78%
+- Overall: about 80%
 
 To honestly call it 100%, the schema and UI gaps above need to be implemented, tested, and verified.

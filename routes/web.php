@@ -19,8 +19,10 @@ use App\Http\Controllers\Exports\DownloadLearningBackup;
 use App\Http\Controllers\Flashcards\ReviewFlashcardController;
 use App\Http\Controllers\Flashcards\StoreFlashcard;
 use App\Http\Controllers\Planning\CompleteStudySession;
+use App\Http\Controllers\Planning\GenerateStudyPlan;
 use App\Http\Controllers\Planning\StoreStudyGoal;
 use App\Http\Controllers\Planning\StoreStudySession;
+use App\Http\Controllers\Planning\StoreWeeklyAvailability;
 use App\Http\Controllers\Practice\ShowQuizAttempt;
 use App\Http\Controllers\Practice\StartQuizAttempt;
 use App\Http\Controllers\Practice\SubmitQuizAttempt;
@@ -74,4 +76,6 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/study-sessions', StoreStudySession::class)->name('study-sessions.store');
     Route::post('/study-sessions/{studySession}/complete', CompleteStudySession::class)->name('study-sessions.complete');
     Route::post('/study-goals', StoreStudyGoal::class)->name('study-goals.store');
+    Route::post('/weekly-availabilities', StoreWeeklyAvailability::class)->name('weekly-availabilities.store');
+    Route::post('/study-plans/generate', GenerateStudyPlan::class)->name('study-plans.generate');
 });

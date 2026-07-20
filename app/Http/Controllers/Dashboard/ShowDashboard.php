@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Dashboard;
 use App\Domains\Certifications\Models\Certification;
 use App\Domains\Planning\Models\PlannerRecommendation;
 use App\Domains\Planning\Models\StudyGoal;
+use App\Domains\Planning\Models\StudyPlan;
 use App\Domains\Planning\Models\StudySession;
+use App\Domains\Planning\Models\WeeklyAvailability;
 use App\Domains\Specialisations\Models\AnalyticsProperty;
 use App\Domains\Specialisations\Models\Dataset;
 use App\Domains\Specialisations\Models\OntologyResource;
@@ -65,6 +67,17 @@ class ShowDashboard extends Controller
                 ->take(8)
                 ->get(),
             'studyStreak' => $user->studyStreak,
+            'weeklyAvailabilities' => WeeklyAvailability::query()
+                ->where('user_id', $user->id)
+                ->orderBy('day_of_week')
+                ->orderBy('start_time')
+                ->get(),
+            'studyPlans' => StudyPlan::query()
+                ->where('user_id', $user->id)
+                ->withCount('sessions')
+                ->latest('starts_on')
+                ->take(4)
+                ->get(),
             'plannerRecommendations' => PlannerRecommendation::query()
                 ->with('certification')
                 ->where('user_id', $user->id)

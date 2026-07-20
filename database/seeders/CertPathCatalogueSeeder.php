@@ -13,6 +13,7 @@ use App\Domains\Practice\Models\Question;
 use App\Domains\Planning\Models\PlannerRecommendation;
 use App\Domains\Planning\Models\StudyGoal;
 use App\Domains\Planning\Models\StudyStreak;
+use App\Domains\Planning\Models\WeeklyAvailability;
 use App\Domains\Projects\Models\ProjectMilestone;
 use App\Domains\Projects\Models\Project;
 use App\Domains\Resources\Models\Resource;
@@ -561,6 +562,22 @@ class CertPathCatalogueSeeder extends Seeder
                 'freeze_count' => 1,
             ]
         );
+
+        foreach ([
+            ['day_of_week' => 1, 'start_time' => '19:00', 'end_time' => '20:00'],
+            ['day_of_week' => 3, 'start_time' => '19:00', 'end_time' => '20:00'],
+            ['day_of_week' => 6, 'start_time' => '09:00', 'end_time' => '10:30'],
+        ] as $slot) {
+            WeeklyAvailability::query()->updateOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'day_of_week' => $slot['day_of_week'],
+                    'start_time' => $slot['start_time'],
+                    'end_time' => $slot['end_time'],
+                ],
+                ['is_active' => true]
+            );
+        }
 
         foreach ([
             [
