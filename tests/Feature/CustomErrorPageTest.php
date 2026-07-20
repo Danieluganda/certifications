@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -49,5 +50,28 @@ class CustomErrorPageTest extends TestCase
             ->assertDontSee('Sensitive database driver detail')
             ->assertDontSee('RuntimeException')
             ->assertDontSee('vendor\\laravel');
+    }
+
+    public function test_additional_error_pages_cover_auth_upload_validation_and_gateway_failures(): void
+    {
+        foreach ([
+            401 => 'Please sign in to continue',
+            413 => 'That file is too large for this upload',
+            415 => 'That file type is not supported here',
+            422 => 'Some details need to be corrected',
+            502 => 'A connected service did not respond correctly',
+            504 => 'That request took too long',
+        ] as $status => $copy) {
+            Route::get("/__test-error-page-{$status}", function () use ($status): void {
+                throw new HttpException($status, 'Sensitive framework detail');
+            });
+
+            $this->get("/__test-error-page-{$status}")
+                ->assertStatus($status)
+                ->assertSee($copy)
+                ->assertDontSee('Sensitive framework detail')
+                ->assertDontSee('Symfony\\Component')
+                ->assertDontSee('Exception trace');
+        }
     }
 }
