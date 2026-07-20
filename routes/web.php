@@ -63,6 +63,8 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/flashcards/{flashcard}/reviews', ReviewFlashcardController::class)->name('flashcards.reviews.store');
     Route::post('/certifications/{certificationSlug}/lessons/{lesson}/completion', StoreLessonCompletion::class)->name('lessons.completions.store');
     Route::post('/certifications/{certificationSlug}/lessons/{lesson}/notes', StoreLessonNote::class)->name('lessons.notes.store');
+    Route::get('/study-sessions', fn () => redirect()->route('dashboard.page', ['dashboardPage' => 'planner']))
+        ->name('study-sessions.index');
     Route::post('/study-sessions', StoreStudySession::class)->name('study-sessions.store');
     Route::post('/study-sessions/{studySession}/complete', CompleteStudySession::class)->name('study-sessions.complete');
     Route::post('/study-goals', StoreStudyGoal::class)->name('study-goals.store');

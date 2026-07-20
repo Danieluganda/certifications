@@ -55,6 +55,17 @@ class StudySessionWorkflowTest extends TestCase
         ]);
     }
 
+    public function test_study_sessions_get_route_redirects_to_planner(): void
+    {
+        $this->seed();
+
+        $user = User::query()->where('email', 'learner@certpath.test')->firstOrFail();
+
+        $this->actingAs($user)
+            ->get(route('study-sessions.index'))
+            ->assertRedirect(route('dashboard.page', ['dashboardPage' => 'planner']));
+    }
+
     public function test_user_can_schedule_a_study_session_without_optional_target_description(): void
     {
         $this->seed();
