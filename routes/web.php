@@ -39,7 +39,7 @@ Route::post('/logout', LogoutUser::class)->middleware('auth')->name('logout');
 Route::middleware('auth')->group(function (): void {
     Route::get('/', ShowDashboard::class)->name('dashboard');
     Route::get('/dashboard/{dashboardPage}', ShowDashboard::class)
-        ->whereIn('dashboardPage', ['learn', 'today', 'catalogue', 'planner', 'roadmap', 'workspace', 'projects', 'resources'])
+        ->whereIn('dashboardPage', ['learn', 'today', 'catalogue', 'planner', 'roadmap', 'workspace', 'projects', 'resources', 'specialisations'])
         ->name('dashboard.page');
     Route::get('/exports/learning-backup', DownloadLearningBackup::class)->name('exports.learning-backup');
     Route::post('/certifications', StoreCertification::class)->name('certifications.store');

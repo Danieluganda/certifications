@@ -10,6 +10,7 @@
         <a href="{{ route('dashboard.page', ['dashboardPage' => 'catalogue']) }}">Certifications</a>
         <a href="{{ route('dashboard.page', ['dashboardPage' => 'planner']) }}">Study Planner</a>
         <a href="{{ route('dashboard.page', ['dashboardPage' => 'projects']) }}">Projects</a>
+        <a href="{{ route('dashboard.page', ['dashboardPage' => 'specialisations']) }}">Specialisations</a>
         <a href="{{ route('dashboard.page', ['dashboardPage' => 'roadmap']) }}">Roadmap</a>
         <a href="{{ route('dashboard.page', ['dashboardPage' => 'today']) }}">Today</a>
         <a href="{{ route('dashboard.page', ['dashboardPage' => 'workspace']) }}">Workspace</a>
@@ -525,6 +526,106 @@
               <p class="muted"><strong>Next:</strong> {{ $project->next_milestone }}</p>
             </article>
           @endforeach
+        </div>
+      </section>
+      @endif
+
+      @if ($dashboardPage === 'specialisations')
+      <section id="specialisations" class="content">
+        <div class="section-heading">
+          <h2>Specialisations</h2>
+          <p>GIS, knowledge systems, search, datasets, analytics, and portfolio infrastructure from the amendment.</p>
+        </div>
+
+        <div class="cards-grid">
+          @forelse ($specialisations as $specialisation)
+            <article class="card">
+              <span class="badge free">Priority {{ $specialisation->priority }}</span>
+              <h3>{{ $specialisation->name }}</h3>
+              <p>{{ $specialisation->description }}</p>
+              <p class="muted">
+                {{ $specialisation->certifications->pluck('exam_code')->filter()->join(', ') ?: 'No linked certifications yet' }}
+              </p>
+            </article>
+          @empty
+            <p class="muted">No specialisations seeded yet.</p>
+          @endforelse
+        </div>
+
+        <div class="dashboard-grid specialisation-grid">
+          <article class="panel">
+            <h3>Datasets</h3>
+            <div class="resource-list">
+              @forelse ($datasets as $dataset)
+                <article class="resource-row">
+                  <div>
+                    <strong>
+                      @if ($dataset->source_url)
+                        <a href="{{ $dataset->source_url }}" target="_blank" rel="noreferrer">{{ $dataset->name }}</a>
+                      @else
+                        {{ $dataset->name }}
+                      @endif
+                    </strong>
+                    <p class="muted">{{ $dataset->dataset_type }} / {{ $dataset->specialisation?->name }} / {{ $dataset->certification?->exam_code }}</p>
+                    <p>{{ $dataset->description }}</p>
+                  </div>
+                  <span class="badge free">{{ $dataset->licence ?? 'licence pending' }}</span>
+                </article>
+              @empty
+                <p class="muted">No datasets tracked yet.</p>
+              @endforelse
+            </div>
+          </article>
+
+          <article class="panel">
+            <h3>Ontology resources</h3>
+            <div class="session-list">
+              @forelse ($ontologyResources as $resource)
+                <article class="session-item">
+                  <strong>{{ $resource->name }}</strong>
+                  <span>{{ $resource->resource_type }} / {{ $resource->specialisation?->name }}</span>
+                  @if ($resource->source_url)
+                    <p><a href="{{ $resource->source_url }}" target="_blank" rel="noreferrer">{{ $resource->source_url }}</a></p>
+                  @endif
+                  <p class="muted">{{ $resource->namespace_uri }}</p>
+                </article>
+              @empty
+                <p class="muted">No ontology resources tracked yet.</p>
+              @endforelse
+            </div>
+          </article>
+        </div>
+
+        <div class="dashboard-grid specialisation-grid">
+          <article class="panel">
+            <h3>Search lab</h3>
+            <div class="session-list">
+              @forelse ($searchIndexes as $index)
+                <article class="session-item">
+                  <strong>{{ $index->engine }}: {{ $index->index_name }}</strong>
+                  <span>{{ $index->status }} / {{ $index->document_count }} documents</span>
+                  <p class="muted">{{ $index->project?->title }}</p>
+                </article>
+              @empty
+                <p class="muted">No search indexes tracked yet.</p>
+              @endforelse
+            </div>
+          </article>
+
+          <article class="panel">
+            <h3>Analytics properties</h3>
+            <div class="session-list">
+              @forelse ($analyticsProperties as $property)
+                <article class="session-item">
+                  <strong>{{ $property->provider }}: {{ $property->property_name }}</strong>
+                  <span>{{ $property->status }}</span>
+                  <p class="muted">{{ $property->project?->title }}</p>
+                </article>
+              @empty
+                <p class="muted">No analytics properties tracked yet.</p>
+              @endforelse
+            </div>
+          </article>
         </div>
       </section>
       @endif

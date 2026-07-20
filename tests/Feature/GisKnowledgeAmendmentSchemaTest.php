@@ -38,15 +38,10 @@ class GisKnowledgeAmendmentSchemaTest extends TestCase
         $certification = $user->certifications()->where('exam_code', 'PL-300')->firstOrFail();
         $project = $certification->projects()->firstOrFail();
 
-        $specialisation = Specialisation::query()->create([
-            'user_id' => $user->id,
-            'name' => 'Agricultural Knowledge Systems',
-            'slug' => 'agricultural-knowledge-systems',
-            'description' => 'AGROVOC, semantic metadata, and linked agricultural data.',
-            'status' => 'active',
-            'priority' => 1,
-            'target_completion_date' => '2026-10-01',
-        ]);
+        $specialisation = Specialisation::query()
+            ->where('user_id', $user->id)
+            ->where('slug', 'agricultural-knowledge-systems')
+            ->firstOrFail();
 
         $certification->specialisations()->attach($specialisation);
 
@@ -79,7 +74,7 @@ class GisKnowledgeAmendmentSchemaTest extends TestCase
             'user_id' => $user->id,
             'project_id' => $project->id,
             'engine' => 'elasticsearch',
-            'index_name' => 'agricultural_discovery',
+            'index_name' => 'agricultural_discovery_test',
             'status' => 'active',
             'document_count' => 1250,
             'configuration_json' => ['facets' => ['country', 'crop', 'year']],
@@ -105,5 +100,53 @@ class GisKnowledgeAmendmentSchemaTest extends TestCase
         $this->assertTrue($project->searchIndexes->contains($searchIndex));
         $this->assertTrue($project->analyticsProperties->contains($analyticsProperty));
         $this->assertSame(['country', 'crop', 'year'], $searchIndex->configuration_json['facets']);
+    }
+
+    public function test_seeded_specialisations_are_visible_on_the_dashboard(): void
+    {
+        $this->seed();
+
+        $user = User::query()->where('email', 'learner@certpath.test')->firstOrFail();
+
+        $this->assertDatabaseHas('specialisations', [
+            'user_id' => $user->id,
+            'slug' => 'gis-and-remote-sensing',
+            'name' => 'GIS and Remote Sensing',
+        ]);
+        $this->assertDatabaseHas('specialisations', [
+            'user_id' => $user->id,
+            'slug' => 'agricultural-knowledge-systems',
+            'name' => 'Agricultural Knowledge Systems',
+        ]);
+        $this->assertDatabaseHas('datasets', [
+            'user_id' => $user->id,
+            'name' => 'Agricultural services and resilience sample',
+            'dataset_type' => 'agricultural',
+        ]);
+        $this->assertDatabaseHas('ontology_resources', [
+            'user_id' => $user->id,
+            'name' => 'AGROVOC controlled vocabulary',
+            'resource_type' => 'skos_vocabulary',
+        ]);
+        $this->assertDatabaseHas('search_indexes', [
+            'user_id' => $user->id,
+            'engine' => 'elasticsearch',
+            'index_name' => 'agricultural_discovery',
+        ]);
+        $this->assertDatabaseHas('analytics_properties', [
+            'user_id' => $user->id,
+            'provider' => 'GA4',
+            'property_name' => 'CertPath Product Analytics',
+        ]);
+
+        $this->actingAs($user)
+            ->get(route('dashboard.page', ['dashboardPage' => 'specialisations']))
+            ->assertOk()
+            ->assertSee('GIS and Remote Sensing')
+            ->assertSee('Agricultural Knowledge Systems')
+            ->assertSee('Datasets')
+            ->assertSee('AGROVOC controlled vocabulary')
+            ->assertSee('Search lab')
+            ->assertSee('Analytics properties');
     }
 }

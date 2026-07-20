@@ -43,7 +43,7 @@ Current seeded database snapshot after `php artisan migrate:fresh --seed`:
 | `refrence_apps.md` | Partial | The app borrows the correct standard: structured learning, references, examples, quizzes, and progress. Still weaker than mature reference apps on depth, search, explanations, exercises, and content browsing. |
 | `app_tree.md` | Partial | Uses database as primary app storage and JSON only as import seeds. Uses domain folders, but the exact recommended tree is not fully built, and PostgreSQL was superseded by the user's MySQL instruction. |
 | `all_certs.md` | Complete for catalogue | All 40 listed cert/credential items are represented, plus 8 skill specialisations from the amendment. |
-| `AMENDMENT_GIS_KNOWLEDGE_SYSTEMS.md` | Mostly complete foundation | Catalogue, core projects, and dedicated amendment tables now exist: `specialisations`, `certification_specialisation`, `datasets`, `ontology_resources`, `search_indexes`, and `analytics_properties`. Remaining gaps are UI workflows, seeded specialist records, and deeper lessons/resources/projects for several specialist tracks. |
+| `AMENDMENT_GIS_KNOWLEDGE_SYSTEMS.md` | Mostly complete foundation | Catalogue, core projects, dedicated amendment tables, seeded specialisation records, starter datasets, ontology resources, search index metadata, analytics property metadata, and a Specialisations dashboard page now exist. Remaining gaps are create/edit workflows, specialised workspace tabs, and deeper lessons/resources/projects for several specialist tracks. |
 | `MATERIALS_AND_PROJECTS.md` | Mostly complete | Official sources, priority content seed, and main projects are imported. Some long-tail project depth can still be expanded. |
 | `study_materials.md` | Mostly complete | Extra projects/resources from this file are now imported, including PMP 2026 outline, AI agent research project, explainable classifier, and LFD121 CI/CD pipeline. |
 | `Private_Tutor_module.md` | Foundation started | Tutor domain models and required foundation tables now exist: sessions, messages, recommendations, misconceptions, and feedback. Remaining gaps: tutor workspace, Ask Tutor buttons, provider-independent AI boundary, approved-source retrieval service, guardrails, knowledge checks, incorrect-answer review workflow, and planner integration UI. |
@@ -85,9 +85,9 @@ Tables required by `AMENDMENT_GIS_KNOWLEDGE_SYSTEMS.md` are now created:
 
 Remaining GIS/search/data compatibility notes:
 
-- The tables are present with domain models and relationship tests.
-- Seeded default records for specialisations, datasets, ontology resources, search indexes, and analytics properties still need to be added.
-- UI tabs for Specialisations, Datasets, Maps, Ontology, and Search Lab still need implementation.
+- The tables are present with domain models, seeded default records, and relationship tests.
+- The dashboard has a Specialisations page showing pathways, datasets, ontology resources, search lab metadata, and analytics properties.
+- Create/edit workflows and certification workspace tabs for Datasets, Maps, Ontology, and Search Lab still need implementation.
 
 ## Content Gaps
 
@@ -122,15 +122,15 @@ Partial content coverage:
 ## Highest-Priority Remaining Build Slices
 
 1. Build first-class labs, weekly availability, vouchers, notifications, quiz blueprints, progress snapshots, tags, and audit logs into the UI/service workflows.
-2. Seed and display GIS/search/data amendment records: specialisations, datasets, ontology resources, search indexes, and analytics properties.
-3. Build objective versioning screens and seed PMP 2026 plus other exam objective versions.
-4. Expand specialist study content for ArcGIS, FME, GISP, PCAD, Elastic, Solr, datasets, PostGIS, R analytics, TOGAF split credentials, EO College, and QGIS.
-5. Add planner generation from weekly availability, active tracks, revision needs, rest days, and project sessions.
-6. Add notification generation for due reviews, study sessions, exam dates, voucher expiry, and free credential deadlines.
-7. Add audit logging calls for activation, primary change, budget changes, attempt submission, evidence upload, and credential recording.
-8. Add visual/browser QA evidence for `DESIGN.md`, `design_ref.md`, and `refrence_apps.md`.
-9. Expand the first-class Study Planner intelligence: week/month views, availability UI, missed sessions, dynamic rescheduling, revision queue, quests, and recommendation acceptance.
-10. Build the Private Tutor workflows: source-grounded explanations, knowledge checks, incorrect-answer review, tutor history, feedback UI, guardrails, and planner integration.
+2. Build objective versioning screens and seed PMP 2026 plus other exam objective versions.
+3. Expand specialist study content for ArcGIS, FME, GISP, PCAD, Elastic, Solr, datasets, PostGIS, R analytics, TOGAF split credentials, EO College, and QGIS.
+4. Add planner generation from weekly availability, active tracks, revision needs, rest days, and project sessions.
+5. Add notification generation for due reviews, study sessions, exam dates, voucher expiry, and free credential deadlines.
+6. Add audit logging calls for activation, primary change, budget changes, attempt submission, evidence upload, and credential recording.
+7. Add visual/browser QA evidence for `DESIGN.md`, `design_ref.md`, and `refrence_apps.md`.
+8. Expand the first-class Study Planner intelligence: week/month views, availability UI, missed sessions, dynamic rescheduling, revision queue, quests, and recommendation acceptance.
+9. Build the Private Tutor workflows: source-grounded explanations, knowledge checks, incorrect-answer review, tutor history, feedback UI, guardrails, and planner integration.
+10. Add create/edit workflows and specialised certification workspace tabs for datasets, maps, ontology, and search lab records.
 
 ## Current Verdict
 
@@ -143,10 +143,10 @@ Estimated compliance:
 - Core PRD workflows: 70%
 - Architecture organization: 75%
 - Schema completeness: 78%
-- GIS/search/knowledge amendment depth: 70%
+- GIS/search/knowledge amendment depth: 78%
 - Design/reference-app standard: 70% pending browser QA
 - Study Planner module: 52%
 - Private Tutor module: 15%
-- Overall: about 74%
+- Overall: about 76%
 
 To honestly call it 100%, the schema and UI gaps above need to be implemented, tested, and verified.

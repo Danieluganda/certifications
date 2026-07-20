@@ -14,6 +14,11 @@ use App\Domains\Planning\Models\StudyStreak;
 use App\Domains\Projects\Models\ProjectMilestone;
 use App\Domains\Projects\Models\Project;
 use App\Domains\Resources\Models\Resource;
+use App\Domains\Specialisations\Models\AnalyticsProperty;
+use App\Domains\Specialisations\Models\Dataset;
+use App\Domains\Specialisations\Models\OntologyResource;
+use App\Domains\Specialisations\Models\SearchIndex;
+use App\Domains\Specialisations\Models\Specialisation;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
@@ -207,6 +212,223 @@ class CertPathCatalogueSeeder extends Seeder
         }
 
         $this->seedPlannerFoundation($user);
+        $this->seedSpecialisationFoundation($user);
+    }
+
+    private function seedSpecialisationFoundation(User $user): void
+    {
+        $specialisations = [
+            'gis-and-remote-sensing' => [
+                'name' => 'GIS and Remote Sensing',
+                'description' => 'Mapping, spatial analysis, remote sensing, QGIS, ArcGIS, and location intelligence for development-sector projects.',
+                'certifications' => ['ARCGIS-PRO-FOUNDATION', 'ARCGIS-DEVELOPER-FOUNDATION', 'NASA-ARSET', 'EO-COLLEGE', 'QGIS-TRAINING', 'GIS-REMOTE-SENSING'],
+                'priority' => 1,
+            ],
+            'agricultural-knowledge-systems' => [
+                'name' => 'Agricultural Knowledge Systems',
+                'description' => 'AGROVOC, agricultural metadata, controlled vocabularies, and knowledge repositories.',
+                'certifications' => ['AGROVOC', 'AGRI-DATASETS'],
+                'priority' => 1,
+            ],
+            'semantic-web' => [
+                'name' => 'Semantic Web and Knowledge Graphs',
+                'description' => 'RDF, SKOS, SPARQL, OWL, SHACL, JSON-LD, ontology modelling, and linked-data publishing.',
+                'certifications' => ['SEMANTIC-WEB-KNOWLEDGE-GRAPHS', 'AGROVOC'],
+                'priority' => 2,
+            ],
+            'search-and-information-retrieval' => [
+                'name' => 'Search and Information Retrieval',
+                'description' => 'Elasticsearch, Solr, index design, facets, multilingual relevance, autocomplete, and search analytics.',
+                'certifications' => ['ELASTIC-ENGINEER', 'APACHE-SOLR', 'SEARCH-IR'],
+                'priority' => 2,
+            ],
+            'agricultural-and-bibliographic-data' => [
+                'name' => 'Agricultural and Bibliographic Data',
+                'description' => 'Dataset profiling, deduplication, metadata quality, spatial joins, citation relationships, and subject indexing.',
+                'certifications' => ['AGRI-DATASETS', 'BIBLIO-DATASETS', 'POSTGIS-SPATIAL-DATA'],
+                'priority' => 2,
+            ],
+            'python-and-r-analytics' => [
+                'name' => 'Python and R Analytics',
+                'description' => 'Python data analysis, R analytics, reproducible reporting, geospatial processing, and quality pipelines.',
+                'certifications' => ['PCAD', 'R-ANALYTICS'],
+                'priority' => 3,
+            ],
+            'digital-analytics' => [
+                'name' => 'Digital Analytics',
+                'description' => 'GA4 events, conversions, funnels, retention, consent, dashboards, and product analytics improvement loops.',
+                'certifications' => ['GOOGLE-ANALYTICS', 'GA4'],
+                'priority' => 3,
+            ],
+        ];
+
+        foreach ($specialisations as $slug => $data) {
+            $specialisation = Specialisation::query()->updateOrCreate(
+                ['user_id' => $user->id, 'slug' => $slug],
+                [
+                    'name' => $data['name'],
+                    'description' => $data['description'],
+                    'status' => 'active',
+                    'priority' => $data['priority'],
+                    'target_completion_date' => '2026-12-31',
+                ]
+            );
+
+            $certificationIds = Certification::query()
+                ->where('user_id', $user->id)
+                ->whereIn('exam_code', $data['certifications'])
+                ->pluck('id')
+                ->all();
+
+            if ($certificationIds !== []) {
+                $specialisation->certifications()->syncWithoutDetaching($certificationIds);
+            }
+        }
+
+        $agriculture = Specialisation::query()->where('user_id', $user->id)->where('slug', 'agricultural-knowledge-systems')->first();
+        $semantic = Specialisation::query()->where('user_id', $user->id)->where('slug', 'semantic-web')->first();
+        $search = Specialisation::query()->where('user_id', $user->id)->where('slug', 'search-and-information-retrieval')->first();
+        $data = Specialisation::query()->where('user_id', $user->id)->where('slug', 'agricultural-and-bibliographic-data')->first();
+        $digitalAnalytics = Specialisation::query()->where('user_id', $user->id)->where('slug', 'digital-analytics')->first();
+
+        $agriCert = Certification::query()->where('user_id', $user->id)->where('exam_code', 'AGRI-DATASETS')->first()
+            ?? Certification::query()->where('user_id', $user->id)->where('exam_code', 'AGROVOC')->first();
+        $biblioCert = Certification::query()->where('user_id', $user->id)->where('exam_code', 'BIBLIO-DATASETS')->first()
+            ?? $agriCert;
+        $ga4Cert = Certification::query()->where('user_id', $user->id)->whereIn('exam_code', ['GOOGLE-ANALYTICS', 'GA4'])->first()
+            ?? Certification::query()->where('user_id', $user->id)->first();
+
+        foreach ([
+            [
+                'specialisation' => $agriculture ?? $data,
+                'certification' => $agriCert,
+                'name' => 'Agricultural services and resilience sample',
+                'dataset_type' => 'agricultural',
+                'source_url' => 'https://data.apps.fao.org/',
+                'licence' => 'Official/open dataset review required',
+                'description' => 'Training dataset concept for crop, service coverage, weather, market, and resilience analysis.',
+                'schema_metadata_json' => ['fields' => ['district', 'crop', 'service_type', 'coverage_score']],
+            ],
+            [
+                'specialisation' => $data,
+                'certification' => $biblioCert,
+                'name' => 'Agricultural publications metadata sample',
+                'dataset_type' => 'bibliographic',
+                'source_url' => 'https://agris.fao.org/',
+                'licence' => 'Official/open dataset review required',
+                'description' => 'Bibliographic metadata concept for DOI handling, author matching, AGROVOC tagging, and search indexing.',
+                'schema_metadata_json' => ['fields' => ['title', 'authors', 'year', 'subjects', 'agrovoc_concepts']],
+            ],
+        ] as $datasetData) {
+            if (! $datasetData['specialisation'] || ! $datasetData['certification']) {
+                continue;
+            }
+
+            Dataset::query()->updateOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'certification_id' => $datasetData['certification']->id,
+                    'specialisation_id' => $datasetData['specialisation']->id,
+                    'name' => $datasetData['name'],
+                ],
+                [
+                    'dataset_type' => $datasetData['dataset_type'],
+                    'source_url' => $datasetData['source_url'],
+                    'licence' => $datasetData['licence'],
+                    'description' => $datasetData['description'],
+                    'schema_metadata_json' => $datasetData['schema_metadata_json'],
+                    'last_verified_at' => '2026-07-20 00:00:00',
+                ]
+            );
+        }
+
+        foreach ([
+            [
+                'specialisation' => $agriculture,
+                'name' => 'AGROVOC controlled vocabulary',
+                'resource_type' => 'skos_vocabulary',
+                'namespace_uri' => 'https://aims.fao.org/aos/agrovoc/',
+                'source_url' => 'https://agrovoc.fao.org/',
+                'version' => 'official current',
+                'licence' => 'FAO AGROVOC usage terms',
+                'metadata_json' => ['skills' => ['preferred labels', 'alternative labels', 'broader/narrower concepts']],
+            ],
+            [
+                'specialisation' => $semantic,
+                'name' => 'CertPath certification ontology',
+                'resource_type' => 'ontology',
+                'namespace_uri' => 'https://certpath.local/ontology#',
+                'source_url' => null,
+                'version' => 'mvp-1',
+                'licence' => 'personal portfolio artifact',
+                'metadata_json' => ['entities' => ['Certification', 'Provider', 'Domain', 'Topic', 'Project']],
+            ],
+        ] as $ontologyData) {
+            if (! $ontologyData['specialisation']) {
+                continue;
+            }
+
+            OntologyResource::query()->updateOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'specialisation_id' => $ontologyData['specialisation']->id,
+                    'name' => $ontologyData['name'],
+                ],
+                [
+                    'resource_type' => $ontologyData['resource_type'],
+                    'namespace_uri' => $ontologyData['namespace_uri'],
+                    'source_url' => $ontologyData['source_url'],
+                    'version' => $ontologyData['version'],
+                    'licence' => $ontologyData['licence'],
+                    'metadata_json' => $ontologyData['metadata_json'],
+                ]
+            );
+        }
+
+        $searchProject = Project::query()
+            ->where('user_id', $user->id)
+            ->where('title', 'like', '%Discovery Engine%')
+            ->first()
+            ?? Project::query()->where('user_id', $user->id)->first();
+        $analyticsProject = Project::query()
+            ->where('user_id', $user->id)
+            ->where('title', 'like', '%Product Analytics%')
+            ->first()
+            ?? $searchProject;
+
+        if ($searchProject && $search) {
+            SearchIndex::query()->updateOrCreate(
+                ['user_id' => $user->id, 'engine' => 'elasticsearch', 'index_name' => 'agricultural_discovery'],
+                [
+                    'project_id' => $searchProject->id,
+                    'status' => 'planned',
+                    'document_count' => 0,
+                    'configuration_json' => [
+                        'facets' => ['country', 'year', 'language', 'agrovoc_concept'],
+                        'features' => ['full_text', 'autocomplete', 'zero_result_reporting'],
+                    ],
+                ]
+            );
+        }
+
+        if ($analyticsProject && $digitalAnalytics) {
+            AnalyticsProperty::query()->updateOrCreate(
+                ['user_id' => $user->id, 'project_id' => $analyticsProject->id, 'provider' => 'GA4'],
+                [
+                    'property_name' => 'CertPath Product Analytics',
+                    'property_identifier_encrypted' => null,
+                    'status' => 'planned',
+                    'configuration_json' => [
+                        'events' => [
+                            'certification_added',
+                            'study_session_completed',
+                            'quiz_submitted',
+                            'credential_earned',
+                        ],
+                    ],
+                ]
+            );
+        }
     }
 
     private function seedPlannerFoundation(User $user): void
