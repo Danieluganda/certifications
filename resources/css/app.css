@@ -159,6 +159,13 @@ pre { overflow-x: auto; white-space: pre-wrap; border-radius: 8px; padding: 16px
 .auth-shell { min-height: 100vh; display: grid; place-items: center; padding: 24px; background: radial-gradient(circle at top left, #f7eed7, transparent 34%), var(--color-bg); }
 .auth-card { width: min(100%, 440px); padding: 28px; border: 1px solid var(--color-border); border-radius: 12px; background: var(--color-surface); }
 .auth-card h1 { margin: 8px 0; font-size: 1.8rem; }
+.error-shell { min-height: 100vh; display: grid; place-items: center; padding: 24px; background: linear-gradient(135deg, #eef2e8 0%, #f7eed7 100%); }
+.error-card { width: min(100%, 620px); display: grid; gap: 14px; padding: 32px; border: 1px solid var(--color-border); border-top: 5px solid var(--color-primary); border-radius: 8px; background: var(--color-surface); box-shadow: 0 18px 60px rgba(23, 37, 31, .12); }
+.brand-mark { width: fit-content; color: var(--color-primary); font-family: var(--font-serif); font-size: 1.2rem; text-decoration: none; }
+.error-code { width: fit-content; border-radius: 999px; padding: 5px 10px; background: var(--color-paid-soft); color: var(--color-paid); font-weight: 800; }
+.error-card h1 { margin: 0; font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; font-weight: 500; }
+.error-card p { margin: 0; max-width: 540px; color: var(--color-text-muted); }
+.error-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
 .auth-form { display: grid; gap: 16px; margin-top: 20px; }
 .auth-form label { display: grid; gap: 6px; font-weight: 650; }
 .auth-form input[type="email"], .auth-form input[type="password"] { min-height: 44px; border: 1px solid var(--color-border); border-radius: 8px; padding: 10px 12px; }
