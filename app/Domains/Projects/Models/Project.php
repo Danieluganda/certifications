@@ -4,6 +4,8 @@ namespace App\Domains\Projects\Models;
 
 use App\Domains\Certifications\Models\Certification;
 use App\Domains\Evidence\Models\EvidenceFile;
+use App\Domains\Specialisations\Models\AnalyticsProperty;
+use App\Domains\Specialisations\Models\SearchIndex;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -53,5 +55,15 @@ class Project extends Model
     public function milestones(): HasMany
     {
         return $this->hasMany(ProjectMilestone::class)->orderBy('position');
+    }
+
+    public function searchIndexes(): HasMany
+    {
+        return $this->hasMany(SearchIndex::class);
+    }
+
+    public function analyticsProperties(): HasMany
+    {
+        return $this->hasMany(AnalyticsProperty::class);
     }
 }

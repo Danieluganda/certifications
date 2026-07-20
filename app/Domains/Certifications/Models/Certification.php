@@ -22,12 +22,15 @@ use App\Domains\Budgeting\Models\SavingsTransaction;
 use App\Domains\Credentials\Models\Credential;
 use App\Domains\Projects\Models\Project;
 use App\Domains\Resources\Models\Resource;
+use App\Domains\Specialisations\Models\Dataset;
+use App\Domains\Specialisations\Models\Specialisation;
 use App\Domains\Tutor\Models\LearnerMisconception;
 use App\Domains\Tutor\Models\TutorRecommendation;
 use App\Domains\Tutor\Models\TutorSession;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Certification extends Model
@@ -185,5 +188,15 @@ class Certification extends Model
     public function learnerMisconceptions(): HasMany
     {
         return $this->hasMany(LearnerMisconception::class);
+    }
+
+    public function specialisations(): BelongsToMany
+    {
+        return $this->belongsToMany(Specialisation::class);
+    }
+
+    public function datasets(): HasMany
+    {
+        return $this->hasMany(Dataset::class);
     }
 }

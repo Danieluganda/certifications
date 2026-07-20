@@ -19,6 +19,11 @@ use App\Domains\Planning\Models\WeeklyAvailability;
 use App\Domains\Practice\Models\QuizAttempt;
 use App\Domains\Projects\Models\ProjectMilestone;
 use App\Domains\Progress\Models\ProgressSnapshot;
+use App\Domains\Specialisations\Models\AnalyticsProperty;
+use App\Domains\Specialisations\Models\Dataset;
+use App\Domains\Specialisations\Models\OntologyResource;
+use App\Domains\Specialisations\Models\SearchIndex;
+use App\Domains\Specialisations\Models\Specialisation;
 use App\Domains\Tutor\Models\LearnerMisconception;
 use App\Domains\Tutor\Models\TutorFeedback;
 use App\Domains\Tutor\Models\TutorRecommendation;
@@ -161,5 +166,30 @@ class User extends Authenticatable
     public function tutorFeedback(): HasMany
     {
         return $this->hasMany(TutorFeedback::class);
+    }
+
+    public function specialisations(): HasMany
+    {
+        return $this->hasMany(Specialisation::class);
+    }
+
+    public function datasets(): HasMany
+    {
+        return $this->hasMany(Dataset::class);
+    }
+
+    public function ontologyResources(): HasMany
+    {
+        return $this->hasMany(OntologyResource::class);
+    }
+
+    public function searchIndexes(): HasMany
+    {
+        return $this->hasMany(SearchIndex::class);
+    }
+
+    public function analyticsProperties(): HasMany
+    {
+        return $this->hasMany(AnalyticsProperty::class);
     }
 }

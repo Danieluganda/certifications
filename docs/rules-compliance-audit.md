@@ -43,7 +43,7 @@ Current seeded database snapshot after `php artisan migrate:fresh --seed`:
 | `refrence_apps.md` | Partial | The app borrows the correct standard: structured learning, references, examples, quizzes, and progress. Still weaker than mature reference apps on depth, search, explanations, exercises, and content browsing. |
 | `app_tree.md` | Partial | Uses database as primary app storage and JSON only as import seeds. Uses domain folders, but the exact recommended tree is not fully built, and PostgreSQL was superseded by the user's MySQL instruction. |
 | `all_certs.md` | Complete for catalogue | All 40 listed cert/credential items are represented, plus 8 skill specialisations from the amendment. |
-| `AMENDMENT_GIS_KNOWLEDGE_SYSTEMS.md` | Partial | Catalogue and core projects are represented. Dedicated amendment tables are missing: `specialisations`, `certification_specialisation`, `datasets`, `ontology_resources`, `search_indexes`, `analytics_properties`. Some specialist tracks still need lessons/resources/projects. |
+| `AMENDMENT_GIS_KNOWLEDGE_SYSTEMS.md` | Mostly complete foundation | Catalogue, core projects, and dedicated amendment tables now exist: `specialisations`, `certification_specialisation`, `datasets`, `ontology_resources`, `search_indexes`, and `analytics_properties`. Remaining gaps are UI workflows, seeded specialist records, and deeper lessons/resources/projects for several specialist tracks. |
 | `MATERIALS_AND_PROJECTS.md` | Mostly complete | Official sources, priority content seed, and main projects are imported. Some long-tail project depth can still be expanded. |
 | `study_materials.md` | Mostly complete | Extra projects/resources from this file are now imported, including PMP 2026 outline, AI agent research project, explainable classifier, and LFD121 CI/CD pipeline. |
 | `Private_Tutor_module.md` | Foundation started | Tutor domain models and required foundation tables now exist: sessions, messages, recommendations, misconceptions, and feedback. Remaining gaps: tutor workspace, Ask Tutor buttons, provider-independent AI boundary, approved-source retrieval service, guardrails, knowledge checks, incorrect-answer review workflow, and planner integration UI. |
@@ -74,7 +74,7 @@ Remaining schema compatibility notes:
 - The app uses MySQL per user instruction, while `SCHEMA.md` originally recommended PostgreSQL. MySQL-compatible JSON and indexes are used.
 - Several business rules still need stronger database-level checks or service enforcement, including time ranges, one current objective version, one active budget, and confidence ranges.
 
-Tables required by `AMENDMENT_GIS_KNOWLEDGE_SYSTEMS.md` but not currently created:
+Tables required by `AMENDMENT_GIS_KNOWLEDGE_SYSTEMS.md` are now created:
 
 - `specialisations`
 - `certification_specialisation`
@@ -82,6 +82,12 @@ Tables required by `AMENDMENT_GIS_KNOWLEDGE_SYSTEMS.md` but not currently create
 - `ontology_resources`
 - `search_indexes`
 - `analytics_properties`
+
+Remaining GIS/search/data compatibility notes:
+
+- The tables are present with domain models and relationship tests.
+- Seeded default records for specialisations, datasets, ontology resources, search indexes, and analytics properties still need to be added.
+- UI tabs for Specialisations, Datasets, Maps, Ontology, and Search Lab still need implementation.
 
 ## Content Gaps
 
@@ -115,8 +121,8 @@ Partial content coverage:
 
 ## Highest-Priority Remaining Build Slices
 
-1. Add GIS/search/data amendment tables: specialisations, datasets, ontology resources, search indexes, analytics properties.
-2. Build first-class labs, weekly availability, vouchers, notifications, quiz blueprints, progress snapshots, tags, and audit logs into the UI/service workflows.
+1. Build first-class labs, weekly availability, vouchers, notifications, quiz blueprints, progress snapshots, tags, and audit logs into the UI/service workflows.
+2. Seed and display GIS/search/data amendment records: specialisations, datasets, ontology resources, search indexes, and analytics properties.
 3. Build objective versioning screens and seed PMP 2026 plus other exam objective versions.
 4. Expand specialist study content for ArcGIS, FME, GISP, PCAD, Elastic, Solr, datasets, PostGIS, R analytics, TOGAF split credentials, EO College, and QGIS.
 5. Add planner generation from weekly availability, active tracks, revision needs, rest days, and project sessions.
@@ -137,10 +143,10 @@ Estimated compliance:
 - Core PRD workflows: 70%
 - Architecture organization: 75%
 - Schema completeness: 78%
-- GIS/search/knowledge amendment depth: 60%
+- GIS/search/knowledge amendment depth: 70%
 - Design/reference-app standard: 70% pending browser QA
 - Study Planner module: 52%
 - Private Tutor module: 15%
-- Overall: about 72%
+- Overall: about 74%
 
 To honestly call it 100%, the schema and UI gaps above need to be implemented, tested, and verified.
